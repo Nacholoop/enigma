@@ -1,0 +1,58 @@
+/* Páginas web HTML/XHTML y hojas de estilo CSS
+
+   Nacho López Espert
+   CSS ejercicio: Currículum Vitae (corto)
+   19 octubre 2015
+*/
+
+body {
+  background-color: #EEEEEE;
+  font-family: sans-serif;
+  text-align: justify;
+}
+
+h1 {
+  color: #333333;
+  font-size: 250%;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h2 {
+  background-color: #888888;
+  color: #7FFF00;
+  font-size: 200%;
+  text-decoration: underline;
+}
+
+h3 {
+  background-color: #AAAAAA;
+  color: #DC133C;
+  font-size: 130%;
+}
+
+p {
+  background-color: #CCCCCC;
+  line-height: 150%;
+}
+
+em {
+  color: #4FB2AA;
+  font-style: normal;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+
+strong {
+  color: #A5295A;
+  font-weight: normal;
+}
+
+address {
+  background-color: white;
+  font-style: normal;
+  text-align: right;
+}
+
+  
+  
