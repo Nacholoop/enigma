@@ -1,12 +1,11 @@
 @charset "utf-8";
 @import url("mclibre-pie.css");
 
-/* Página web Proyecto ASIR
-
-   Nacho López Espert
-   28 marzo 2018
-*/
-
+/* Página web Proyecto ASIR                 */
+/* Nacho López Espert                       */
+/* Paginas web HTML y hojas de estilo CSS   */
+/* Bartolome Sintes Marco                   */
+/* http://www.mclibre.org                   */
 
 @font-face {
   font-family: "SigmarOne";
@@ -100,4 +99,49 @@ hr {
 address {
   text-align: right;
   font-style: normal
+}
+
+p.mclibre {
+  all: initial;
+  clear: both;
+  position: fixed;
+  bottom: 0;
+  height: 1.5rem;
+  left: 0;
+  width: 100%;
+  border-top: black 2px solid;
+  margin: 0;
+  padding: 0.25em 0 0.25em;
+  background-color: white;
+  color: black;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+p.mclibre * {
+  all: initial;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+}
+
+p.mclibre::first-letter {
+  all: initial;
+  font-family: sans-serif;
+}
+
+p.mclibre a {
+  color: blue;
+  text-decoration: underline;
+}
+
+p.mclibre a cite {
+  padding: 0;
+  color: blue;
+  font-style: oblique;
+}
+
+p.mclibre cite {
+  padding: 0;
+  color: black;
 }
