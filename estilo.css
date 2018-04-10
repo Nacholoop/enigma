@@ -15,24 +15,33 @@
 body {
   padding: 0 50px;
   background-color:hsl(210, 70%, 95%);
-  font-family: sans-serif;
+  font-family: Arial black, Helvetica, sans-serif;
   text-align: justify;
 }
 
 h1 {
   margin: 0;
+  color:hsl(210, 30%, 60%);
   font-family: "SigmarOne";
-  font-size: 5rem;
+  font-size: 4rem;
   text-align: center;
+  text-transform: capitalize;
+  text-shadow: 3px 3px black;
 }
 
 h2 {
   margin: 0;
   color:hsl(210, 30%, 60%);
   font-family: "SigmarOne";
-  font-size: 4rem;
+  font-size: 3rem;
   text-transform: capitalize;
   text-shadow: 3px 3px black;
+
+}
+
+a:link, a:visited {
+  color:hsl(210, 30%, 60%);
+  font-family: "SigmarOne";
 }
 
 h3 {
@@ -40,8 +49,7 @@ h3 {
   color:hsl(210, 30%, 60%);
   font-family: "SigmarOne";
   font-size: 2rem;
-  text-transform: capitalize;
-  text-shadow: 2px 2px black;
+
 }
 
 strong {
@@ -75,6 +83,10 @@ img.derecha {
   float: right;
   margin-left: 10px;
   margin-bottom: 10px;
+}
+
+p {
+  font-family: sans-serif;
 }
 
 p.izquierda {
