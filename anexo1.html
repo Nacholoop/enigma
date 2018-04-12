@@ -22,15 +22,16 @@
       <li>NOOBS. El instalador de Raspbian</li>
       <li>Otras opciones para la Raspberry</li>
   </ul>
-  <li>Conexión a través de SSH</li>
+  <li><a href="#conex">Conexión a través de SSH</a></li>
   <li>Configuración básica de Raspbian </li>
   <li>Asignación de IP fija para la Raspberry Pi</li>
 </ul>
 </font>
-<p id="instal">En primer lugar, antes de pasar a la  instalación propiamente dicha del Sistema Operativo Raspbian, se debe preparar la tarjeta SD de la Raspberry Pi. En la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a>, en la sección descargas, se muestran las diferentes opciones de instalación que se pueden utilizar, y las diferentes imágenes para poder hacerlo, como se ha elegido la opción de Raspbian se descargará la imagen correspondiente en el disco duro. Una imagen es un conjunto de sistema operativo y aplicaciones que se graba o "flashea" en un único archivo en la tarjeta SD y así se consigue recuperar toda la información necesaria para que la Raspberry Pi arranque cuando se enciende y cargue los programas necesarios, por tanto, una imagen es un archivo con extensión .img normalmente, aunque también puede presentar otros formatos como .iso,.bin,.nrg etc. que grabada de una cierta forma en la tarjeta SD restituye el sistema operativo y las aplicaciones deseadas. Y no, no sirve con formatear la tarjeta SD y copiar allí el archivo .img, sino que hay que recuperar la información contenida en el archivo .img de forma ordenada para que pueda ser interpretada como un disco de arranque por la Raspberry Pi. Se puede utilizar el programa <a href="https://sourceforge.net/projects/win32diskimager/">Win32 Disk Imager</a> para windows o los programas para macOSX
+<p id="instal"><h3>Instalación de Raspbian</h3></p>
+<p>En primer lugar, antes de pasar a la  instalación propiamente dicha del Sistema Operativo Raspbian, se debe preparar la tarjeta SD de la Raspberry Pi. En la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a>, en la sección descargas, se muestran las diferentes opciones de instalación que se pueden utilizar, y las diferentes imágenes para poder hacerlo, como se ha elegido la opción de Raspbian se descargará la imagen correspondiente en el disco duro. Una imagen es un conjunto de sistema operativo y aplicaciones que se graba o "flashea" en un único archivo en la tarjeta SD y así se consigue recuperar toda la información necesaria para que la Raspberry Pi arranque cuando se enciende y cargue los programas necesarios, por tanto, una imagen es un archivo con extensión .img normalmente, aunque también puede presentar otros formatos como .iso,.bin,.nrg etc. que grabada de una cierta forma en la tarjeta SD restituye el sistema operativo y las aplicaciones deseadas. Y no, no sirve con formatear la tarjeta SD y copiar allí el archivo .img, sino que hay que recuperar la información contenida en el archivo .img de forma ordenada para que pueda ser interpretada como un disco de arranque por la Raspberry Pi. Se puede utilizar el programa <a href="https://sourceforge.net/projects/win32diskimager/">Win32 Disk Imager</a> para windows o los programas para macOSX
 <a href="https://www.tweaking4all.com/hardware/raspberry-pi/macosx-apple-pi-baker/">ApplePi-Baker</a> o <a href="https://etcher.io/">Etcher</a>, aplicación disponible en ambas plataformas.</p>
 
-<p>La aplicación <i>win32 Disk Manager</i> es gratuita y permite tanto grabar una imagen a la tarjeta SD como hacer una copia de seguridad de la misma a Windows. Es decir, se puede crear un archivo .img a partir de los contenidos de la tarjeta SD. Y así tener un sistema configurado en la Raspberry Pi, o bien haber instalado una serie de aplicaciones en la tarjeta SD. Si se vuelca de nuevo al ordenador en un archivo .img se obtiene una copia de seguridad de la misma, que se podrá clonar en sendas tarjetas SD tantas veces como sea necesario. </p>
+<p>La aplicación <i>win32 Disk Imager</i> es gratuita y permite tanto grabar una imagen a la tarjeta SD como hacer una copia de seguridad de la misma a Windows. Es decir, se puede crear un archivo .img a partir de los contenidos de la tarjeta SD. Y así tener un sistema configurado en la Raspberry Pi, o bien haber instalado una serie de aplicaciones en la tarjeta SD. Si se vuelca de nuevo al ordenador en un archivo .img se obtiene una copia de seguridad de la misma, que se podrá clonar en sendas tarjetas SD tantas veces como sea necesario. </p>
 
 <p><img src="images/DiskManager1.png" title="Win32 Disk Manager" alt="Disk Manager captura 1" class="izquierda" /><img src="images/DiskManager2.png" title="Win32 Disk Manager" alt="Disk Manager captura 2" class="izquierda" /><img src="images/DiskManager3.png" title="Win32 Disk Manager" alt="Disk Manager captura 3" class="izquierda" />La instalación es realmente sencilla, sólo hay que seguir los pasos, elegir donde se quiere instalar, y ejecutar al finalizar la instalación.</p>
 <p style="clear:both"></p>
@@ -40,14 +41,36 @@
 <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
 <p style="clear:both"></p>
 
-<p> <i>ApplePi-Baker</i> es una aplicación similar a Win32 Disk Manager pero para entornos macOSX:</p>
-<p><img src="images/applepi_baker.png" title="ApplePi-Baker" alt="Apple-Pi Baker captura 1" class="izquierda" />Como se muestra en la imagen, ApplePi-Baker tiene varias partes diferenciadas. En el apartado Pi-Crust se ven las SD detectadas en el ordenador. Cuando se introduce una en el lector de SD, dicha tarjeta aparece en el recuadro correspondiente. También se puede usar el botón de refresco para asegurar que el ordenador ha leído la tarjeta, o bien expulsarla.</p>
+<p> <i>ApplePi-Baker</i> es una aplicación similar a Win32 Disk Imager pero para entornos macOSX:</p>
+<p><img src="images/applepi_baker.png" title="ApplePi-Baker" alt="Apple-Pi Baker captura 1" class="izquierda" />Como se muestra en la imagen, ApplePi-Baker tiene varias partes diferenciadas. En el apartado Pi-Crust se ven las SD detectadas en el ordenador. Cuando se introduce una en el lector de SD, dicha tarjeta aparece en el recuadro correspondiente. También se puede usar el botón de refresco para asegurar que el ordenador ha leído la tarjeta, o bien expulsarla.<br><br>
 
-<p>A la derecha en Pi-Ingredients es donde se indica cuál es el archivo .IMG que se quiere grabar en la tarjeta SD. Al pulsar en el botón IMG to SD CARD todos los contenidos de la tarjeta SD desaparecerán, así que <strong> cuidado al introducir una SD con información que no se quiera perder.</strong></p>
+A la derecha en Pi-Ingredients es donde se indica cuál es el archivo .IMG que se quiere grabar en la tarjeta SD. Al pulsar en el botón IMG to SD CARD todos los contenidos de la tarjeta SD desaparecerán, así que <strong> cuidado al introducir una SD con información que no se quiera perder.</strong><br><br>
 
-<p>Justo debajo tenemos el apartado Pi-in-the-freezer para hacer una copia de seguridad del contenido de la tarjeta SD a nuestro ordenador. Y a su izquierda vemos que también podemos instalar NOOBS en la tarjeta SD. NOOBS es el acrónimo de New Out Of Box Software, una distribución que nos permite la instalación de varios "sistemas operativos" en una misma tarjeta SD, pudiendo decidir cuando arrancamos la Raspberry Pi qué queremos ejecutar. Así, podemos decidir ejecutar Raspbian o Openelec, entre unas cuantas opciones desde la imagen NOOBS en el arranque de la Raspberry Pi.</p>
+Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de seguridad del contenido de la tarjeta SD al ordenador. Y a su izquierda se observa que también se puede instalar <i>NOOBS</i> en la tarjeta SD. <br /><br />NOOBS es el acrónimo de New Out Of Box Software, una distribución que permite la instalación de varios "sistemas operativos" en una misma tarjeta SD, pudiendo decidir cuando se arranca la Raspberry Pi qué se quiere ejecutar. Así, se puede decidir ejecutar Raspbian o Openelec, entre unas cuantas opciones desde la imagen NOOBS en el arranque de la Raspberry Pi.</p>
+<p style="clear:both"></p>
+<p>Por último se muestra la aplicación <i>Etcher</i>, que está disponible para ambas plataformas:</p>
+<p><img src="images/etcher.png" title="Etcher" alt="Etcher captura 1" class="izquierda" />Etcher es una aplicación gratuita y de código abierto desarrollada para facilitar en todo lo posible la grabación de imágenes ISO, IMG y otros formatos comprimidos directamente y de forma segura a memorias USB y tarjetas de memoria.Sus principales características son:<br /><br />
+  <ul><li>Ofrece una interfaz sencilla y agradable.</li><br />
+  <li>Cuenta con sistemas de validación para evitar la creación de memorias corruptas.</li><br />
+  <li>Facilita la elección de la unidad USB de destino evitando así borrar por error un disco duro.</li><br />
+  <li>Escrito completamente en JS, HTML, Node.js y Electron.</li><br />
+  <li>(Próximamente) Permitirá grabar varias memorias de forma simultánea.</li></ul></p>
+  <p><img src="images/etcher1.png" title="Etcher" alt="Etcher captura 2" class="izquierda" />El proceso de copiado consta de 3 pasos:<br /><br />
+
+    <ol><li>Select Image – Seleccionar la imagen ISO, IMG o de cualquier otro formato compatible y la cargarla en el programa.</li><br />
+    <li>Select Drive – Elegir la unidad de destino donde grabar la imagen seleccionada en el paso 1.</li><br />
+    <li>Flash! – Si todo está correcto, comienza la grabación.</li></ol></p>
+<p><img src="images/etcher2.png" title="Etcher" alt="Etcher captura 3" class="izquierda" />El proceso de grabación de la imagen tardará varios minutos, según el tamaño de ésta y la velocidad tanto del USB como del ordenador. Una vez finalice la copia de los datos, Etcher realizará una serie de configuraciones adicionales con el fin de verificar que todo está correcto y no se ha generado un medio corrupto.<br /></p>
+  <p><img src="images/etcher3.png" title="Etcher" alt="Etcher captura 4" class="izquierda" />Una vez finalice dicha verificación, la tarjeta SD ya estará lista con la imagen IMG del sistema operativo Raspbian. Ahora ya se puede arrancar la Raspberry Pi desde la tarjeta SD y comenzar con la instalación, mejorando además la velocidad de lectura y reduciendo notablemente el tiempo que tardan las diferentes tareas de carga y arranque.</p><br />
+
+<p>Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Como se ha comentado anteriormente, desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra NOOBSaunque Ahora podemos quitar con seguridad la tarjeta SD, insertarla en la Raspberry Pi, conectar a la misma un cable de red conectado a nuestro router y proceder a su encendido de la misma (simplemente conectando el alimentador de corriente a la misma). </p>
+
+<p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+<p style="clear:both"></p>
+
+
+<p id="conex"><h3>Conexión a Raspberry Pi a través de SSH</h3></p>
 <hr>
-
   <p class="mclibre">
     Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
   </p>

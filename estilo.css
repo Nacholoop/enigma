@@ -15,7 +15,7 @@
 body {
   padding: 0 50px;
   background-color:hsl(210, 70%, 95%);
-  font-family: Arial black, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: justify;
 }
 
@@ -75,7 +75,7 @@ img {
 
 img.izquierda {
   float: left;
-  margin-right: 20px;
+  margin-right: 40px;
   margin-bottom: 20px;
 }
 
