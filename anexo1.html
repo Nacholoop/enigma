@@ -18,9 +18,9 @@
 <font size="5">
 <ul>
   <li><a href="#instal">Instalación de Raspbian</a></li>
-  <ul><li>Preparación tarjeta SD</li>
-      <li>NOOBS. El instalador de Raspbian</li>
-      <li>Otras opciones para la Raspberry</li>
+  <ul><li><a href="#instal">Preparación tarjeta SD</a></li>
+      <li><a href="#noobs">NOOBS. El instalador de Raspbian</a></li>
+      <li><a href="#otras">Otras opciones para la Raspberry</a></li>
   </ul>
   <li><a href="#conex">Conexión a través de SSH</a></li>
   <li>Configuración básica de Raspbian </li>
@@ -63,7 +63,32 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 <p><img src="images/etcher2.png" title="Etcher" alt="Etcher captura 3" class="izquierda" />El proceso de grabación de la imagen tardará varios minutos, según el tamaño de ésta y la velocidad tanto del USB como del ordenador. Una vez finalice la copia de los datos, Etcher realizará una serie de configuraciones adicionales con el fin de verificar que todo está correcto y no se ha generado un medio corrupto.<br /></p>
   <p><img src="images/etcher3.png" title="Etcher" alt="Etcher captura 4" class="izquierda" />Una vez finalice dicha verificación, la tarjeta SD ya estará lista con la imagen IMG del sistema operativo Raspbian. Ahora ya se puede arrancar la Raspberry Pi desde la tarjeta SD y comenzar con la instalación, mejorando además la velocidad de lectura y reduciendo notablemente el tiempo que tardan las diferentes tareas de carga y arranque.</p><br />
 
-<p>Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Como se ha comentado anteriormente, desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra NOOBSaunque Ahora podemos quitar con seguridad la tarjeta SD, insertarla en la Raspberry Pi, conectar a la misma un cable de red conectado a nuestro router y proceder a su encendido de la misma (simplemente conectando el alimentador de corriente a la misma). </p>
+  <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+<p style="clear:both"></p>
+
+<p id="noobs">Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra <i>NOOBS</i>, que como se ha comentado anteriormente, es el acrónimo de New Out Of Box Software, es un lanzador de distribuciones para novatos de Raspberry Pi. NOOBS ofrece las ventajas del multi-boot en la Raspberry Pi, compatible con todas sus versiones. En NOOBS se encuentran todos los sistemas operativos oficiales para raspberry-pi en un solo paquete para que se pueda usar cualquiera desde una sola tarjeta de memoria SD y sin realizar cambios drásticos en ella. Todo de manera sencilla y eligiendo el SO que más se adapte a las necesidades de cada momento, es la que se recomienda para empezar, permite instalar, confirgurar y probar todas las distribuciones que ofrecen en la web. Se ofrecen dos versiones distintas de NOOBS, una que incluye Raspbian y es "offline" y además se pueden seleccionar otros sistemas operativos que se descargan de interntet para poder ser instalados, y la versión NOOBS Lite, que contiene los mismos sistemas operativos para poder descargar desde internet pero no está Raspbian precargado y es necesario estar conectado a la red. </p>
+
+<p align="center"><img src="images/versiones_noobs.png" title="NOOBS.New Out Of Box Software" alt="NOOBS captura versiones"></p><br />
+
+<p>La Raspberry Pi Foundation integra como parte del proyecto 2, NOOBS y RaspbianOS, pero se pueden instalar otros de terceros desde NOOBS: <br /><br />
+
+<ol><li><em>Raspbian</em> es la opción recomendada, puesto que es una distribución Linux basada en Debian Wheezy especialmente pensada para la arquitectura ARM y con Pi Store para descargar multitud de aplicaciones para la Raspberry Pi. Al estar basada en Debian, su sistema de paquetería es DEB, evidentemente.</li>
+<li><em>LibreELEC</em>, en sustitución de OpenELEC, otro sistema bastante similar y que se integraba en anteriores versiones de NOOBS. Se trata de otra distribución especialmente pensada para el contenido multimedia</li>
+<li><em>Raspbian Lite</em>, es una versión de Raspbian sin el entorno gráfico Pixel y bastante menos pesada.</li>
+<li><em>Lakka</em>, se trata de un completo sistema de emulación de consolas.</li>
+<li><em>Data Partition</em>, añade una partición de 512MB vacía en formato ext4 al diseño de particiones.</li>
+<li><em>OSMC</em> (anteriormente RaspBMC) es una distribución que se apoya en dos pilares básicos, Debian y Kodi. Así se podrá tener un Media Center en la TV o transformarla en una SmartTV con acceso a contenidos multimedia, juegos, aplicaciones e Internet.</li>
+<li><em>Recalbox</em>, la mezcla perfecta, se trata de una distribución que unifica un sistema de emulación de juegos retro con un completo sistema media center.</li>
+<li><em>Windows 10 IoT</em> es la propuesta de Microsoft que es compatible con la Pi. Aunque no sea de código abierto y esté limitado, su relación con Azure puede abrir muchas posibilidades y la fundación lo ha integrado como una alternativa más.</li></ol></p><br />
+
+<p id="otras">Actualmente la Raspberry Pi Foundation ha añadido otros sistemas operativos oficiales para instalar de forma individual. Se pueden encontrar imágenes nuevas como las de <b>Raspbian</b>, <b>Ubuntu Mate</b>, <b>Snappy Ubuntu Core</b>, <b>Windows 10 IoT Core</b>, <b>OSMC</b>, <b>LibreELEC</b>, <b>Pinet</b>, <b>Risc OS</b>, <b>Weather Station</b> y por último <b>Ichigo Jam</b> </p>
+
+<p align="center"><img src="images/otras_opciones.png" title="Sistemas Operativos oficiales" alt="Sistemas Operativos oficiales"></p><br />
+
+<p><i>Primer inicio y selección de sistema operativo:</i></p>
+    <p>Lo primero que se verá será el menú principal de NOOBS cuando se arranque la Raspberry Pi. La pantalla del Recovery Tools mostrará los sistemas operativos disponibles en la versión de NOOBS que se haya descargado. Igualmente se puede seleccionar el idioma en el menú Language y cambiar a Español.</p>
+
+    <p>Para comenzar a usar uno de los sistemas operativos disponibles (en las nuevas versiones de NOOBS solo está disponible Raspbian OS para usarlo offline, el resto se deben descargar para instalarlos), hay que seleccionar el que se desea y pulsar ENTER o en el botón Install que aparece. Para cambiar de SO sólo hay que pulsar la tecla Shift al iniciar la Raspberry, lo que dará acceso también a la edición del fichero config.txt para modificar ciertos parámetros de la distribución que está instalada actualmente (resolución de pantalla, overscan, etc…). Además, en el nuevo menú de NOOBS también se podrá acceder a Internet gracias al navegador <b>Arora</b> que se ha integrado. Se trata de un navegador web basado en el motor QtWebKit y resulta práctico para consultar información antes incluso de tener alguna distro instalada</p>
 
 <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
 <p style="clear:both"></p>

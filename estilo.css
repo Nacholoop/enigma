@@ -58,8 +58,13 @@ strong {
   color: red;
 }
 
+em {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 i {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
   text-decoration: underline;
 }
