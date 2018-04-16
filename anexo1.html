@@ -13,7 +13,7 @@
 </head>
 <body>
 <h1>Instalación y configuración S.O. Raspbian</h1>
-<hr>
+<hr />
 <p>Existen diferentes sistemas operativos soportados por Raspberry Pi, siendo algunos de ellos distribuciones de terceros (tales como Ubuntu, Windows, etc.). En este caso, se opta por la distribución oficial de la propia fundación, se trata de una distribución basada en Debian, denominada RASPBIAN. En concreto <i>RASPBIAN STRETCH LITE</i>, que es una versión sin interfaz de escritorio, lo cual la hace más ligera y más acorde a los objetivos de este proyecto, que es su utilización a modo de servidor y donde no será necesario hacer uso del escritorio. Los pasos detallados del proceso a seguir para la descarga, instalación y configuración de Raspbian para su uso como servidor, se muestran a continuación.</p>
 <font size="5">
 <ul>
@@ -37,14 +37,14 @@
 <p style="clear:both"></p>
 <p>Win 32 Disk Imager es una aplicación realmente sencilla de usar, aunque se debe tener una única precaución. Hay que asegurarse de que la unidad en la que se quiere grabar la imagen corresponde realmente con la tarjeta SD. <strong>Mucha atención, porque se puede borrar una partición o un disco del ordenador si no se tiene cuidado.</strong>.Una vez comprobado que la SD es la unidad en la que se quiere grabar la imagen, se selecciona y se indica el nombre de la imagen a grabar en la tarjeta de memoria. Por último se pulsa el botón Write y en pocos minutos habrá finalizado la copia. También se puede hacer la operación contraria,y así se consigue una copia de seguridad del contenido de una tarjeta SD en el ordenador, dándole un nombre y pinchando en el botón Read, y se guardará en un archivo con el nombre dado en el ordenador una nueva imagen.</p>
 
-<p align="center"><img src="images/DiskManager4.png" title="Win32 Disk Manager" alt="Disk Manager captura 4"></p>
+<p align="center"><img src="images/DiskManager4.png" title="Win32 Disk Manager" alt="Disk Manager captura 4" /></p>
 <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
 <p style="clear:both"></p>
 
 <p> <i>ApplePi-Baker</i> es una aplicación similar a Win32 Disk Imager pero para entornos macOSX:</p>
-<p><img src="images/applepi_baker.png" title="ApplePi-Baker" alt="Apple-Pi Baker captura 1" class="izquierda" />Como se muestra en la imagen, ApplePi-Baker tiene varias partes diferenciadas. En el apartado Pi-Crust se ven las SD detectadas en el ordenador. Cuando se introduce una en el lector de SD, dicha tarjeta aparece en el recuadro correspondiente. También se puede usar el botón de refresco para asegurar que el ordenador ha leído la tarjeta, o bien expulsarla.<br><br>
+<p><img src="images/applepi_baker.png" title="ApplePi-Baker" alt="Apple-Pi Baker captura 1" class="izquierda" />Como se muestra en la imagen, ApplePi-Baker tiene varias partes diferenciadas. En el apartado Pi-Crust se ven las SD detectadas en el ordenador. Cuando se introduce una en el lector de SD, dicha tarjeta aparece en el recuadro correspondiente. También se puede usar el botón de refresco para asegurar que el ordenador ha leído la tarjeta, o bien expulsarla.<br /><br />
 
-A la derecha en Pi-Ingredients es donde se indica cuál es el archivo .IMG que se quiere grabar en la tarjeta SD. Al pulsar en el botón IMG to SD CARD todos los contenidos de la tarjeta SD desaparecerán, así que <strong> cuidado al introducir una SD con información que no se quiera perder.</strong><br><br>
+A la derecha en Pi-Ingredients es donde se indica cuál es el archivo .IMG que se quiere grabar en la tarjeta SD. Al pulsar en el botón IMG to SD CARD todos los contenidos de la tarjeta SD desaparecerán, así que <strong> cuidado al introducir una SD con información que no se quiera perder.</strong><br /><br />
 
 Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de seguridad del contenido de la tarjeta SD al ordenador. Y a su izquierda se observa que también se puede instalar <i>NOOBS</i> en la tarjeta SD. <br /><br />NOOBS es el acrónimo de New Out Of Box Software, una distribución que permite la instalación de varios "sistemas operativos" en una misma tarjeta SD, pudiendo decidir cuando se arranca la Raspberry Pi qué se quiere ejecutar. Así, se puede decidir ejecutar Raspbian o Openelec, entre unas cuantas opciones desde la imagen NOOBS en el arranque de la Raspberry Pi.</p>
 <p style="clear:both"></p>
@@ -68,7 +68,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 <p id="noobs">Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra <i>NOOBS</i>, que como se ha comentado anteriormente, es el acrónimo de New Out Of Box Software, es un lanzador de distribuciones para novatos de Raspberry Pi. NOOBS ofrece las ventajas del multi-boot en la Raspberry Pi, compatible con todas sus versiones. En NOOBS se encuentran todos los sistemas operativos oficiales para raspberry-pi en un solo paquete para que se pueda usar cualquiera desde una sola tarjeta de memoria SD y sin realizar cambios drásticos en ella. Todo de manera sencilla y eligiendo el SO que más se adapte a las necesidades de cada momento, es la que se recomienda para empezar, permite instalar, confirgurar y probar todas las distribuciones que ofrecen en la web. Se ofrecen dos versiones distintas de NOOBS, una que incluye Raspbian y es "offline" y además se pueden seleccionar otros sistemas operativos que se descargan de interntet para poder ser instalados, y la versión NOOBS Lite, que contiene los mismos sistemas operativos para poder descargar desde internet pero no está Raspbian precargado y es necesario estar conectado a la red. </p>
 
-<p align="center"><img src="images/versiones_noobs.png" title="NOOBS.New Out Of Box Software" alt="NOOBS captura versiones"></p><br />
+<p align="center"><img src="images/versiones_noobs.png" title="NOOBS.New Out Of Box Software" alt="NOOBS captura versiones" /></p><br />
 
 <p>La Raspberry Pi Foundation integra como parte del proyecto 2, NOOBS y RaspbianOS, pero se pueden instalar otros de terceros desde NOOBS: <br /><br />
 
@@ -83,7 +83,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 <p id="otras">Actualmente la Raspberry Pi Foundation ha añadido otros sistemas operativos oficiales para instalar de forma individual. Se pueden encontrar imágenes nuevas como las de <b>Raspbian</b>, <b>Ubuntu Mate</b>, <b>Snappy Ubuntu Core</b>, <b>Windows 10 IoT Core</b>, <b>OSMC</b>, <b>LibreELEC</b>, <b>Pinet</b>, <b>Risc OS</b>, <b>Weather Station</b> y por último <b>Ichigo Jam</b> </p>
 
-<p align="center"><img src="images/otras_opciones.png" title="Sistemas Operativos oficiales" alt="Sistemas Operativos oficiales"></p><br />
+<p align="center"><img src="images/otras_opciones.png" title="Sistemas Operativos oficiales" alt="Sistemas Operativos oficiales" /></p><br />
 
 <p><i>Primer inicio y selección de sistema operativo:</i></p>
     <p>Lo primero que se verá será el menú principal de NOOBS cuando se arranque la Raspberry Pi. La pantalla del Recovery Tools mostrará los sistemas operativos disponibles en la versión de NOOBS que se haya descargado. Igualmente se puede seleccionar el idioma en el menú Language y cambiar a Español.</p>
@@ -95,7 +95,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 
 <p id="conex"><h3>Conexión a Raspberry Pi a través de SSH</h3></p>
-<hr>
+<hr />
   <p class="mclibre">
     Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
   </p>
