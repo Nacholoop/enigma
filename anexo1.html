@@ -24,7 +24,7 @@
   </ul>
   <li><a href="#conex">Conexión a través de SSH</a></li>
   <li><a href="#basica">Configuración básica de Raspbian</a></li>
-  <li>Asignación de IP fija para la Raspberry Pi</li>
+  <li><a href="#ipfija">Asignación de IP fija para la Raspberry Pi</a></li>
 </ul>
 </font>
 <p id="instal"><h3>Instalación de Raspbian</h3></p>
@@ -94,28 +94,53 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 <p style="clear:both"></p>
 
 
-<p id="config"><h3>Conexión a Raspberry Pi a través de SSH</h3></p>
+<p id="conex"><h3>Conexión a Raspberry Pi a través de SSH</h3></p>
 
 <p> Una vez está preparada la Tarjeta SD con la opción elegida, en este caso, <b>Raspbian Stretch Lite</b>, lo más interesante es poder acceder a la Raspberry por primera vez sin necesidad de conectarla a un teclado, ratón, y monitor hdmi (que sería lo más aconsejable para versiones con escritorio). Para el desarrollo de este proyecto, al usarse versiones servidor y trabajar con la  linea de comandos, se va a usar la conexión a través de <b>ssh</b> y para poder hacerlo, lo primero que hay que hacer es habilitar ssh en raspbian ya que por defecto está desabilitada, en su <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/README.md">página web</a> explican como hacerlo, primero hay que añadir un archivo vacio sin extensión llamado ssh en el raiz de la tarjeta SD, se extrae la tarjeta con seguridad del sistema operativo que se esté utilizando (windows, macOSX, etc) y una vez arrancada la Raspberry-Pi con la tarjeta SD insertada, Raspbian habilita el acceso ssh y borra el archivo vacio.Si la tarjeta SD contiene dos particiones hay que copiar el archivo en la más pequeña, llamada boot</p>
 
 <p align="center"><img src="images/raiz_sd.png" title="Raiz Tarjeta SD" alt="raiz tarjeta SD con SO Raspbian" /></p><br />
 
-<p>El siguiente paso es averiguar cual es la ip asignada a la Raspberry-Pi, para ello se conecta al router a través de un cable de red y el cable de alimentación para poder encenderla, y se accede al router para comprobar la ip que se le ha asignado a la Raspberry-Pi. Para acceder a la administración del router a través del navegador suele ser la ip 192.168.1.1 (aunque puede variar, cada usuario debe saber cual es la ip de acceso al router), se pide usuario y contraseña y se accede al router. </p>
+<p>El siguiente paso es averiguar cual es la ip asignada a la Raspberry-Pi, para ello se conecta al router a través de un cable de red y el cable de alimentación para poder encenderla, y se accede al router para comprobar la ip que se le ha asignado a la Raspberry-Pi. Para acceder a la administración del router a través del navegador suele ser la ip 192.168.1.1 (aunque puede variar, cada alumno debe saber cual es la ip de acceso al router), se pide usuario y contraseña y se accede al router. </p>
 
 <p align="center"><img src="images/ip_raspberry.png" title="Dirección ip de Raspberry-Pi" alt="captura administración router" /></p><br />
 
-<p>Ahora ya se puede realizar la conexión a la Raspberry-Pi a través de SSH como se muestra a continuación, el usuario por defecto es <strong>pi</strong> y la contraseña <strong>raspberry</strong>.Más adelante se explica como cambiar la contraseña y también como eliminar este usuario y crear otro por motivos evidentes de seguridad.</p>
+<p>Ahora ya se puede realizar la conexión a la Raspberry-Pi a través de SSH como se muestra a continuación, el alumno por defecto es <strong>pi</strong> y la contraseña <strong>raspberry</strong>.Más adelante se explica como cambiar la contraseña y también como eliminar este alumno y crear otro por motivos evidentes de seguridad.</p>
 <p align="center"><img src="images/conexion_ssh.png" title="Primera conexión a Raspberry-Pi" alt="captura conexión raspberry-pi" /></p><br />
 <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
 
 
-<p id="basica"><h3>Configuración básica de Raspbian</h3></p>
-<p>Una vez se ha podido acceder a la Raspberry-Pi a través de SSH, hay que ejecutar la herramienta de configuración de Raspbian <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> y muestra el entorno de configuración de la herramienta, por otro lado también es aconsejable actualizar el sistema ejecutando $sudo apt-get update y $sudo apt-get upgrade:</p>
+<p id="basica"><h3>Configuración básica de Raspbian</h3></p><br />
+<p>Una vez se ha podido acceder a la Raspberry-Pi a través de SSH, hay que ejecutar la herramienta de configuración de Raspbian <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> para realizar los ajustes básicos necesarios para su correcto funcionamiento, al ejecutar $sudo raspi-config, se muestra el entorno de configuración de la herramienta, por otro lado también es aconsejable actualizar el sistema ejecutando $sudo apt-get update y $sudo apt-get upgrade:</p>
 
     <p><img src="images/update_raspbian.png" title="update Raspbian" alt="sudo apt-get update" class="izquierda" /><img src="images/upgrade_raspbian.png" title="upgrade Raspbian" alt="sudo apt-get upgrade" class="izquierda" /><img src="images/raspi_config.png" title="Herramienta de configuración de Raspbian" alt="sudo raspi-config" class="izquierda" /></p>
 
-  <p align="center"><img src="images/menu_raspi_config.png" title="Menú de configuración rapi-config" alt="captura menu configuración raspi-config" /></p><br />
+  <p align="center"><img src="images/menu_raspi_config.png" title="Menú de configuración rapi-config" alt="captura menu configuración raspi-config" /></p>
 
+<p>Lo primero que hay que hacer es cambiar la contraseña del alumno <strong>pi</strong>, como se muestra en el menu en la opción 1:</p>
+<p align="center"><img src="images/cambio_passw.png" title="Cambio de contraseña alumno pi" alt="captura Cambio de contraseña alumno pi" /></p><br />
+
+<p>El siguiente paso consiste en cambiarle el hostname a la Raspberry-Pi, que por defecto es raspberrypi, es la opción número 2 del menú, "Network options" y  que muestra el siguiente submenú:</p>
+<p align="center"><img src="images/hostname2.png" title="Menú Network options" alt="captura cambio de hostname" /></p>
+<p>La primera opción de este submenú permite cambiar el hostname a la Raspberry-Pi:</p>
+<p align="center"><img src="images/hostname.png" title="Cambio de Hostname" alt="captura Cambio de hostname" /></p>
+<p align="center"><img src="images/raspiserver.png" title="Cambio de Hostname" alt="captura 2 Cambio de hostname" /></p><br />
+
+<p>A continuación se configuran las opciones regionales que se adaptarán a las necesidades de cada alumno y que corresponde a la opción 4 del menú, "Localisation Options", mostrando el siguiente submenú, se adjuntan varias capturas mostrando el proceso, se modifica el idioma de interfaz del sistema, se configura la zona horaria adecuada a cada alumno, se cambia la configuración del teclado y se elige el país en el que se encuentra para el wi-fi:</p>
+<p><img src="images/change_locale.png" title="Menú Change Locale" alt="captura 1 cambio idioma interfaz del sistema" class="izquierda" />Submenú correspondiente a la opción 4 "Localisation Options" del menú principal.</p>
+<p><img src="images/change_locale2.png" title="opción 1 submenú localisation options" alt="captura 2 cambio idioma interfaz del sistema" class="izquierda" />Capturas correspondientes al cambio de idioma de la interfaz del sistema.</p>
+<p><img src="images/change_locale4.png" title="Selección cambio idioma interfaz sistema" alt="captura 3 cambio idioma interfaz del sistema" class="izquierda" />En este caso se selecciona la opción correspondente a España.</p>
+<p><img src="images/change_locale7.png" title="Selección cambio zona horaria" alt="captura 3 cambio zona horaria" class="izquierda" />En este caso se selecciona la opción correspondente a España-Madrid.</p>
+<p><img src="images/change_locale6.png" title="Resultado cambio zona horaria" alt="captura 4 cambio zona horaria" class="izquierda" />Resultado que muestra raspi-config con los cambios efectuados de idioma de interfaz y zona horaria.</p><br />
+
+<p>Por último, hay que asegurarse de que la totalidad de espacio de la tarjeta SD está habilitada para su uso, accediendo a la opción 7 del menú principal, "Advanced Options" y se selecciona la primera opción del submenú,"Expand Filesystem", una vez finalizado el proceso hay que reiniciar el sistema con la orden $sudo reboot:</p>
+<p><img src="images/resize1.png" title="Menú Advanced Options" alt="captura 1 habilitando espacio tarjeta SD" class="izquierda" /><img src="images/resize2.png" title="Menú Advanced Options" alt="captura 2 habilitando espacio tarjeta SD" class="izquierda" /><img src="images/resize3.png" title="Menú Advanced Options" alt="captura 3 habilitando espacio tarjeta SD" class="izquierda" /></p>
+
+<p>En la página oficial de Raspberry-Pi se explica la totalidad de las opciones de la herramienta de configuración <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> en el caso de que algún alumno decida hacer más modificaciones.</p>
+
+
+
+<p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+<p id="ipfija"><h3>Asignación de IP fija para la Raspberry Pi</h3></p><br />
 
 <hr />
   <p class="mclibre">
