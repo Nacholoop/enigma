@@ -96,7 +96,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 <p id="conex"><h3>Conexión a Raspberry Pi a través de SSH</h3></p>
 
-<p> Una vez está preparada la Tarjeta SD con la opción elegida, en este caso, <b>Raspbian Stretch Lite</b>, lo más interesante es poder acceder a la Raspberry por primera vez sin necesidad de conectarla a un teclado, ratón, y monitor hdmi (que sería lo más aconsejable para versiones con escritorio). Para el desarrollo de este proyecto, al usarse versiones servidor y trabajar con la  linea de comandos, se va a usar la conexión a través de <b>ssh</b> y para poder hacerlo, lo primero que hay que hacer es habilitar ssh en raspbian ya que por defecto está desabilitada, en su <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/README.md">página web</a> explican como hacerlo, primero hay que añadir un archivo vacio sin extensión llamado ssh en el raiz de la tarjeta SD, se extrae la tarjeta con seguridad del sistema operativo que se esté utilizando (windows, macOSX, etc) y una vez arrancada la Raspberry-Pi con la tarjeta SD insertada, Raspbian habilita el acceso ssh y borra el archivo vacio.Si la tarjeta SD contiene dos particiones hay que copiar el archivo en la más pequeña, llamada boot</p>
+<p> Una vez está preparada la Tarjeta SD con la opción elegida, en este caso, <b>Raspbian Stretch Lite</b>, lo más interesante es poder acceder a la Raspberry por primera vez sin necesidad de conectarla a un teclado, ratón, y monitor hdmi (que sería lo más aconsejable para versiones con escritorio). Para el desarrollo de este proyecto, al usarse versiones servidor y trabajar con la  linea de comandos, se va a usar la conexión a través de <b>ssh</b> y para poder hacerlo, lo primero que hay que hacer es habilitar ssh en raspbian ya que por defecto está desabilitada, en su <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/README.md">página web</a> explican como hacerlo, primero hay que añadir un archivo vacio sin extensión llamado ssh en el raiz de la tarjeta SD, se extrae la tarjeta con seguridad del sistema operativo que se esté utilizando (windows, macOSX, etc) y una vez arrancada la Raspberry-Pi con la tarjeta SD insertada, Raspbian habilita el acceso ssh y borra el archivo vacio.Si la tarjeta SD contiene dos particiones hay que copiar el archivo en la más pequeña, llamada boot.</p>
 
 <p align="center"><img src="images/raiz_sd.png" title="Raiz Tarjeta SD" alt="raiz tarjeta SD con SO Raspbian" /></p><br />
 
@@ -104,8 +104,11 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 <p align="center"><img src="images/ip_raspberry.png" title="Dirección ip de Raspberry-Pi" alt="captura administración router" /></p><br />
 
-<p>Ahora ya se puede realizar la conexión a la Raspberry-Pi a través de SSH como se muestra a continuación, el alumno por defecto es <strong>pi</strong> y la contraseña <strong>raspberry</strong>.Más adelante se explica como cambiar la contraseña y también como eliminar este alumno y crear otro por motivos evidentes de seguridad.</p>
-<p align="center"><img src="images/conexion_ssh.png" title="Primera conexión a Raspberry-Pi" alt="captura conexión raspberry-pi" /></p><br />
+<p>Ahora ya se puede realizar la conexión a la Raspberry-Pi a través de SSH como se muestra a continuación, el usuario por defecto es <strong>pi</strong> y la contraseña <strong>raspberry</strong>.Más adelante se explica como cambiar la contraseña y también como eliminar este usuario y crear otro por motivos evidentes de seguridad.Se puede conectar por SSH usando del programa <a href="https://www.putty.org/">Putty</a> para windows, o a través de la terminal en macOSX o Linux:</p>
+<p><img src="images/putty1.png" title="conexión ssh mediante putty" alt="captura 1 conexión ssh mediante putty" class="izquierda" /><img src="images/putty2.png" title="conexión ssh mediante putty 2" alt="captura 2 conexión ssh mediante putty" class="izquierda" /><img src="images/putty3.png" title="conexión ssh mediante putty 3" alt="captura 3 conexión ssh mediante putty" class="izquierda" /></p><br />
+<br />
+<p>Conexión ssh mediante terminal en macOSX:</p>
+<p><img src="images/conexion_ssh.png" title="Primera conexión a Raspberry-Pi" alt="captura conexión raspberry-pi" class="izquierda" /></p><br />
 <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
 
 
@@ -116,12 +119,12 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
   <p align="center"><img src="images/menu_raspi_config.png" title="Menú de configuración rapi-config" alt="captura menu configuración raspi-config" /></p>
 
-<p>Lo primero que hay que hacer es cambiar la contraseña del alumno <strong>pi</strong>, como se muestra en el menu en la opción 1:</p>
-<p align="center"><img src="images/cambio_passw.png" title="Cambio de contraseña alumno pi" alt="captura Cambio de contraseña alumno pi" /></p><br />
+<p>Lo primero que hay que hacer es cambiar la contraseña del usuario <strong>pi</strong>, como se muestra en el menu en la opción 1:</p>
+<p align="center"><img src="images/cambio_passw.png" title="Cambio de contraseña usuario pi" alt="captura Cambio de contraseña usuario pi" /></p><br />
 
-<p>El siguiente paso consiste en cambiarle el hostname a la Raspberry-Pi, que por defecto es raspberrypi, es la opción número 2 del menú, "Network options" y  que muestra el siguiente submenú:</p>
+<p>El siguiente paso consiste en cambiarle el nombre de equipo a la Raspberry-Pi, que por defecto es raspberrypi, es la opción número 2 del menú, "Network options" y  que muestra el siguiente submenú:</p>
 <p align="center"><img src="images/hostname2.png" title="Menú Network options" alt="captura cambio de hostname" /></p>
-<p>La primera opción de este submenú permite cambiar el hostname a la Raspberry-Pi:</p>
+<p>La primera opción de este submenú permite cambiar el nombre de equipo a la Raspberry-Pi:</p>
 <p align="center"><img src="images/hostname.png" title="Cambio de Hostname" alt="captura Cambio de hostname" /></p>
 <p align="center"><img src="images/raspiserver.png" title="Cambio de Hostname" alt="captura 2 Cambio de hostname" /></p><br />
 
