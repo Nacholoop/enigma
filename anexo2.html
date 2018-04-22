@@ -25,9 +25,9 @@
   <li><a href="#conex">Conexión a través de SSH</a></li>
   <li><a href="#basica">Configuración básica de Raspbian</a></li>
   <li><a href="#ipfija">Asignación de IP fija para la Raspberry Pi</a></li>
-  <ul><li><a href="#dhcp">/etc/dhcpcd.conf</a></li>
+  <ul><li><a href="#adapt">Adaptador de red</a></li>
+    <li><a href="#dhcp">/etc/dhcpcd.conf</a></li>
     <li><a href="#interface">/etc/network/interfaces</a></li>
-    <li><a href="#adapt">Adaptador de red</a></li>
     <li><a href="#router">Dirección MAC en el router</a></li>
 </ul>
 </ul>
@@ -117,7 +117,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
 
 
-<p id="basica"><h3>Configuración básica de Raspbian</h3></p><br />
+<p id="basica"><h3>Configuración básica de Raspbian</h3></p>
 <p>Una vez se ha podido acceder a la Raspberry-Pi a través de SSH, hay que ejecutar la herramienta de configuración de Raspbian <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> para realizar los ajustes básicos necesarios para su correcto funcionamiento, al ejecutar $sudo raspi-config, se muestra el entorno de configuración de la herramienta, por otro lado también es aconsejable actualizar el sistema ejecutando $sudo apt-get update y $sudo apt-get upgrade:</p>
 
     <p><img src="images/update_raspbian.png" title="update Raspbian" alt="sudo apt-get update" class="izquierda" /><img src="images/upgrade_raspbian.png" title="upgrade Raspbian" alt="sudo apt-get upgrade" class="izquierda" /><img src="images/raspi_config.png" title="Herramienta de configuración de Raspbian" alt="sudo raspi-config" class="izquierda" /></p>
@@ -145,10 +145,27 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 <p>En la página oficial de Raspberry-Pi se explica la totalidad de las opciones de la herramienta de configuración <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> en el caso de que algún alumno decida hacer más modificaciones.</p>
 
-
-
 <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
-<p id="ipfija"><h3>Asignación de IP fija para la Raspberry Pi</h3></p><br />
+
+<p id="ipfija"><h3>Asignación de IP fija para la Raspberry Pi</h3></p>
+<p>El siguiente paso será asignar a la Raspberry-Pi una dirección ip fija, la opción más cómoda para poder trabajar con la raspi como servidor y sin pantalla ya que lo normal es que tanto con Raspbian como con los otros sistemas operativos, la IP sea dinámica, y se la asigne el router dentro de un rango determinado. Como se ha explicado en apartados anteriores, hay que conocer la ip del router, entrar en su configuración, ver que no haya ips reservadas para no crear conflictos, y ver que ip se asigna a la Raspberry-Pi y conectar a la misma a través de SSH.</p>
+<p id="adapt">En el nuevo <i>Raspbian Stretch</i> se ha incorporado una función de Debian que no usa los nombres clásicos de los interfaces o tarjeta de red. De momento solo está activo con el eth0 que ha desaparecido, aunque sigue monstrando el wlan0. Así que al usar en una Terminal el comando ifconfig la salida es:</p>
+<p align="center"><img src="images/ifconfig0.png" title="Información de red con ifconfig" alt="captura info red con ifconfig" /></p>
+
+<p>Se ve que en vez del clásico eth0 se muestra un enxb827eb26a2c6 que se crea a partir de lo que se conoce como la dirección MAC de la tarjeta y que se muestra en la segunda linea, en este caso: ether b8:27:eb:26:a2:c6 y que para cada Raspberry Pi será distinto y único ya que la dirección MAC es siempre única.</p>
+<p>Por el momento esto se puede deshacer para volver a la situación de siempre y evitar problemas con tutoriales, scripts y programas que esperan encontrar la conexión de red como eth0. Para ello habrá que entrar en el directorio /boot/ de la Raspberry-Pi y editar el archivo cmdline.txt (este archivo es visible y se puede cambiar incluso en un ordenador con Windows). De nuevo se aconseja hacer una copia del archivo antes de modificarlo ($sudo cp /boot/cmdline.txt /boot/cmdline.txt.old). Para editar el archivo, ejecutar el comando $sudo nano /boot/cmdline.txt y añadir al final de la linea <b>net.ifnames=0</b> para que el archivo quede así:</p>
+<p align="center"><img src="images/cmdline.png" title="Información archivo cmdline.txt" alt="captura info cmdline.txt" /></p>
+<p>Una vez editado, se guarda el archivo y se reinicia la Raspberry-Pi ($sudo reboot), ahora al ejecutar ifconfig de nuevo se mostrará la info como siempre:</p>
+<p align="center"><img src="images/ifconfig.png" title="Información de red con ifconfig actualizado" alt="captura 2 info red con ifconfig" /></p>
+<p>Hay que tener en cuenta, que la nueva forma de gestionar los interfaces de red es muy interesante. Por ejemplo, si se hace uso de un dongle Wi-Fi o un adaptador USB a Ethernet, al generarse los códigos de interfaz a partir de la dirección MAC será fácil identificar cada conexión sin tener dudas, a partir de ahí, montar una configuración que mezcle esos distintos accesos siempre será más claro.</p>
+
+
+
+<p id="dhcp">En las nuevas versiones de Raspbian, como <i>raspbian stretch lite</i>, las direcciones IP se gestionan con el archivo de configuración <i>dhcpcd.conf</i>, además de un cambio mínimo en el fichero /ect/network/interfaces. Se edita el archivo /etc/dhcpcd.conf con el siguiente comando desde una Terminal: $sudo nano /etc/dhcpcd.conf, este es el aspecto inicial del archivo.</p>
+
+<p align="center"><img src="images/dhcpcd1.png" title="Config inicial del archivo /etc/dhcpcd.conf" alt="captura edición archivo dhcpcd.conf" /></p>
+<p>Antes de realizar cualquier modificación en este fichero, hay que hacer una copia de seguridad para evitar posibles daños, desde terminal se ejecuta el comando: $sudo cp /etc/dhcpcd.conf /etc/dhcpcd.conf.bak, una vez hecho esto ya se puede editar el archivo y realizar las siguientes modificaciones: </p>
+
 
 <hr />
   <p class="mclibre">
