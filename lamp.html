@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Servidor web con LAMP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="estilo.css" />
+  <link rel="stylesheet" type="text/css" href="fonts.css" />
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="arriba.js"></script>
+  <style>
+    p {
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+<span class="ir-arriba icon-circle-up"></span>
+<h1>Instalación de un servidor web con LAMP </h1>
+<hr />
+<font size="5">
+  <ul>
+    <li><a href="#acron">¿Que es LAMP?</a></li>
+    <li><a href="#apache">Instalación y configuración servidor web Apache</a></li>
+    <ul><li><a href="#instalapache">Instalación de Apache</a></li>
+        <li><a href="#configapache">Configuración y comprobación de su funcionamiento</a></li>
+        <li><a href="#scp">SCP (Secure Copy): Copiar archivos a través de ssh</a></li>
+    </ul>
+    <li><a href="#conex">Instalación y configuración PHP</a></li>
+    <li><a href="#ipfija">Instalación y configuración MariaDB</a></li>
+    <ul><li><a href="#adapt">Instalación de MariaDB</a></li>
+      <li><a href="#dhcp">Configuración de MariaDB</a></li>
+      <li><a href="#interface">Instalación de phpMyAdmin</a></li>
+  </ul>
+  </ul>
+  </font>
+  <p id="acron"><h3>¿Que es LAMP?</h3></p>
+  <p><em>LAMP</em> el acrónimo usado para describir un sistema de infraestructura de internet que usa las siguientes herramientas:
+      <ul><li><em>Linux</em>, el sistema operativo; En algunos casos también se refiere a LDAP.</li>
+      <li><em>Apache</em>, el servidor web;</li>
+      <li><em>MySQL/MariaDB</em>, el gestor de bases de datos;</li>
+      <li><em>Perl</em>, <em>PHP</em>, o <em>Python</em>, los lenguajes de programación.</li></ul>
+  </p>
+  <p>La combinación de estas tecnologías es usada principalmente para definir la infraestructura de un servidor web, utilizando un modelo de programación para el desarrollo. A pesar de que el origen de estos programas de código abierto no han sido específicamente diseñados para trabajar entre sí, la combinación se popularizó debido a su bajo coste de adquisición y ubicuidad de sus componentes (ya que vienen pre-instalados en la mayoría de las distribuciones linux). Cuando son combinados, representan un conjunto de soluciones que soportan servidores de aplicaciones.</p>
+  <p align="center"><img src="images/lamp.jpeg" title="Esquema LAMP" alt="componentes acrónimo lamp" /></p>
+
+  <p id="apache"><h3>Instalación y configuración del servidor web Apache</h3></p>
+  <p>El servidor HTTP <em>Apache</em> es un servidor web libre y de código abierto, para plataformas Unix (BSD, GNU/Linux, etc.), Microsoft Windows, Macintosh y otras, que implementa el protocolo HTTP/1.12​ y la noción de sitio virtual, el más popular en cuanto a uso, sirviendo de facto como plataforma de referencia para el diseño y evaluación de otros servidores web. Por sí mismo, es capaz de servir ficheros HTML sobre HTTP y, con la instalación de ciertos módulos adicionales, puede servir también páginas dinámicas utilizando lenguajes de scripting tales como PHP. Entre sus ventajas destaca q es muy modular, de código abierto, multi-plataforma, extensible y muy popular (fácil conseguir ayuda/soporte).La arquitectura del servidor Apache consta de una sección core y diversos módulos que aportan mucha de la funcionalidad que podría considerarse básica para un servidor web. Algunos de estos módulos son: </p>
+  <ul><li>mod_ssl - Comunicaciones Seguras vía TLS.</li>
+    <li>mod_rewrite - reescritura de direcciones (generalmente utilizado para transformar páginas dinámicas como php en páginas estáticas html para así engañar a los navegantes o a los motores de búsqueda en cuanto a cómo fueron desarrolladas estas páginas).</li>
+    <li>mod_auth_ldap - Permite autentificar usuarios contra un servidor LDAP.</li>
+    <li>mod_proxy_ajp - Conector para enlazar con el servidor Jakarta Tomcat de páginas dinámicas en Java (servlets y JSP).</li></ul>
+  <p>El servidor de base puede ser extendido con la inclusión de módulos externos entre los cuales se encuentran:</p>
+
+    <ul><li>mod_cband - Control de tráfico y limitador de ancho de banda.</li>
+    <li>mod_perl - Páginas dinámicas en Perl.</li>
+    <li>mod_php - Páginas dinámicas en PHP.</li>
+    <li>mod_python - Páginas dinámicas en Python.</li>
+    <li>mod_ruby - Páginas dinámicas en Ruby.</li>
+    <li>mod_mono - Páginas dinámicas en Mono</li>
+    <li>mod_security - Filtrado a nivel de aplicación, para seguridad.</li></ul>
+
+  <p>El servidor Apache es desarrollado y mantenido por una comunidad de usuarios bajo la supervisión de la <a href="https://www.apache.org">Apache Software Foundation</a> dentro del proyecto <a href="http://httpd.apache.org/">HTTP Server (httpd)</a>.</p>
+
+<p id="instalapache"><h4><i>Instalación de Apache:</i></h4></p>
+<p>Para la instalación del servidor Apache, sólo hay que ejecutar la siguiente orden: <b>$ sudo apt-get install apache2</b> (con la opción -y se contesta automáticamente yes=si, cuando pregunta si se desea instalar paquetes). Puede pasar que al ejecutar el comando anterior devuelva un mensaje de error que se subsana ejecutando <b>$sudo apt-get update</b> y <b>$sudo apt-get upgrade</b>:</p>
+<p align="center"><img src="images/instal_apache2_error.png" title="Instalación servidor Apache, pasos previos" alt="captura instalación Apache" /></p>
+<p>En la captura anterior se puede observar como después del mensaje de error y de la ejecución de las órdenes update y upgrade, se devuelve otro mensaje diciendo que hay varios paquetes que ya no son necesarios y que se ejecute el comando <b>$ sudo apt autoremove</b>. Una vez hecho esto, se comprueba que al volver a ejecutar update y upgrade ya está todo actualizado y se procede a la instalación de Apache</p>
+<p align="center"><img src="images/instal_apache2.png" title="Instalación servidor Apache" alt="captura 2 instalación Apache" /></p>
+<p>Una vez finalizado, es posible comprobar que el servidor se encuentra corriendo y escuchando peticiones en el puerto 80 (HTTP):</p>
+<p align="center"><img src="images/netstat_apache.png" title="comprobación con netstat servidor Apache" alt="captura 3 instalación Apache" /></p>
+
+
+<p id="configapache"><h4><i>Configuración de Apache:</i></h4></p>
+<p>Por defecto, Apache crea un fichero de prueba en formato HTML en la carpeta del servidor web. Esta página es servida cuando se navega al servidor apache mediante la dirección http://localhost (desde el propio servidor) o se accede desde otro equipo de la red a la IP del servidor (en este caso: http://192.168.1.21). Si usando un navegador web, se introduce la ip del servidor, se mostrará lo siguiente:</p>
+<p align="center"><img src="images/comprobando_apache2.png" title="comprobando funcionamiento servidor Apache" alt="captura inicio Apache" /></p>
+<p>Esto significa que Apache está funcionando correctamente.</p>
+
+<hr />
+<p class="mclibre">
+  Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
+</p>
+</body>
+</html>
