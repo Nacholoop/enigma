@@ -19,7 +19,7 @@
   <span class="ir-arriba icon-circle-up"></span>
 <h1>Instalación y configuración S.O. Raspbian</h1>
 <hr />
-<p>Existen diferentes sistemas operativos soportados por Raspberry Pi, siendo algunos de ellos distribuciones de terceros (tales como Ubuntu, Windows, etc.). En este caso, se opta por la distribución oficial de la propia fundación, se trata de una distribución basada en Debian, denominada RASPBIAN. En concreto <i>RASPBIAN STRETCH LITE</i>, que es una versión sin interfaz de escritorio, lo cual la hace más ligera y más acorde a los objetivos de este proyecto, que es su utilización a modo de servidor y donde no será necesario hacer uso del escritorio. Los pasos detallados del proceso a seguir para la descarga, instalación y configuración de Raspbian para su uso como servidor, se muestran a continuación.</p>
+<p>Existen diferentes sistemas operativos soportados por Raspberry Pi, siendo algunos de ellos distribuciones de terceros (tales como Ubuntu, Windows, etc.). En este caso, se opta por la distribución oficial de la propia fundación, se trata de una distribución basada en Debian, denominada RASPBIAN. En concreto <em>RASPBIAN STRETCH LITE</em>, que es una versión sin interfaz de escritorio, lo cual la hace más ligera y más acorde a los objetivos de este proyecto, que es su utilización a modo de servidor y donde no será necesario hacer uso del escritorio. Los pasos detallados del proceso a seguir para la descarga, instalación y configuración de Raspbian para su uso como servidor, se muestran a continuación.</p>
 <font size="5">
 <ul>
   <li><a href="#instal">Instalación de Raspbian</a></li>
@@ -41,24 +41,24 @@
 <p>En primer lugar, antes de pasar a la  instalación propiamente dicha del Sistema Operativo Raspbian, se debe preparar la tarjeta SD de la Raspberry Pi. En la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a>, en la sección descargas, se muestran las diferentes opciones de instalación que se pueden utilizar, y las diferentes imágenes para poder hacerlo, como se ha elegido la opción de Raspbian se descargará la imagen correspondiente en el disco duro. Una imagen es un conjunto de sistema operativo y aplicaciones que se graba o "flashea" en un único archivo en la tarjeta SD y así se consigue recuperar toda la información necesaria para que la Raspberry Pi arranque cuando se enciende y cargue los programas necesarios, por tanto, una imagen es un archivo con extensión .img normalmente, aunque también puede presentar otros formatos como .iso,.bin,.nrg etc. que grabada de una cierta forma en la tarjeta SD restituye el sistema operativo y las aplicaciones deseadas. Y no, no sirve con formatear la tarjeta SD y copiar allí el archivo .img, sino que hay que recuperar la información contenida en el archivo .img de forma ordenada para que pueda ser interpretada como un disco de arranque por la Raspberry Pi. Se puede utilizar el programa <a href="https://sourceforge.net/projects/win32diskimager/">Win32 Disk Imager</a> para windows o los programas para macOSX
 <a href="https://www.tweaking4all.com/hardware/raspberry-pi/macosx-apple-pi-baker/">ApplePi-Baker</a> o <a href="https://etcher.io/">Etcher</a>, aplicación disponible en ambas plataformas.</p>
 
-<p>La aplicación <i>win32 Disk Imager</i> es gratuita y permite tanto grabar una imagen a la tarjeta SD como hacer una copia de seguridad de la misma a Windows. Es decir, se puede crear un archivo .img a partir de los contenidos de la tarjeta SD. Y así tener un sistema configurado en la Raspberry Pi, o bien haber instalado una serie de aplicaciones en la tarjeta SD. Si se vuelca de nuevo al ordenador en un archivo .img se obtiene una copia de seguridad de la misma, que se podrá clonar en sendas tarjetas SD tantas veces como sea necesario. La instalación es realmente sencilla, sólo hay que seguir los pasos, elegir donde se quiere instalar, y ejecutar al finalizar la instalación. </p>
+<p>La aplicación <em>win32 Disk Imager</em> es gratuita y permite tanto grabar una imagen a la tarjeta SD como hacer una copia de seguridad de la misma a Windows. Es decir, se puede crear un archivo .img a partir de los contenidos de la tarjeta SD. Y así tener un sistema configurado en la Raspberry Pi, o bien haber instalado una serie de aplicaciones en la tarjeta SD. Si se vuelca de nuevo al ordenador en un archivo .img se obtiene una copia de seguridad de la misma, que se podrá clonar en sendas tarjetas SD tantas veces como sea necesario. La instalación es realmente sencilla, sólo hay que seguir los pasos, elegir donde se quiere instalar, y ejecutar al finalizar la instalación. </p>
 
 <p><img src="images/DiskManager1.png" title="Win32 Disk Manager" alt="Disk Manager captura 1" class="izquierda" /><img src="images/DiskManager2.png" title="Win32 Disk Manager" alt="Disk Manager captura 2" class="izquierda" /><img src="images/DiskManager3.png" title="Win32 Disk Manager" alt="Disk Manager captura 3" class="izquierda" /></p>
 <p style="clear:both"></p>
 <p>Win 32 Disk Imager es una aplicación realmente sencilla de usar, aunque se debe tener una única precaución. Hay que asegurarse de que la unidad en la que se quiere grabar la imagen corresponde realmente con la tarjeta SD. <strong>Mucha atención, porque se puede borrar una partición o un disco del ordenador si no se tiene cuidado.</strong>.Una vez comprobado que la SD es la unidad en la que se quiere grabar la imagen, se selecciona y se indica el nombre de la imagen a grabar en la tarjeta de memoria. Por último se pulsa el botón Write y en pocos minutos habrá finalizado la copia. También se puede hacer la operación contraria,y así se consigue una copia de seguridad del contenido de una tarjeta SD en el ordenador, dándole un nombre y pinchando en el botón Read, y se guardará en un archivo con el nombre dado en el ordenador una nueva imagen.</p>
 
 <p align="center"><img src="images/DiskManager4.png" title="Win32 Disk Manager" alt="Disk Manager captura 4" /></p>
-<p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+
 <p style="clear:both"></p>
 
-<p> <i>ApplePi-Baker</i> es una aplicación similar a Win32 Disk Imager pero para entornos macOSX:</p>
+<p> <em>ApplePi-Baker</em> es una aplicación similar a Win32 Disk Imager pero para entornos macOSX:</p>
 <p><img src="images/applepi_baker.png" title="ApplePi-Baker" alt="Apple-Pi Baker captura 1" class="izquierda" />Como se muestra en la imagen, ApplePi-Baker tiene varias partes diferenciadas. En el apartado Pi-Crust se ven las SD detectadas en el ordenador. Cuando se introduce una en el lector de SD, dicha tarjeta aparece en el recuadro correspondiente. También se puede usar el botón de refresco para asegurar que el ordenador ha leído la tarjeta, o bien expulsarla.<br /><br />
 
 A la derecha en Pi-Ingredients es donde se indica cuál es el archivo .IMG que se quiere grabar en la tarjeta SD. Al pulsar en el botón IMG to SD CARD todos los contenidos de la tarjeta SD desaparecerán, así que <strong> cuidado al introducir una SD con información que no se quiera perder.</strong><br /><br />
 
-Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de seguridad del contenido de la tarjeta SD al ordenador. Y a su izquierda se observa que también se puede instalar <i>NOOBS</i> en la tarjeta SD. <br /><br />NOOBS es el acrónimo de New Out Of Box Software, una distribución que permite la instalación de varios "sistemas operativos" en una misma tarjeta SD, pudiendo decidir cuando se arranca la Raspberry Pi qué se quiere ejecutar. Así, se puede decidir ejecutar Raspbian o Openelec, entre unas cuantas opciones desde la imagen NOOBS en el arranque de la Raspberry Pi.</p>
+Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de seguridad del contenido de la tarjeta SD al ordenador. Y a su izquierda se observa que también se puede instalar <em>NOOBS</em> en la tarjeta SD. <br /><br />NOOBS es el acrónimo de New Out Of Box Software, una distribución que permite la instalación de varios "sistemas operativos" en una misma tarjeta SD, pudiendo decidir cuando se arranca la Raspberry Pi qué se quiere ejecutar. Así, se puede decidir ejecutar Raspbian o Openelec, entre unas cuantas opciones desde la imagen NOOBS en el arranque de la Raspberry Pi.</p>
 <p style="clear:both"></p>
-<p>Por último se muestra la aplicación <i>Etcher</i>, que está disponible para ambas plataformas:</p>
+<p>Por último se muestra la aplicación <em>Etcher</em>, que está disponible para ambas plataformas:</p>
 <p><img src="images/etcher.png" title="Etcher" alt="Etcher captura 1" class="izquierda" />Etcher es una aplicación gratuita y de código abierto desarrollada para facilitar en todo lo posible la grabación de imágenes ISO, IMG y otros formatos comprimidos directamente y de forma segura a memorias USB y tarjetas de memoria.Sus principales características son:<br /><br />
   <ul><li>Ofrece una interfaz sencilla y agradable.</li><br />
   <li>Cuenta con sistemas de validación para evitar la creación de memorias corruptas.</li><br />
@@ -73,10 +73,10 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 <p><img src="images/etcher2.png" title="Etcher" alt="Etcher captura 3" class="izquierda" />El proceso de grabación de la imagen tardará varios minutos, según el tamaño de ésta y la velocidad tanto del USB como del ordenador. Una vez finalice la copia de los datos, Etcher realizará una serie de configuraciones adicionales con el fin de verificar que todo está correcto y no se ha generado un medio corrupto.<br /></p>
   <p><img src="images/etcher3.png" title="Etcher" alt="Etcher captura 4" class="izquierda" />Una vez finalice dicha verificación, la tarjeta SD ya estará lista con la imagen IMG del sistema operativo Raspbian. Ahora ya se puede arrancar la Raspberry Pi desde la tarjeta SD y comenzar con la instalación, mejorando además la velocidad de lectura y reduciendo notablemente el tiempo que tardan las diferentes tareas de carga y arranque.</p><br />
 
-  <p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+
 <p style="clear:both"></p>
 
-<p id="noobs">Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra <i>NOOBS</i>, que como se ha comentado anteriormente, es el acrónimo de New Out Of Box Software, es un lanzador de distribuciones para novatos de Raspberry Pi. NOOBS ofrece las ventajas del multi-boot en la Raspberry Pi, compatible con todas sus versiones. En NOOBS se encuentran todos los sistemas operativos oficiales para raspberry-pi en un solo paquete para que se pueda usar cualquiera desde una sola tarjeta de memoria SD y sin realizar cambios drásticos en ella. Todo de manera sencilla y eligiendo el SO que más se adapte a las necesidades de cada momento, es la que se recomienda para empezar, permite instalar, confirgurar y probar todas las distribuciones que ofrecen en la web. Se ofrecen dos versiones distintas de NOOBS, una que incluye Raspbian y es "offline" y además se pueden seleccionar otros sistemas operativos que se descargan de interntet para poder ser instalados, y la versión NOOBS Lite, que contiene los mismos sistemas operativos para poder descargar desde internet pero no está Raspbian precargado y es necesario estar conectado a la red. </p>
+<p id="noobs">Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra <em>NOOBS</em>, que como se ha comentado anteriormente, es el acrónimo de New Out Of Box Software, es un lanzador de distribuciones para novatos de Raspberry Pi. NOOBS ofrece las ventajas del multi-boot en la Raspberry Pi, compatible con todas sus versiones. En NOOBS se encuentran todos los sistemas operativos oficiales para raspberry-pi en un solo paquete para que se pueda usar cualquiera desde una sola tarjeta de memoria SD y sin realizar cambios drásticos en ella. Todo de manera sencilla y eligiendo el SO que más se adapte a las necesidades de cada momento, es la que se recomienda para empezar, permite instalar, confirgurar y probar todas las distribuciones que ofrecen en la web. Se ofrecen dos versiones distintas de NOOBS, una que incluye Raspbian y es "offline" y además se pueden seleccionar otros sistemas operativos que se descargan de interntet para poder ser instalados, y la versión NOOBS Lite, que contiene los mismos sistemas operativos para poder descargar desde internet pero no está Raspbian precargado y es necesario estar conectado a la red. </p>
 
 <p align="center"><img src="images/versiones_noobs.png" title="NOOBS.New Out Of Box Software" alt="NOOBS captura versiones" /></p><br />
 
@@ -100,7 +100,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
     <p>Para comenzar a usar uno de los sistemas operativos disponibles (en las nuevas versiones de NOOBS solo está disponible Raspbian OS para usarlo offline, el resto se deben descargar para instalarlos), hay que seleccionar el que se desea y pulsar ENTER o en el botón Install que aparece. Para cambiar de SO sólo hay que pulsar la tecla Shift al iniciar la Raspberry, lo que dará acceso también a la edición del fichero config.txt para modificar ciertos parámetros de la distribución que está instalada actualmente (resolución de pantalla, overscan, etc…). Además, en el nuevo menú de NOOBS también se podrá acceder a Internet gracias al navegador <b>Arora</b> que se ha integrado. Se trata de un navegador web basado en el motor QtWebKit y resulta práctico para consultar información antes incluso de tener alguna distro instalada.</p>
 
-<p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+
 <p style="clear:both"></p>
 
 
@@ -119,7 +119,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 <br />
 <p>Conexión ssh mediante terminal en macOSX:</p>
 <p><img src="images/conexion_ssh.png" title="Primera conexión a Raspberry-Pi" alt="captura conexión raspberry-pi" class="izquierda" /></p><br />
-<p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+
 
 
 <p id="basica"><h3>Configuración básica de Raspbian</h3></p>
@@ -150,11 +150,11 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 <p>En la página oficial de Raspberry-Pi se explica la totalidad de las opciones de la herramienta de configuración <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> en el caso de que algún alumno decida hacer más modificaciones.</p>
 
-<p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+
 
 <p id="ipfija"><h3>Asignación de IP fija para la Raspberry Pi</h3></p>
 <p>El siguiente paso será asignar a la Raspberry-Pi una dirección ip fija, la opción más cómoda para poder trabajar con la raspi como servidor y sin pantalla ya que lo normal es que tanto con Raspbian como con los otros sistemas operativos, la IP sea dinámica, y se la asigne el router dentro de un rango determinado. Como se ha explicado en apartados anteriores, hay que conocer la ip del router, entrar en su configuración, ver que no haya ips reservadas para no crear conflictos, y ver que ip se asigna a la Raspberry-Pi y conectar a la misma a través de SSH.</p>
-<p id="adapt">En el nuevo <i>Raspbian Stretch</i> se ha incorporado una función de Debian que no usa los nombres clásicos de los interfaces o tarjeta de red. De momento solo está activo con el eth0 que ha desaparecido, aunque sigue monstrando el wlan0. Así que al usar en una Terminal el comando <b>ifconfig</b> la salida es:</p>
+<p id="adapt">En el nuevo <em>Raspbian Stretch</em> se ha incorporado una función de Debian que no usa los nombres clásicos de los interfaces o tarjeta de red. De momento solo está activo con el eth0 que ha desaparecido, aunque sigue monstrando el wlan0. Así que al usar en una Terminal el comando <b>ifconfig</b> la salida es:</p>
 <p align="center"><img src="images/ifconfig0.png" title="Información de red con ifconfig" alt="captura info red con ifconfig" /></p>
 
 <p>Se ve que en vez del clásico eth0 se muestra un enxb827eb26a2c6 que se crea a partir de lo que se conoce como la dirección MAC de la tarjeta y que se muestra en la segunda linea, en este caso: ether b8:27:eb:26:a2:c6 y que para cada Raspberry Pi será distinto y único ya que la dirección MAC es siempre única.</p>
@@ -166,7 +166,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 
 
 
-<p id="dhcp">En las nuevas versiones de Raspbian, como <i>raspbian stretch lite</i>, las direcciones IP se gestionan con el archivo de configuración <i>dhcpcd.conf</i>, además de un cambio mínimo en el fichero /ect/network/interfaces. Se edita el archivo /etc/dhcpcd.conf con el siguiente comando desde una Terminal: <b>$sudo nano /etc/dhcpcd.conf</b>, este es el aspecto inicial del archivo.</p>
+<p id="dhcp">En las nuevas versiones de Raspbian, como <em>raspbian stretch lite</em>, las direcciones IP se gestionan con el archivo de configuración <em>dhcpcd.conf</em>, además de un cambio mínimo en el fichero /ect/network/interfaces. Se edita el archivo <b>/etc/dhcpcd.conf</b> con el siguiente comando desde una Terminal: <b>$sudo nano /etc/dhcpcd.conf</b>, este es el aspecto inicial del archivo.</p>
 
 <p align="center"><img src="images/dhcpcd1.png" title="Config inicial del archivo /etc/dhcpcd.conf" alt="captura edición archivo dhcpcd.conf" /></p>
 <p>Antes de realizar cualquier modificación en este fichero, hay que hacer una copia de seguridad para evitar posibles daños, desde terminal se ejecuta el comando: <b>$sudo cp /etc/dhcpcd.conf /etc/dhcpcd.conf.bak</b>, una vez hecho esto ya se puede editar el archivo y añadir al final las siguientes modificaciones: </p>
@@ -184,7 +184,7 @@ Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de segur
 <p>Una vez dentro de la configuración se busca la sección del servidor DHCP que se puede encontrar dentro del menú Configuración - Lan, Configuración - Básico - DHCP o una ruta similar.Ya en la configuración de DHCP, lo primero que hay  que observar es el rango de direcciones IP que asigna nuestro router. Lo ideal sería que a la hora de asignar una IP estática utilice una dirección fuera de este rango, aunque existen modelos de router que dan problemas con ello, y en los que se deberá usar direcciones dentro del rango. Esta información se obtiene de manera similar a la siguiente captura.</p>
 <p align="center"><img src="images/router.png" title="Config dhcp router" alt="captura config dhcp router" /></p>
 <p>Finalmente, en la misma sección de configuración de DHCP, se muestra el apartado de Reserva de direcciones IP. Aquí se hace clic en Agregar, y tan sólo se tendrá que introducir la dirección IP que se desee y la dirección MAC de la Raspberry-Pi. Como se ve en la imagen, se pueden configurar múltiples asignaciones.</p>
-<p><a href="#"><img src="images/icono-arrow-circle-up.svg" alt="Principio de la página" title="Principio de la página" width="36" height="36" class="derecha"/></a></p>
+
 
 
 

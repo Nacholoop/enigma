@@ -78,7 +78,7 @@
 <p align="center"><img src="images/prop_permisos_html.png" title="propietario y permisos /var/www/html" alt="cambio propietario y permisos /var/www/html" /></p>
 <p align="center"><img src="images/pi_www-data.png" title="Añadir usuario pi al grupo www-data" alt="captura usuario pi se añade al grupo www-data" /></p>
 
-<p>En los sistemas basados en Debian y derivados, toda la configuración de Apache se encuentra dentro del directorio <b>/etc/apache2/</b>.La configuración global del servidor se encuentra en el archivo <b>apache2.conf</b>. Generalmente, en los sistemas Debian/Devuan no debe tocarse este archivo, ya que desde aquí se incluyen todos los archivos que poseen las configuraciones personalizadas.</p>
+<p>En los sistemas basados en Debian y derivados, toda la configuración de Apache se encuentra dentro del directorio <b>/etc/apache2/</b>.La configuración global del servidor se encuentra en el archivo <b>apache2.conf</b>. Generalmente, en los sistemas Debian no debe tocarse este archivo, ya que desde aquí se incluyen todos los archivos que poseen las configuraciones personalizadas.</p>
 <p>El archivo <b>envvars</b> posee la configuración de variables de entorno utilizadas por Apache, por ejemplo usuario y grupo con el que corre el servidor, directorios para guardar PIDs, locks, logs, etc., y configuración de idioma (Locale). En la mayoría de los casos, este archivo tampoco debe modificarse.</p>
 <p>El archivo <b>ports.conf</b> define las direcciones IP y puertos en los cuales Apache acepta peticiones. Este archivo es muy importante y debe modificarse adecuadamente, por ejemplo para permitir múltiples certificados SSL en una misma dirección IP.</p>
 <p>Luego existen dos pares de directorios muy interesantes, que ordenan de manera brillante las configuraciones personalizadas del servidor Apache:
@@ -122,7 +122,39 @@
 
 <p>El comando a2ensite permite omitir la extensión .conf al indicar la configuración de un sitio.</p>
 
-<p>El siguiente paso seguramente sea configurar y habilitar SSL/TLS para proveer HTTPS.</p>
+<p id="scp"><h4><i><em>SCP (Secure Copy)</em> Copiar archivos a través de ssh:</i></h4></p>
+
+<p>Como administrador de un servidor Apache, hay momentos en los que hay que copiar a dicho servidor un archivo o archivos desde otras ubicaciones. Hay varias opciones para hacer esto. La primera es abrir un cliente FTP como puede ser Filezilla. La segunda es copiar los archivos por consola haciendo uso del comando <b>SCP (Secure Copy)</b> que está disponible tanto en Linux como en Mac, para los usuarios de Windows, mediante <a href="https://winscp.net/eng/docs/lang:es">WinSCP</a> se puede hacer lo mismo.</p>
+
+<p><em>SCP</em> hace uso de SSH (Secure Shell) para hacer copias seguras y encriptadas a través de la consola. Por ejemplo, para subir una carpeta al servidor, con un comando es suficiente y no es necesito abrir Filezilla.</p>
+
+<p><i>Uso de SCP:</i></p>
+
+<p>Lo primero es tener claro los parámetros de los que consta la instrucción:</p>
+
+    <ul><li><b>Usuario:</b> el nombre de usuario que se utilice en el servidor.</li>
+    <li><b>Host:</b> dirección IP o dominio del servidor remoto.</li>
+    <li><b>Archivo origen:</b> ruta del archivo a copiar.</li>
+    <li><b>Directorio origen:</b> ruta del directorio completo a copiar.</li>
+    <li><b>Directorio destino:</b> ruta donde se copiar el archivo.</li></ul>
+
+<p><i>Copiar archivos de local a servidor:</i></p>
+
+<p>Si la idea es subir el archivo <b>archivo.txt</b> de un ordenador personal a la carpeta <b>/home/usuario</b> del servidor, se ejecuta la siguiente orden:</p>
+<p><b>$ scp archivo.txt usuario@ip_servidor:/home/usuario</b></p>
+
+<p><i>Copiar archivos de servidor a local:</i></p>
+
+<p>Para realizar la operación inversa, es decir, copiar el fichero <b>archivo.txt</b> del servidor al equipo local en la carpeta Documentos, se hace lo siguiente:</p>
+<p><b>$ scp usuario@ip_servidor:/home/usuario/archivo.txt Documentos</b></p>
+
+
+<p><i>Copiar un directorio completo:</i></p>
+
+<p>Esta opción es importante tenerla clara, ya que se va a usar muy a menudo, por ejemplo para poder copiar el directorio donde se aloja el espacio web en local en el servidor.Para copiar un directorio completo de local al servidor, por ejemplo <b>/home/nacho/carpeta</b> a <b>/home/usuario</b>, se añade la opción <b>-r</b> en el comando:</p>
+
+<p><b>$ scp -r /home/nacho/carpeta usuario@ip_servidor:/home/usuario</b></p>
+
 
   <hr />
 <p class="mclibre">

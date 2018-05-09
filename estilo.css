@@ -64,6 +64,13 @@ h3 {
 
 }
 
+pre {
+  font: inherit;
+  color: inherit;
+  white-space: inherit;
+  margin: 0 0 0 5ch;
+}
+
 strong {
   padding: 0 10px;
   background-color: white;
@@ -72,7 +79,8 @@ strong {
 
 em {
   font-weight: bold;
-  text-decoration: underline;
+  color: hsl(0, 33%, 50%);
+  text-decoration: blink;
 }
 
 i {
