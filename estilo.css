@@ -88,6 +88,9 @@ time {
 img {
   border: hsl(210, 30%, 60%) 5px solid;
   padding: 5px;
+  width: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 img.izquierda {
