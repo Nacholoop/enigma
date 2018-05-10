@@ -26,12 +26,11 @@
         <li><a href="#configapache">Configuración y comprobación de su funcionamiento</a></li>
         <li><a href="#scp">SCP (Secure Copy): Copiar archivos a través de ssh</a></li>
     </ul>
-    <li><a href="#conex">Instalación y configuración PHP</a></li>
-    <li><a href="#ipfija">Instalación y configuración MariaDB</a></li>
-    <ul><li><a href="#adapt">Instalación de MariaDB</a></li>
-      <li><a href="#dhcp">Configuración de MariaDB</a></li>
-      <li><a href="#interface">Instalación de phpMyAdmin</a></li>
-  </ul>
+    <li><a href="#instalphp">Instalación y configuración PHP</a></li>
+    <li><a href="#instalmariadb">Instalación y configuración MariaDB</a></li>
+    <ul><li><a href="#bdmariadb">Creación base de datos en MariaDB</a></li></ul>
+    <li><a href="#instalphpmy">Instalación de phpMyAdmin</a></li>
+    <ul><li><a href="#seg1">Consideraciones de seguridad</a></li></ul>
   </ul>
   </font>
   <p id="acron"><h3>¿Que es LAMP?</h3></p>
@@ -148,12 +147,80 @@
 <p>Para realizar la operación inversa, es decir, copiar el fichero <b>archivo.txt</b> del servidor al equipo local en la carpeta Documentos, se hace lo siguiente:</p>
 <p><b>$ scp usuario@ip_servidor:/home/usuario/archivo.txt Documentos</b></p>
 
-
 <p><i>Copiar un directorio completo:</i></p>
 
 <p>Esta opción es importante tenerla clara, ya que se va a usar muy a menudo, por ejemplo para poder copiar el directorio donde se aloja el espacio web en local en el servidor.Para copiar un directorio completo de local al servidor, por ejemplo <b>/home/nacho/carpeta</b> a <b>/home/usuario</b>, se añade la opción <b>-r</b> en el comando:</p>
 
 <p><b>$ scp -r /home/nacho/carpeta usuario@ip_servidor:/home/usuario</b></p>
+
+<p id="instalphp"><h3>Instalación y configuración PHP</h3></p>
+
+<p><em>PHP</em> es un preprocesador que se ejecuta en el servidor cuando éste recibe la petición de una página web. Se ejecuta y envía la página al servidor web para que éste la sirva. A diferencia del HTML que es estático, PHP puede mostrar contenido distinto en base a distintas circunstancias, con lo que es utilizado por las aplicaciones de tipo CMS (como puede ser Wordpress o Drupal). </p>
+<p>Para instalar PHP y los correspondientes paquetes para Apache, ejecutaremos el siguiente comando:</p>
+<p><b>$ sudo apt-get install php7.0</b></p>
+<p align="left"><img src="images/install_php7.png" title="Instalando php7.0" alt="captura comando instalación php7.0" /></p>
+<p>Se reinicia el servidor <b>$ sudo service apache2 restart</b> y para comprobar que PHP se ejecuta correctamente, se puede crear un archivo de prueba ejecutando <b>$ sudo nano /var/www/html/test.php</b> (o en el directorio donde esté definido el sitio web), se le añade el siguiente contenido, se guarda y se ejecuta en un navegador web:</p>
+<p align="center"><img src="images/content_test_php.png" title="contenido archivo test.php" alt="captura contenido archivo test.php" /></p>
+<p align="center"><img src="images/test_php.png" title="ejecutando test.php" alt="captura ejecución test.php" /></p>
+<p>Una vez se ha comprobado su funcionamiento, es conveniente eliminarlo ya que la información que contiene puede comprometer la seguridad del servidor, <b>$ sudo rm /var/www/html/test.php</b></p>
+<p align="center"><img src="images/not_found_php.png" title="comprobando eliminación archivo test.php" alt="captura eliminación archivo test.php" /></p>
+<p>Para cambiar las opciones de PHP, se puede editar el archivo php.ini que en debian Stretch, esta en el siguiente directorio:</p>
+<p><b>$ sudo nano /etc/php/7.0/apache2/php.ini</b></p>
+
+<p id="instalmariadb"><h3>Instalación y configuración mariaDB</h3></p>
+<p><em>MariaDB</em> es un gestor de base de datos muy popular. Del mismo modo que sucede con PHP, su gran presencia en los servidores web ha aumentado su popularidad ya que muchas de las aplicaciones que se instalarán en el servidor requieren como soporte a una base de datos.</p>
+<p><strong>Importante:</strong> MariaDB es ahora la variante de MySQL por omisión en Debian, en su versión 10.1. hay que tener en cuenta que los formatos de fichero de datos binarios no son compatibles hacia atrás. Por ello, una vez se haya actualizado a MariaDB 10.1 no se podrá volver a una versión anterior de MariaDB o de MySQL salvo que se tenga un backup de la base de datos.</p>
+<p><strong>Nota:</strong>Por omisión, la instalación de MariaDB sólo acepta conexiones a partir del propio host (localhost). Esto no es problemático porque la base de datos sólo será utilizada por aplicaciones del propio host.</p>
+<p>Para instalar MariaDB ejecutaremos la siguiente línea de comando en el terminal:<b> $ sudo apt-get install mariadb-server php7.0-mysql</b></p>
+<p align="center"><img src="images/install_mariadb.png" title="Instalando MariaDB" alt="captura comando instalación mariaDB" /></p>
+<p>La instalación del paquete MariaDB no pide contraseña para el usuario root, una vez que las conexiones a la base de dados a partir del puesto local son consideradas como seguras. Terminada la instalación, se debe ejecutar el comando <b>$ sudo mysql_secure_installation</b>, que hace una serie de verificaciones y cambios en la configuración para garantizar la seguridad del servidor mysql.</p>
+<p align="center"><img src="images/config_mariadb.png" title="configurando MariaDB" alt="captura comando configuración mariaDB" /></p>
+<p>A partir de este momento ya es posible acceder al monitor de mysql/mariaDB ejecutando cualquiera de los dos comandos <b>$ sudo mysql</b> o <b>$ sudo mariadb</b></p>
+<p><img src="images/config_mariadb3.png" title="acceso a mariadb" alt="sudo mysql" class="izquierda" /><img src="images/config_mariadb4.png" title="acceso 2 mariadb" alt="sudo mariadb" class="izquierda" /></p>
+
+<p id="bdmariadb"><h4><i>Creación de una Base de Datos de ejemplo en mariaDB:</i></h4></p>
+
+<p>A modo de ejemplo y sin que sirva como datos de una configuración válida, se crea la base de datos “prueba” y el usuario “pruebausuario” con clave “123456” para trabajar. Se ejecutan las siguientes órdenes en la linea de comandos:</p>
+<p><b>$ sudo mariadb</b></p>
+<p><b>> create database prueba;</b></p>
+<p><b>> grant all privileges on prueba.* to 'pruebausuario'@'localhost' identified by '123456';</b></p>
+<p><b>> show databases;</b></p>
+<p><b>> exit</b></p>
+<p align="center"><img src="images/bd_mariadb.png" title="creando base de datos MariaDB" alt="captura ejemplo base de datos mariaDB" /></p>
+
+<p id="instalphpmy"><h3>Instalación phpMyAdmin:</h3></p>
+<p><em>phpMyAdmin</em> es una aplicación PHP que permite gestionar servidores de bases de datos MySQL o MariaDB desde cualquier navegador Web. Es una herramienta ideal para permitir a desarrolladores el acceso y creación de bases de datos para una aplicación Web, ya que provee una vista conveniente y práctica a un motor de bases de datos MySQL, especialmente a aquellos usuarios no familiarizados con el cliente de línea de comandos <b>mysql</b>. Es el complemento ideal para el servidor LAMP.</p>
+<p>Una de las grandes ventajas desde el punto de vista de la seguridad, es que <b>phpMyAdmin</b> evita tener que dar acceso a una shell en el servidor a los desarrolladores para que utilicen el cliente mysql de manera local, o tener que habilitar el acceso remoto al servidor MySQL para que los desarrolladores puedan conectarse utilizando un cliente desde el exterior. Siempre claro, que se proteja adecuadamente el acceso a phpMyAdmin, por ejemplo utilizando <b>autenticación Digest</b> como capa de seguridad adicional.</p>
+<p>Antes de instalar phpMyAdmin es necesario contar con un servidor LAMP (Linux+Apache+MySQL+PHP) instalado y funcionando. Para instalar phpmyadmin, simplemente ejecutar <b>$ sudo apt-get install phpmyadmin</b></p>
+<p align="center"><img src="images/instal_phpmyadmin1.png" title="Instalando phpmyadmin" alt="captura 1 instalación phpmyadmin" /></p>
+<p>Durante la instalación, hay que seleccionar qué servidor web configurar, con la barra espaciadora se selecciona Apache2 y se pulsa Intro para confirmar y continuar:</p>
+<p align="center"><img src="images/instal_phpmyadmin2.png" title="Instalando phpmyadmin 2" alt="captura 2 instalación phpmyadmin" /></p>
+<p>En la siguiente pantalla, hay que seleccionar SÍ para configurar una base de datos para phpMyAdmin con <b>dbconfig-common</b>:</p>
+<p align="center"><img src="images/instal_phpmyadmin3.png" title="Instalando phpmyadmin 3" alt="captura 3 instalación phpmyadmin" /></p>
+<p>y finalmente se establece una contraseña para el usuario <b>‘phpmyadmin’</b> en MySQL:</p>
+<p align="center"><img src="images/instal_phpmyadmin4.png" title="Instalando phpmyadmin 4" alt="captura 4 instalación phpmyadmin" /></p>
+<p>Con este paso, se completa la instalación de phpMyAdmin. Ahora ya se puede acceder a ella en http://ip_servidor/phpmyadmin e iniciar sesión con el nombre de usuario 'phpmyadmin' y contraseña 'la que se haya puesto en la instalación' de MySQL.</p>
+<p align="center"><img src="images/instal_phpmyadmin5.png" title="Instalando phpmyadmin 5" alt="captura 5 instalación phpmyadmin" /></p>
+
+<p>Es altamente recomendable modificar el alias por defecto, para evadir intentos de acceso de robots. Para ello, editar la configuración de Apache que provee phpMyAdmin, ejecutando <b>$ sudo nano /etc/phpmyadmin/apache.conf</b> y donde pone:</p>
+<p># phpMyAdmin default Apache configuration<br/>
+Alias /phpmyadmin /usr/share/phpmyadmin</p>
+<p>Cambiar el alias "/phpmyadmin" por uno personalizado, por ejemplo: "/mama":</p>
+<p># phpMyAdmin default Apache configuration<br/>
+Alias /mama /usr/share/phpmyadmin</p>
+<p>Finalmente reiniciar Apache:</p>
+<p><b>$ sudo service apache2 restart</b></p>
+<p>Comprobar el funcionamiento accediendo a la URL "/mama":</p>
+<p align="center"><img src="images/instal_phpmyadmin6.png" title="Instalando phpmyadmin 6" alt="captura 6 instalación phpmyadmin" /></p>
+
+<p id="seg1"><h4><i>Consideraciones de seguridad sobre phpMyAdmin:</i></h4></p>
+
+<p>Históricamente phpMyAdmin ha tenido diferentes vulnerabilidades que han sido parcheadas. Siendo una aplicación que da acceso a un componente tan crítico como es el motor de bases de datos, es indispensable proteger el acceso a la misma utilizando una capa extra de seguridad, por ejemplo autenticación Digest. Editar el archivo <b>/etc/phpmyadmin/apache.conf</b> y seguir los pasos sobre autenticación Digest que indica el artículo <a href="https://www.linuxito.com/gnu-linux/nivel-alto/414-configurar-autenticacion-digest-en-apache-y-mostrar-directorios-protegidos-en-indices">Configurar autenticación Digest en Apache y mostrar directorios protegidos en índices.</a></p>
+
+<p><h4><i>Consideraciones de seguridad sobre MySQL:</i></h4></p>
+
+<p>Jamás usar el usuario "root" para que las aplicaciones y/o desarrolladores accedan a sus bases de datos. Para cada sitio Web, crear un usuario MySQL único que tenga los mínimos privilegios de acceso necesarios a su base de datos (por ejemplo SELECT, INSERT, UPDATE y DELETE). Luego para cada desarrollador, crear un usuario con los privilegios suficientes para crear y gestionar bases de datos de los sitios sobre los que trabaja (por ejemplo SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP, etc.).</p>
+
 
 
   <hr />
