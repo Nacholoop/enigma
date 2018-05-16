@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Acceso externo al servidor</title>
+  <title>Acceso externo al servidor web</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="estilo.css" />
   <link rel="stylesheet" type="text/css" href="fonts.css" />
@@ -23,10 +23,63 @@
   <ul>
     <li><a href="#accessip">Acceso mediante IP externa</a></li>
     <li><a href="#accessdom">Acceso mediante nombre de dominio</a></li>
-    <li><a href="#dyndns">Instalar y configurar DynDNS</a></li>
+    <li><a href="#ddns">Instalar y configurar DNS Dinámico</a></li>
   </ul>
-  </font>
-<hr />
+</font>
+<p id="accessip"><h3>Acceso mediante IP externa</h3></p>
+<p>Hasta ahora se ha accedido al servidor mediante una ip interna de la red local, pero el objetivo es que sea accesible desde el exterior. Para conseguirlo lo primero será acceder a la configuración del router y averiguar cual es la ip externa que el proveedor de servicios ha asignado de manera dinámica en ese momento.</p>
+<p align="center"><img src="images/router2.png" title="ip dinámica del router" alt="captura ip dinámica del router" /></p>
+<p>El siguiente paso será crear una redirección de puerto para que cuando se acceda desde el exterior al puerto 80 (puerto HTTP) del equipo local, las solicitudes sean redirigidas al servidor, que ahora ya tiene una IP fija.</p>
+<p align="center"><img src="images/reenvio_puerto.png" title="redirección del puerto 80 del router" alt="captura redirección puerto 80" /></p>
+<p>Una vez creada la regla, se comprueba que si se accede a dicha dirección externa, se accede al servidor web.</p>
+<p align="center"><img src="images/ip_publica.png" title="comprobación redirección del puerto 80 del router" alt="captura comprobación redirección puerto 80" /></p>
+
+<p id="accessdom"><h3>Acceso mediante nombre de dominio</h3></p>
+<p>Ahora ya se tiene acceso al servidor a través de la ip externa asignada por el proveedor de servicios, pero como esa dirección es cambiada aleatoriamente por el isp (ya que es dinámica) y además no es muy “amigable”, se va a utilizar un nombre de dominio previamente adquirido y seguir los pasos para configurar la actualización de la IP externa en cada momento al nombre de dominio.</p>
+<p>En el ejemplo, se puede ver una imagen de la configuración del dominio en <a href="https://www.strato.es" target="_blank">www.strato.es</a>, que es la web donde se ha adquirido el dominio pero, básicamente, la solución pasa por configurar el dominio que proporciona strato.es como dinámico e instalar un software que se encargue de mantener actualizada en el mismo la información de la IP externa cuando ésta cambie.</p>
+<p align="center"><img src="images/dominio_stratos.png" title="configuración del dominio en strato.es" alt="captura configuración del dominio en strato.es" /></p>
+<p id="ddns"><h3>Instalar y configurar DNS Dinámico</h3></p>
+
+<p>El DNS dinámico (DDNS) es un servicio que permite la actualización en tiempo real de la información sobre nombres de dominio situada en un servidor de nombres. El uso más común que se le da es permitir la asignación de un nombre de dominio de Internet a un dispositivo con dirección IP variable (dinámica). Esto permite conectarse con la máquina en cuestión sin necesidad de tener conocimiento de que dirección IP posee en ese momento.</p>
+
+<p>El DNS dinámico hace posible utilizar un software de servidor en un dispositivo con dirección IP dinámica (como la suelen facilitar muchos ISP) para, por ejemplo, alojar un sitio web en un PC de casa, sin necesidad de contratar un hosting de terceros. Los routers actuales suelen incluir funciones de actualización de la IP en este tipo de servicios, por lo que, una vez configurado el router, la actualización de la IP se convierte en un proceso totalmente invisible para el usuario puesto que es el propio router el que se encarga de actualizar la IP cuando esta cambia.</p>
+
+<p>Para poder realizar esta tarea es necesario instalar un cliente de DDNS, existen numerosos programas para ello, entre los cuales destaca <a href="https://sourceforge.net/p/ddclient/wiki/Home/" target="_blank">ddclient</a>, en esta web se puede encontrar todo lo necesario para su instalación y configuración.</p>
+<i>Pasos para la instalación y configuración de ddclient:</i>
+<p><b>1.</b> Actualización del sistema:</p>
+<p align="left"><img src="images/update_upgrade.png" title="actualización del sistema raspbian" alt="captura actualización del sistema raspbian" /></p>
+<p><b>2.</b> Inicio de la instalación de ddclient, siguiendo el asistente de instalación, intoduciendo los datos necesarios para poder conectar con el proveedor del dominio, para que le sea posible a <em>ddclient</em> la conexión y actualización de los datos posteriormente:</p>
+<p align="left"><img src="images/install_ddclient.png" title="instalación cliente DDNS ddclient" alt="captura instalación cliente DDNS ddclient" /></p>
+<p align="left"><img src="images/install_ddclient1.png" title="instalación cliente DDNS ddclient 2" alt="captura 2 instalación cliente DDNS ddclient" /></p>
+<p>Aquí se puede seleccionar alguno de los proveedores que muestra ddclient, o seleccionar "other" para introducir uno propio como es nuestro caso, ya que se va a usar el proporcionado por <a href="https://www.strato.es" target="_blank">www.strato.es</a>, en el faq de ayuda de strato se muestra información de los datos que hay que introducir, <a href="https://www.strato.es/faq/article/671/Como-configurar-DynDNS-para-tus-dominios.html" target="_blank">faq strato</a>.</p>
+<p align="left"><img src="images/install_ddclient2.png" title="servidor DNS dinámico de strato.es" alt="captura 3 instalación cliente DDNS ddclient" /></p>
+<p>Se selecciona el protocolo <b>dyndns2</b>:</p>
+<p align="left"><img src="images/install_ddclient4.png" title="instalación cliente DDNS ddclient 4" alt="captura 4 instalación cliente DDNS ddclient" /></p>
+<p>Se introduce el usuario y la contraseña:</p>
+<p align="left"><img src="images/install_ddclient5.png" title="introducción de usuario y password" alt="captura 5 instalación cliente DDNS ddclient" /></p>
+<p align="left"><img src="images/install_ddclient6.png" title="instalación cliente DDNS ddclient 6" alt="captura 6 instalación cliente DDNS ddclient" /></p>
+<p>Solicita la interfaz que se va a utilizar, aunque más tarde se cambiaran estos datos en el archivo de configuración de <b>ddclient</b> que se encuentra en <b>/etc/ddclient.conf</b></p>
+<p align="left"><img src="images/install_ddclient7.png" title="instalación cliente DDNS ddclient 8" alt="captura 7 instalación cliente DDNS ddclient" /></p>
+<p>En caso de que haya subdominios se pueden añadir aquí, aunque también se pueden añadir más tarde en el archivo de configuración.</p>
+<p align="left"><img src="images/install_ddclient8.png" title="instalación cliente DDNS ddclient 9" alt="captura 8 instalación cliente DDNS ddclient" /></p>
+<p>En cualquier momento se puede volver a iniciar el proceso de configuración ejecutando <b>$ sudo dpkg-reconfigure ddclient</b>.</p>
+<p><b>3.</b> Una vez finalizado el proceso, se edita el archivo de configuración y se realizan los cambios necesarios para su correcto funcionamiento. Este es el aspecto inicial del archivo <b>ddclient.conf</b>:</p>
+<p align="left"><img src="images/config_ddclient.png" title="archivo ddclient.conf editado" alt="captura 1 configuración cliente DDNS ddclient" /></p>
+<p>Y este como debe quedar para que funcione correctamente con strato:</p>
+<p align="left"><img src="images/config_ddclient7.png" title="archivo ddclient.conf modificado" alt="captura 2 configuración cliente DDNS ddclient" /></p>
+<p>Para comprobar el correcto funcionamiento de <b>ddclient</b>, podemos ejecutar el programa en modo debug con la siguiente orden: <b>$ sudo ddclient -daemon=0 -noquiet -debug</b>, se puede observar que usando los datos de la primera captura del archivo <b>ddclient.conf</b>, devuelve los siguientes mensajes de aviso:</p>
+<p align="left"><img src="images/config_ddclient2.png" title="ddclient en modo debug" alt="captura 3 configuración cliente DDNS ddclient" /></p>
+<p>Y una vez modificado el archivo de configuración, ya funciona correctamente:</p>
+<p align="left"><img src="images/config_ddclient3.png" title="ddclient en modo debug 2" alt="captura 4 configuración cliente DDNS ddclient" /></p>
+<p align="left"><img src="images/config_ddclient4.png" title="ddclient funcionando" alt="captura 5 configuración cliente DDNS ddclient" /></p>
+<p>Si se quiere obtener más información se puede ejecutar <b>$ sudo ddclient -daemon=0 -noquiet -debug -verbose</b>:</p>
+<p align="left"><img src="images/config_ddclient6.png" title="ddclient mostrando más información" alt="captura 5 configuración cliente DDNS ddclient" /></p>
+<p align="left"><img src="images/config_ddclient5.png" title="ddclient mostrando más información 2" alt="captura 6 configuración cliente DDNS ddclient" /></p>
+<p><b>4.</b> Con la siguiente captura se muestra como resuelve el dominio:</p>
+<p align="center"><img src="images/probando_dominio.png" title="probando resolución de dominio" alt="captura 7 configuración cliente DDNS ddclient" /></p>
+
+
+  <hr />
   <p class="mclibre">
     Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
   </p>
