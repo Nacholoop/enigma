@@ -185,3 +185,44 @@ p.mclibre cite {
   padding: 0;
   color: black;
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * */
+
+ul.indice {
+  font-size: 120%;
+}
+
+ul.indice a {
+  text-decoration: none;
+}
+
+
+/* Pantallas estrechas */
+
+@media screen and (max-width: 768px) {
+  html {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  ul.indice {
+    font-size: 1rem;
+    text-align: left;
+  }
+}
