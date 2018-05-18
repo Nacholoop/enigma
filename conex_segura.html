@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Servidor web con LAMP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="estilo.css" />
+  <link rel="stylesheet" type="text/css" href="fonts.css" />
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <script src="arriba.js"></script>
+  <style>
+    p {
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+    <span class="ir-arriba icon-circle-up"></span>
+<h1>Conexión segura HTTPS: Uso de Let's Encript</h1>
+<hr />
+
+<ul class="indice">
+  <li><a href="#puerto443">Acceso al puerto 443</a></li>
+  <li><a href="#encrypt">¿Qué es Let's Encrypt?</a></li>
+  <li><a href="#certif">Obtención de certificado: Uso de certbot</a></li>
+  <li><a href="#ajustes">Ajustes adicionarles</a></li>
+</ul>
+
+<p id="puerto443"><h3>Acceso al puerto 443:</h3></p>
+
+<p>Para hacer que la conexión al servidor web sea segura, es decir, utilice el protocolo HTTPS en lugar de HTTP, es necesario el uso de un certificado generado por una Entidad Certificadora y habilitar el acceso al puerto 443 desde el exterior. Para que todo funcione correctamente, en primer lugar, hay que crear una nueva redirección de puerto para que al intentar acceder mediante  HTTPS desde el exterior,se acceda al servidor. Para ello se redirecciona el puerto 443 del mismo modo que se ha hecho anteriormente para el 80 en el router.Ahora habrá dos reglas de reenvío de puertos en el router, apuntando ambas al servidor web</p>
+
+<p align="center"><img src="images/reenvio_puerto443.png" title="reenvio puerto 443 del router" alt="captura reenvio puerto 443 del router" /></p>
+
+<p id="encrypt"><h3>¿Qué es Let's Encrypt?</h3></p>
+
+<p><em>Let's Encrypt</em> es una autoridad de certificación que se puso en marcha el 12 de abril de 2016 y que proporciona certificados X.509 <b>gratuitos</b> para el cifrado de Seguridad de nivel de transporte (TLS) a través de un proceso automatizado diseñado para eliminar el complejo proceso actual de creación manual, la validación, firma, instalación y renovación de los certificados de sitios web seguros.</p>
+
+<p>El proyecto tiene como objetivo hacer conexiones cifradas a servidores Web. Al eliminar el pago, la configuración del servidor web, gestión de correo electrónico de validación y las tareas de renovación del certificado, está destinado a reducir significativamente la complejidad de la configuración y el mantenimiento de cifrado TLS. En un servidor web Linux, la ejecución de dos comandos es suficiente para configurar el cifrado HTTPS y adquirir e instalar certificados en el plazo de 20 a 30 segundos.</p>
+
+<p>Para ello fue incluido un paquete de software en los repositorios de software oficiales de Debian. Las iniciativas actuales de los principales desarrolladores de navegadores como Mozilla y Google para despreciar HTTP sin cifrar están contando con la disponibilidad de Let's Encrypt. El proyecto se reconoce que tienen el potencial de lograr conexiones cifradas como el caso por defecto para toda la web. Sólo se emiten certificados de dominio validado, no se ofrecerán la validación de organizaciones certificados de validación extendida.</p>
+
+<p>Pretende ser lo más transparente posible, tanto para proteger su propia integridad como para evitar ataques e intentos de manipulación. Así, se publican regularmente informes de transparencia, se registran todas las transacciones ACME (por ejemplo, mediante el uso de un Certificado de Transparencia), y se usan estándares abiertos y software libre tanto como sea posible.</p>
+
+<p><b>Patrocinadores</b>: Let's Encrypt está siendo desarrollado por el <a href="https://letsencrypt.org/isrg/">Internet Security Research Group</a>. Entre sus patrocinadores están la Electronic Frontier Foundation (EFF), la Fundación Mozilla, OVH, Akamai, y Cisco Systems. Otros colaboradores incluyen la Autoridad de Certificados IdenTrust, la Universidad de Michigan (U-M), la Stanford Law School, la Fundación Linux y Stephen Kent de IBM y Alex Polvi de CoreOS.</p>
+
+<p id="certif"><h3>Obtención de certificado Let's Encrypt: uso de certbot</h3></p>
+<p><a href="https://letsencrypt.org/getting-started/">Let’s Encrypt</a> utiliza el protocolo <a href="https://ietf-wg-acme.github.io/acme/">ACME</a> (Automatic Certificate Management Environment) , el cual se basa en un proceso en dos pasos, por un lado la validación del dominio y por otro la solicitud del certificado. En la <a href="https://letsencrypt.org/how-it-works/">documentación oficial</a> muestra un ejemplo especificando todo el proceso.</p>
+
+<p>Para proceder a la obtención e instalación en el servidor del certificado, se usará el script <b>CERTBOT</b> que ofrece la propia entidad para facilitar el proceso. Cerbot es una herramienta que permite activar automáticamente el certificado ssl a través de Let’s encrypt. La instalación es sencilla y se encuentra explicada en la web de la <a href="https://certbot.eff.org/">EFF</a>.En el menú que muestra se selecciona el servidor que se vaya a usar (en este caso Apache) y el sistema operativo (Debian 9 stretch) y automáticamente muestra la explicación del proceso de instalación.</p>
+
+<p align="center"><img src="images/certbot.png" title="Herramienta Certbot" alt="captura certbot" /></p>
+
+<i>Pasos para la instalación y configuración de Certbot:</i>
+<p><b>1.</b> Actualización del sistema: Al usar  Raspbian Stretch el paquete que se utiliza para configurar SSL en la Raspberry Pi está disponible en el repositorio Raspbian Stretch, y como se usa con el servidor Apache, se ejecuta la orden <b>$ sudo apt-get install python-certbot-apache</b>, como se muestra en la captura.</p>
+<p align="center"><img src="images/install_certbot.png" title="Actualizando el sistema para Certbot" alt="captura 2 certbot" /></p>
+
+<hr />
+<p class="mclibre">
+  Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
+</p>
+</body>
+</html>
