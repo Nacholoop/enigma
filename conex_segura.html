@@ -55,6 +55,19 @@
 <p><b>1.</b> Actualización del sistema: Al usar  Raspbian Stretch el paquete que se utiliza para configurar SSL en la Raspberry Pi está disponible en el repositorio Raspbian Stretch, y como se usa con el servidor Apache, se ejecuta la orden <b>$ sudo apt-get install python-certbot-apache</b>, como se muestra en la captura.</p>
 <p align="center"><img src="images/install_certbot.png" title="Actualizando el sistema para Certbot" alt="captura 2 certbot" /></p>
 
+<p><b>2.</b>Obtención Certificado: Con <b>Certbot</b> instalado se puede proceder a obtener un certificado SSL para la Raspberry Pi de Let's Encrypt. Como se está utilizando Apache, la forma más fácil de obtener un certificado es ejecutando el comando que se muestra a continuación,esto automáticamente instalará el certificado con la configuración de Apache. <b>$ sudo certbot --apache</b>. Antes de hacerlo, primero hay que asegurarse de que el puerto 80 y el puerto 443 se reenvíen correctamente, como se muestra arriba</p>
+<p align="center"><img src="images/install_certbot2.png" title="Obteniendo el certificado de Let's Encrypt" alt="captura 2 certbot" /></p>
+
+<p><b>3.</b>También se puede obtner el certificado de forma manual, obteniendo el script certbot por un lado, hacerlo ejecutable y así poder ejecutarlo para obtener el certificado. Las órdenes son las siguientes: <b>$ sudo wget  https://dl.eff.org/certbot-auto</b>, <b>$ sudo chmod a+x certbot-auto</b> y por último <b>$ ./certbot-auto</b>.</p>
+<p align="center"><img src="images/install_certbot3.png" title="Obteniendo el certificado de Let's Encrypt 2" alt="captura 3 certbot" /></p>
+<p align="center"><img src="images/install_certbot4.png" title="Obteniendo el certificado de Let's Encrypt 3" alt="captura 4 certbot" /></p>
+<p align="center"><img src="images/install_certbot5.png" title="Obteniendo el certificado de Let's Encrypt 4" alt="captura 5 certbot" /></p>
+
+<p><strong>Nota:</strong> Como se puede apreciar en las capturas anteriores, se muestran un par de errores que he considerado importante nombrar ya que pone de manifiesto un error muy infantil, fácil de cometer y que puede hacer que se pierda mucho tiempo. En la configuración del servidor web Apache (apartado: instalación de un servidor web con LAMP) y como consejo de seguridad, se habla de anular el archivo de configuración por defecto del servidor web y crear uno nuevo, llamado en este caso <b>raspberryasir.conf</b>.Pues bien, en la edición de ese archivo se muestra el nombre del dominio www.raspberryasir.com (de nuevo a modo de ejemplo), pero la creación real del dominio ha sido <b>www.raspberryasir.es</b>, y de ahí el error que muestra el script certbot cuando trata de crear el certificado, ya que lo primero que compueba son las dns del dominio en cuestión. Una vez subsanado el error en el archivo de configuración se puede observar que el certificado se crea sin problemas, tan sólo se debe constestar si se desea que se reenvien las peticiones http a https para evitar que se dupliquen, a lo que se contesta que SI, y lo hace el script automáticamente.</p>
+<p align="center"><img src="images/install_certbot6.png" title="Obteniendo el certificado de Let's Encrypt 5" alt="captura 6 certbot" /></p>
+<p align="center"><img src="images/comprob_https.png" title="Comprobando el certificado de Let's Encrypt" alt="captura 7 certbot" /></p>
+
+
 <hr />
 <p class="mclibre">
   Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
