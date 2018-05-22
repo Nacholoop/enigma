@@ -58,7 +58,7 @@
 <p><b>2.</b>Obtención Certificado: Con <b>Certbot</b> instalado se puede proceder a obtener un certificado SSL para la Raspberry Pi de Let's Encrypt. Como se está utilizando Apache, la forma más fácil de obtener un certificado es ejecutando el comando que se muestra a continuación,esto automáticamente instalará el certificado con la configuración de Apache. <b>$ sudo certbot --apache</b>. Antes de hacerlo, primero hay que asegurarse de que el puerto 80 y el puerto 443 se reenvíen correctamente, como se muestra arriba</p>
 <p align="center"><img src="images/install_certbot2.png" title="Obteniendo el certificado de Let's Encrypt" alt="captura 2 certbot" /></p>
 
-<p><b>3.</b>También se puede obtner el certificado de forma manual, obteniendo el script certbot por un lado, hacerlo ejecutable y así poder ejecutarlo para obtener el certificado. Las órdenes son las siguientes: <b>$ sudo wget  https://dl.eff.org/certbot-auto</b>, <b>$ sudo chmod a+x certbot-auto</b> y por último <b>$ ./certbot-auto</b>.</p>
+<p><b>3.</b>También se puede obtner el certificado de forma manual, obteniendo el script certbot por un lado, hacerlo ejecutable y así poder ejecutarlo para obtener el certificado. Las órdenes son las siguientes: <b>$ sudo wget  https://dl.eff.org/certbot-auto</b>, <b>$ sudo chmod a+x certbot-auto</b> y por último <b>$ ./certbot-auto</b>. En las capturas se observa que se han ejecutado las órdenes desde el path <b>/etc/letsencrypt/</b>, pero también se pueden ejecutar desde el home del usuario, tan solo se debe recordar la ubicación de la descarga del script.</p>
 <p align="center"><img src="images/install_certbot3.png" title="Obteniendo el certificado de Let's Encrypt 2" alt="captura 3 certbot" /></p>
 <p align="center"><img src="images/install_certbot4.png" title="Obteniendo el certificado de Let's Encrypt 3" alt="captura 4 certbot" /></p>
 <p align="center"><img src="images/install_certbot5.png" title="Obteniendo el certificado de Let's Encrypt 4" alt="captura 5 certbot" /></p>
@@ -67,6 +67,23 @@
 <p align="center"><img src="images/install_certbot6.png" title="Obteniendo el certificado de Let's Encrypt 5" alt="captura 6 certbot" /></p>
 <p align="center"><img src="images/comprob_https.png" title="Comprobando el certificado de Let's Encrypt" alt="captura 7 certbot" /></p>
 
+<p><b>4.</b>Renovación automática: Sólo falta por configurar la renovación automática del certificado, ya que su validez es de 3 meses. Para ello lo que se hace es introducir en el cron una tarea que trate de renovar el certificado dos veces por día, según <a href="https://certbot.eff.org/lets-encrypt/debianother-apache.html" target="_blank">recomendación oficial</a>. También indican en la web, en las recomendaciones para la versión <a href="https://certbot.eff.org/lets-encrypt/debianstretch-apache.html" target="_blank">debian Stretch</a>, que "Los paquetes de Certbot instalados en el sistema vienen con un trabajo cron que renovará los certificados automáticamente antes de que caduquen. Como los certificados Let's Encrypt duran 90 días, es muy recomendable aprovechar esta característica." Para probar la renovación automática se ejecuta el siguiente comando, con el parámetro “dry-run”, que simula la renovación: <b>$ sudo certbot renew --dry-run</b>.</p>
+<p align="center"><img src="images/certbot_renew.png" title="simulando renovación certificado de Let's Encrypt" alt="captura renovación certbot" /></p>
+
+<p>Como se observa en la captura anterior, se detectan errores al ejecutar el script como aconseja la web de certbot en la versión debian stretch, por tanto he decidido a partir de aquí usar el script de forma manual que funciona para todas las versiones de debian, incluido raspbian, ejecutando el siguiente comando <b>$ ./certbot-auto renew --dry-run</b>. </p>
+<p align="center"><img src="images/certbot_auto_renew.png" title="simulando renovación manual certificado de Let's Encrypt" alt="captura renovación manual certbot" /></p>
+
+<p>Lo siguiente es probar el comando, pero añadiéndole un "post hook", que permite ejecutar un comando por shell tras el intento de renovación del certificado. Esto se hace para que Apache cargue los nuevos certificados, ya que podría pasar que los tuviera renovados y que, al no recargar la configuración, siguiera usando los antiguos y estos caducaran. Más información <a href="https://certbot.eff.org/docs/using.html#renewing-certificates" target="_blank">aquí</a></p>
+<p align="center"><img src="images/certbot_auto_posthook_apache.png" title="simulando renovación manual certificado de Let's Encrypt 2" alt="captura renovación manual certbot 2" /></p>
+
+<p>Por último, si la simulación ha sido correcta, se añade dicho proceso de renovación a crontab para que se ejecute automáticamente cuando la licencia vaya a expirar,hay que seguir los siguientes pasos:</p>
+<p> <b>1.</b>Editar el archivo crontab ejecutando el comando <b>$ sudo crontab -e</b></p>
+<p align="left"><img src="images/sudo_crontab.png" title="editando crontab" alt="captura editando crontab" /></p>
+
+<p><b>2.</b> Agregar una secuencia de comandos en la parte inferior del archivo crontab que se ejecutará dos veces al día y renovará automáticamente los certificados SSL si están a punto de caducar. En este caso se comprobará todos los días a las 14:30h. y a las 2:30h.</p>
+<p align="left"><img src="images/edit_crontab.png" title="editando crontab" alt="captura editando crontab" /></p>
+<p>Se puede usar un Comprobador SSL <a href="https://www.sslshopper.com/ssl-checker.html" target="_blank">ssl checker</a> para verificar si los certificados se han renovado con éxito.</p>
+<p align="left"><img src="images/ssl_checker.png" title="comprobando renovación certificado" alt="captura comprobación renovación certificado" /></p>
 
 <hr />
 <p class="mclibre">
