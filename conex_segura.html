@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Servidor web con LAMP</title>
+  <title>Conexión segura HTTPS: Let's Encrypt</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="estilo.css" />
   <link rel="stylesheet" type="text/css" href="fonts.css" />
@@ -16,17 +16,17 @@
 </head>
 <body>
     <span class="ir-arriba icon-circle-up"></span>
-<h1>Conexión segura HTTPS: Uso de Let's Encript</h1>
+<h1>Conexión segura HTTPS: Uso de Let's Encrypt</h1>
 <hr />
 
 <ul class="indice">
   <li><a href="#puerto443">Acceso al puerto 443</a></li>
   <li><a href="#encrypt">¿Qué es Let's Encrypt?</a></li>
   <li><a href="#certif">Obtención de certificado: Uso de certbot</a></li>
-  <li><a href="#ajustes">Ajustes adicionarles</a></li>
+  <li><a href="#ajustes">Ajustes adicionales</a></li>
 </ul>
 
-<p id="puerto443"><h3>Acceso al puerto 443:</h3></p>
+<p id="puerto443"><h3>Acceso al puerto 443</h3></p>
 
 <p>Para hacer que la conexión al servidor web sea segura, es decir, utilice el protocolo HTTPS en lugar de HTTP, es necesario el uso de un certificado generado por una Entidad Certificadora y habilitar el acceso al puerto 443 desde el exterior. Para que todo funcione correctamente, en primer lugar, hay que crear una nueva redirección de puerto para que al intentar acceder mediante  HTTPS desde el exterior,se acceda al servidor. Para ello se redirecciona el puerto 443 del mismo modo que se ha hecho anteriormente para el 80 en el router.Ahora habrá dos reglas de reenvío de puertos en el router, apuntando ambas al servidor web</p>
 
@@ -83,7 +83,14 @@
 <p><b>2.</b> Agregar una secuencia de comandos en la parte inferior del archivo crontab que se ejecutará dos veces al día y renovará automáticamente los certificados SSL si están a punto de caducar. En este caso se comprobará todos los días a las 14:30h. y a las 2:30h.</p>
 <p align="left"><img src="images/edit_crontab.png" title="editando crontab" alt="captura editando crontab" /></p>
 <p>Se puede usar un Comprobador SSL <a href="https://www.sslshopper.com/ssl-checker.html" target="_blank">ssl checker</a> para verificar si los certificados se han renovado con éxito.</p>
-<p align="left"><img src="images/ssl_checker.png" title="comprobando renovación certificado" alt="captura comprobación renovación certificado" /></p>
+<p align="center"><img src="images/ssl_checker.png" title="comprobando renovación certificado" alt="captura comprobación renovación certificado" /></p>
+
+<p id="ajustes"><h3>Ajustes adicionales</h3></p>
+<p>Para dejarlo completamente configurado de manera que, se indiquen o no las www al inicio de la dirección, la dirección mostrada sea siempre la completa, hay que hacer un último ajuste en el fichero raspberryasir.conf de Apache, añadiendo ciertas líneas a la redirección ya realizada por la ejecución de CERTBOT en la configuración del VirtualHost.</p>
+<p align="left"><img src="images/raspberryasir.conf1.png" title="editando raspberryasir.conf" alt="captura editando raspberryasir.conf" /></p>
+<p align="left"><img src="images/raspberryasir.conf2.png" title="editando raspberryasir.conf 2" alt="captura 2 editando raspberryasir.conf" /></p>
+
+
 
 <hr />
 <p class="mclibre">

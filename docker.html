@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Docker</title>
+  <title>Docker: Instalación y primeros pasos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="estilo.css" />
   <link rel="stylesheet" type="text/css" href="fonts.css" />
@@ -18,6 +18,102 @@
     <span class="ir-arriba icon-circle-up"></span>
 <h1>DOCKER: Instalación y primeros pasos</h1>
 <hr />
+
+<ul class="indice">
+  <li><a href="#docker">¿Que es Docker?</a></li>
+  <li><a href="#docrasp">Instalación de Docker en Raspbian</a></li>
+  <li><a href="#pasos">Primeros pasos</a></li>
+</ul>
+<p id="docker"><h3>¿Qué es Docker?</h3></p>
+
+<p align="center"><img src="images/logo_docker.png" title="logo docker" alt="captura logo docker" /></p>
+
+<p><a href="https://www.docker.com/" target="_blank">Docker</a> es un sistema de virtualización de aplicaciones mediante contenedores, creado por <b>Solomon Hykes</b> y otros ingenieros. En 2013 se convirtió en un proyecto de software libre (licencia Apache) en el que participan cada vez más empresas. La versión 1.0 se publicó en junio de 2014 y ha tenido un desarrollo muy rápido. En marzo de 2017, <em>Docker</em> pasó a publicar una nueva versión cada mes y cambió su numeración al formato AA.MM (año y mes). Estas versiones se mantienen solamente durante un mes, aunque hay una versión trimestral que se mantiene durante cuatro meses (la primera fue Docker 17.03). Docker ofrece una versión Enterprise (de pago) y una versión Community (gratuita). La diferencia radica en el nivel de soporte y certificación que proporciona Docker a la versión Enterprise.</p>
+
+<p>Los contenedores se distinguen de las máquinas virtuales en que las máquinas virtuales emulan un ordenador físico en el que se instala un sistema operativo completo, mientras que los contenedores usan el kernel del sistema operativo anfitrión pero contienen las capas superiores (sistema de ficheros, utilidades, aplicaciones). Al ahorrarse la emulación del ordenador y el sistema operativo de la máquina virtual, los contenedores son más pequeños y rápidos que las máquinas virtuales. Pero al incluir el resto de capas de software, se consigue el aislamiento e independencia entre contenedores que se busca con las máquinas virtuales.</p>
+
+<p>Los contenedores son útiles en los servidores, pero también para pruebas de software, ya que incluyen todos los elementos que necesitan las aplicaciones, lo que facilita la instalación y elimina los problemas de incompatibilidad de versiones en bibliotecas y aplicaciones auxiliares.</p>
+
+<p>Docker empezó estando disponible solamente para distribuciones GNU/Linux, pero desde junio de 2016 también está disponible como aplicación nativa en Windows Server 2016 y Windows 10, utiliza la virtualización ofrecida por el sistema operativo. En el caso de Windows 10,eso significa que para usar Docker de forma nativa hay que activar Hyper-V que, por desgracia, es incompatible con VirtualBox. Para poder utilizar Docker en Windows 7 o en Windows 10 sin Hyper-V, Docker ofrece desde agosto de 2015 <a href="https://github.com/docker/toolbox" target="_blank">Docker Toolbox</a>, que relamente es una máquina virtual (que se ejecuta en VirtualBox) que contiene Docker.</p>
+
+<p>El componente básico de Docker es el <a href="https://docs.docker.com/engine/userguide/intro/" target="_blank">Docker Engine</a>, pero Docker ofrece también una serie de herramientas para administrar, distribuir e instalar contenedores: <a href="https://docs.docker.com/compose/overview/" target="_blank">Docker Compose</a>, <a href="https://docs.docker.com/machine/overview/" target="_blank">Docker Machine</a>, etc.</p>
+
+<p>Aunque un contenedor puede incluir cualquier número de aplicaciones, lo habitual es que un contenedor contenga una sola aplicación (y los programas necesarios para ponerse en marcha). Por ejemplo, si una aplicación web guarda la información en una base de datos, en vez de incluir la aplicación y la base de datos en el mismo contenedor, se suelen crear dos contenedores: uno con la aplicación web y otro con la base de datos. Por supuesto, en el contenedor de la aplicación web sí que se incluiría un servidor web.</p>
+
+<p>Para que varios contenedores puedan comunicarse entre sí, Docker permite la creación de redes virtuales privadas en la que se incluyen los contenedores.</p>
+
+<p><strong>Nota:</strong> Cuando varios contenedores contienen aplicaciones web, los servidores web de cada contenedor en principio entrarían en conflicto puesto que todos atienden al puerto 80. Ese problema se presenta siempre que contenedores distintos incluyen aplicaciones que atienden a través de los mismos puertos (base de datos, etc.). Para resolver este problema, Docker permite que los contenedores escuchen por un puerto cualquiera, aunque internamente el servidor sigue utilizando su puerto habitual. En estos casos <b>se debe utilizar un proxy inverso que redirija las peticiones exteriores al puerto correspondiente</b>.</p>
+
+<p>El proceso de creación de un contenedor incluye varias fases:</p>
+<ul>
+  <li>El primer paso es escribir un <a href="https://docs.docker.com/engine/reference/builder/" target="_blank">Dockerfile</a>, un fichero de texto que enumera los elementos que acabará teniendo el contenedor. El Dockerfile lo puede escribir el propio usuario o pueden utilizarse Dockerfiles públicos disponibles en Internet.</li>
+  <li>A partir del Dockerfile, se crea una imagen que recopila todos los elementos incluidos en un único paquete. La imagen la puede crear el propio usuario o pueden descargarse imágenes públicas disponibles en Internet.</li>
+  <li>Las imágenes se incluyen en <a href="https://docs.docker.com/registry/" target="_blank">registros</a>, que funcionan como repositorio de las imágenes. Los registros pueden ser públicos o privados.</li>
+  <li>Los clientes de Docker descargan las imágenes de los registros.</li>
+  <li>Los clientes de Docker crean los contenedores en el ordenador del usuario a partir de las imágenes descargadas.</li>
+</ul>
+
+<p>No es necesario realizar todas estas fases para crear un contenedor, pues en Internet se pueden encontrar imágenes ya preparadas por los creadores de las aplicaciones o por terceros (como <a href="https://bitnami.com/stacks" target="_blank">Bitnami</a>).</p>
+
+<p id="docrasp"><h3>Instalación de Docker en Raspbian</h3></p>
+
+<p>Para comenzar con <a href="https://docs.docker.com/install/linux/docker-ce/debian/" target="_blank">Docker CE</a> en Debian o Raspbian, hay que asegurarse de cumplir con los requisitos previos y luego instalar Docker.</p>
+
+<p>Para instalar Docker CE, se necesita la versión de 64 bits de una de estas versiones de Debian o Raspbian, Docker CE es compatible con las arquitecturas x86_64 (o amd64) y armhf para Jessie y Stretch.</p>
+
+    <ul><li>Buster 10 (Docker CE 17.11 Edge solamente)</li>
+    <li>Stretch 9 (estable) / Raspbian Stretch</li>
+    <li>Jessie 8 (LTS) / Raspbian Jessie</li>
+    <li>Wheezy 7.7 (LTS)</li></ul>
+
+<p><h4><b>1.</b> Desinstalar versiones antiguas:</h4></p>
+
+<p>Las versiones anteriores de Docker se llamaban docker o docker-engine. Si estas versiones están instaladas hay que desinstalarlas:</p>
+
+<p><b>$ sudo apt-get remove docker docker-engine docker.io</b></p>
+
+<p>Si es la primera vez que se instala Docker, apt-get informa que ninguno de estos paquetes está instalado. Si hubiera alguno instalado, los contenidos de <b>/var/lib/docker/</b>, incluyendo imágenes, contenedores, volúmenes y redes, se conservan. El paquete Docker CE ahora se llama docker-ce.</p>
+
+<p><h4>2. Instalar Docker CE:</h4></p>
+
+<p>Puede instalar Docker CE de diferentes formas, según las necesidades:</p>
+
+<ul><li>La mayoría de los usuarios configuran repositorios de Docker e instalan desde ellos, para facilitar la instalación y las tareas de actualización. Este es la opción recomendada, a <b>excepción de Raspbian</b>.</li>
+<li>Algunos usuarios descargan el paquete DEB, lo instalan manualmente y administran las actualizaciones de forma completamente manual.</li>
+<li>En entornos de prueba y desarrollo, algunos usuarios optan por utilizar scripts automatizados para instalar Docker. <b>Esta es actualmente la única opción para Raspbian</b>.</li></ul>
+
+<p><h4>3. Instalar Docker CE mediante script para Raspbian.</h4></p>
+
+<p>Docker proporciona scripts de conveniencia en <a href="https://get.docker.com/" target="_blank">get.docker.com</a> y <a href="https://test.docker.com/" target="_blank">test.docker.com</a> para la instalación de versiones edge y testing de Docker CE en entornos de desarrollo de forma rápida y no interactiva. El código fuente para los scripts se encuentra en el repositorio de <a href="https://github.com/docker/docker-install" target="_blank">docker-install</a>.</p>
+<p><strong>¡¡¡ No se recomienda el uso de estos scripts para entornos de producción, y se debe comprender los riesgos potenciales antes de usarlos !!!</strong></p>
+
+<ul><li>Los scripts requieren privilegios de <b>root o sudo</b> para ejecutarse. Por lo tanto, se debe examinar cuidadosamente los scripts antes de ejecutarlos.</li>
+  <li>Los scripts intentan detectar la distribución y versión de Linux y configuran el sistema de administración de paquetes. Además, los scripts no permiten personalizar ningún parámetro de instalación. Esto puede conducir a una configuración no compatible.</li>
+  <li>Los scripts instalan todas las dependencias y recomendaciones del administrador de paquetes sin pedir confirmación. Esto puede instalar una gran cantidad de paquetes, dependiendo de la configuración actual de la máquina host.</li>
+  <li>La secuencia de comandos no proporciona opciones para especificar qué versión de Docker instalar, e instala la última versión que se lanza en el canal "edge".</li></ul>
+
+<p>Una vez dicho todo esto, se puede ejecutar el siguiente comando para la instalación de docker en Raspbian: <b>$ sudo curl -sSL https://get.docker.com | sh</b></p>
+<p align="center"><img src="images/docker_update.png" title="Actualizar sistema para instalar docker" alt="captura actualizando sistema" /></p>
+<p align="center"><img src="images/docker_install.png" title="Instalando docker mediante script" alt="captura instalando docker" /></p>
+
+<p>Al finalizar la instalación, el propio script dice que se puede añadir al grupo docker el usuario pi, para evitar el uso de sudo con los comandos de docker, ejecutando la siguiente orden:<b>$ sudo usermod -aG docker pi</b> y se reinicia el sistema:</p>
+<p align="left"><img src="images/docker_user.png" title="Añadir usuario pi al grupo docker" alt="captura añadiendo usuario a docker" /></p>
+<p>Con la opción <b>$ docker -v</b>, muestra la versión de docker:</p>
+<p align="left"><img src="images/docker_vers.png" title="comprobando versión de docker" alt="captura versión docker" /></p>
+
+<p><h4>4. Instalar Docker Compose para Raspbian.</h4></p>
+
+<p>Se puede instalar Docker Compose usando pip, ejecutando <b>$ sudo pip install docker-compose</b></p>
+<p align="center"><img src="images/docker_compose.png" title="instalando docker-compose" alt="captura instalación docker-compose" /></p>
+
+<p><a href="https://hypriot.com/" target="_blank">Hypriot</a> proporciona un binario de Docker-Compose para Raspbian. Puede que no siempre esté actualizado, pero si el espacio es escaso, puede resultar útil. Para usarlo, primero hay que seguir las <a href="https://blog.hypriot.com/post/your-number-one-source-for-docker-on-arm/" target="_blank">instrucciones</a> de Hypriot para configurar el repositorio y luego ejecutar el siguiente comando:<b>sudo apt-get install docker-compose</b></p>
+
+<p><h4>5. Probando Docker.</h4></p>
+
+<p>Para probar docker se ejecuta el siguiente comando:<b>$ docker run hello-world</b>, y docker contesta diciendo que no ha podido encontrar la imagen "hello-world:latest" en la máquina local, la busca en hub.docker.com, la descarga y la ejecuta mostrando el siguiente mensaje:</p>
+<p align="center"><img src="images/docker_run.png" title="probando docker" alt="captura probando docker" /></p>
+
+
 
 <hr />
 <p class="mclibre">
