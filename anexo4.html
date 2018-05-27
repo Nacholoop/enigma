@@ -19,6 +19,48 @@
   <span class="ir-arriba icon-circle-up"></span>
 <h1>Backup Raspberry-Pi</h1>
 <hr />
+
+<p><h3>¿Por qué crear una copia de seguridad completa de la Raspberry Pi?</h3></p>
+
+<p>Uno de los problemas que se puede presentar al usar mucho la Raspberry Pi es que se llegue a un punto en que algo salga mal y se quede sin acceso al sistema. Si es una Raspberry Pi que no está en uso continuo, se puede volver a instalar el sistema de cero, pero si, como en este caso, se usa la Raspberry Pi para alojar diferentes servicios como el servidor web etc., un error puede dejar la red entera fuera de servicio. En estos casos contar con una vía rápida de recuperación del sistema se vuelve fundamental.</p>
+
+<p>Se recomienda hacer un clon de la tarjeta SD. Se sabe que las tarjetas SD tienen una vida útil “reducida” de número de escrituras y al usarlas como sistema operativo (que constantemente está escribiendo en la tarjeta), ésta se ve mermada. La idea es clonar la tarjeta SD para poder re-flashearla con el sistema operativo exactamente igual a como estaba antes de la copia. Naturalmente, esto no es tan sencillo como conectar la tarjeta SD al ordenador y copiar su contenido, ya que el ordenador no reconocerá todo su contenido.</p>
+
+<p>Lo primero que hay que hacer es extraer de forma correcta la tarjeta SD de la Raspberry-Pi a través de SSH, hay que apagar la Raspberry-Pi usando el comando <b>$ sudo shutdown -h now</b>, desconectar la fuente de alimentación y retirar la tarjeta SD, para evitar problemas de integración en los datos almacenados, a partir de aquí se explican varios métodos y en varios sistemas operativos</p>
+
+<h4>Usando MacOSX</h4>
+
+<p><b>1.</b> Se hará uso del terminal de Mac OS X y el comando <b>dd</b> que, por cierto, es el mismo comando de Linux por lo que algunos de estos pasos serán aplicables en un PC con Linux. Para localizar la ruta del montado de la tarjeta se introduce en el ordenador, se abre el terminal y se ejecuta el siguiente comando que proporcionará la lista de discos y volúmenes conectados al ordenador <b>$ diskutil list</b>.</p>
+
+<p align="left"><img src="images/diskutil_list.png" title="lista de discos y volúmenes" alt="captura discos y volúmenes mac" /></p>
+
+<p>En la imagen superior, se observa que la tarjeta SD corresponde a /dev/disk1, por lo que se ejecutará el comando <b>dd</b> sobre él.</p>
+
+<p><b>2.</b> Creación de la imagen del sistema operativo: ejecutamos la siguiente orden.</p>
+<p><b>$ sudo dd if=/dev/rdisk1 of=~/Desktop/raspberryasir.img bs=1m</b></p>
+
+<p>Donde <b>if</b> significa ‘input file’ y se asigna la ruta de la propia tarjeta SD. Nótese que se añade el prefijo ‘r’ a ‘disk’ para indicar dónde se sitúa el almacenamiento raw de la tarjeta: /dev/rdisk1. Es muy importante hacerlo así. Por su parte, <b>of</b> hace referencia al ‘output file’ y se especifica la ruta absoluta del destino donde se quiere guardar la imagen de la tarjeta SD. En este caso, creará un fichero de nombre raspberryasir.img en el escritorio. El símbolo ~ de Unix representa el directorio home del usuario. Por último, <b>bs</b> significa ‘block size’, para este parámetro se ha escogido 1MB porque es el que aconsejan utilizar con el comando dd.</p>
+
+<p><strong>Nota:</strong> el comando <b>dd</b> requiere ser ejecutado con permisos de administrador, por tanto, se hace uso de sudo y solicitará la clave de administrador cuando se ejecute (la clave del usuario de Mac OS X).</p>
+
+<p>Este proceso no es algo inmediato, los datos se han de transferir al ordenador y es una operación que lleva sus minutos, se aconseja un poco de paciencia. Como ejemplo, la tarjeta que se ha utilizado es de 32GB y ha tardado al rededor de 26 minutos. A continuación el mensaje resultante de la instrucción ejecutada:</p>
+<p align="left"><img src="images/sudo_dd.png" title="creando clonado de tarjeta SD con el comando dd" alt="captura clonado tarjeta SD" /></p>
+
+<p>Y con esto, finalmente, se mostrará en el escritorio el fichero que se ha especificado como output file: raspberryasir.img y ocupará el mismo espacio que el de la tarjeta SD, 32GB, por tanto se aconseja comprimir la imagen, ya que se reducirá hasta en un 90% su tamaño. Para la restauración de la imagen se pueden seguir los pasos explicados en el <a href="anexo2.html#instal">anexo 2</a></p>
+
+<h4>Usando Windows</h4>
+
+<p>Aquí se vuelve a utilizar la herramienta <a href="https://sourceforge.net/projects/win32diskimager/">Win32 Disk Imager</a> igual que en el <a href="anexo2.html#instal">anexo 2</a>.</p>
+<p>Los pasos a seguir serán los siguientes:</p>
+
+    <ul><li>Ejecutar Win32DiskImager como administrador.</li>
+    <li>En “Image File” se introduce la ruta y el nombre de archivo de la imagen que se creará.</li>
+    <li>Hay que asegurarse de que en “Device” está asignada la unidad correcta que apunta a la tarjeta SD.</li>
+    <li>Pulsar sobre Read y esperar a que el proceso finalice.</li></ul>
+    <p align="center"><img src="images/DiskManager4.png" title="Win32 Disk Manager" alt="Disk Manager captura" /></p>
+
+
+<hr />
 <p class="mclibre">
   Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
 </p>

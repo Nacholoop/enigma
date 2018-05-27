@@ -23,6 +23,7 @@
   <li><a href="#docker">¿Que es Docker?</a></li>
   <li><a href="#docrasp">Instalación de Docker en Raspbian</a></li>
   <li><a href="#pasos">Primeros pasos</a></li>
+  <li><a href="#doclamp">Instalación de Apache en Docker</a></li>
 </ul>
 <p id="docker"><h3>¿Qué es Docker?</h3></p>
 
@@ -113,8 +114,176 @@
 <p>Para probar docker se ejecuta el siguiente comando:<b>$ docker run hello-world</b>, y docker contesta diciendo que no ha podido encontrar la imagen "hello-world:latest" en la máquina local, la busca en hub.docker.com, la descarga y la ejecuta mostrando el siguiente mensaje:</p>
 <p align="center"><img src="images/docker_run.png" title="probando docker" alt="captura probando docker" /></p>
 
+<p id="pasos"><h3>Docker: Primeros pasos</h3></p>
+
+<p><strong>Nota:</strong> Este apartado ha sido copiado íntegramente de la Web <a href="http://mclibre.org" target="_blank">mclibre</a>, aunque en nuestro caso no va a ser necesario usar sudo porque se ha añadido el usurario pi al grupo docker.</p>
+
+    <h4>ALGUNOS COMANDOS DE DOCKER</h4>
+
+    <ul>
+      <li><a href="https://github.com/wsargent/docker-cheat-sheet">Docker Cheat Sheet</a> aquí se puede encontrar todo lo necesario para empezar a trabajar con docker.</li>
+      <li>Una vez instalado Docker, todo se gestiona mediante comandos:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker COMANDOS</code></pre>
+        </div>
+      </li>
+      <li>Para ver los comandos disponibles (en general y en particular):
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker</code></pre>
+        </div>
+
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker image sudo docker network
+...</code>
+</pre>
+        </div>
+      </li>
+      <li>Para ver las opciones de cada comando:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker cp --help</code></pre>
+        </div>
+      </li>
+      <li>Los comandos tienen a su vez opciones. Los nombres de las opciones van precedidas de los caracteres -- y entre la opción y su valor se puede escribir un espacio o el carácter =.
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker COMANDO --OPCION=VALOR</code></pre>
+        </div>
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker COMANDO --OPCION VALOR</code></pre>
+        </div>
+      </li>
+      <li>Si el valor de una opción contiene espacios, escriba el valor entre comillas
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker COMANDO --OPCION="VALOR CON ESPACIOS"</code></pre>
+        </div>
+      </li>
+    </ul>
+
+      <h4>IMÁGENES</h4>
+
+      <p>En los comandos siguientes REPOSITORIO es el nombre del repositorio en el que se encuentra la imagen (por ejemplo bitnami/phpmyadmin) e IMAGEN es el nombre de la imagen descargada. Realmente, las imágenes descargadas se llaman igual que los repositorios de donde se han descargado, pero he distinguido los nombres para dejar claro cuándo nos estamos haciendo referencia a la imagen del repositiorio y cuándo a la imagen local.</p>
+
+      <ul>
+        <li>Para gestionar las imágenes, se utiliza el comando:
+          <div class="codigo">
+            <pre><code class="language-shell">sudo docker image OPCIONES</code></pre>
+          </div>
+        </li>
+        <li>Para descargar una imagen:
+          <div class="codigo">
+            <pre><code class="language-shell">sudo docker image pull REPOSITORIO</code></pre>
+          </div>
+          <div class="codigo">
+            <pre><code class="language-shell">sudo docker pull REPOSITORIO</code></pre>
+          </div>
+        </li>
+        <li>Para ver las imágenes ya descargadas:
+          <div class="codigo">
+            <pre><code class="language-shell">sudo docker image ls</code></pre>
+          </div>
+        </li>
+        <li>Para borrar una imagen (se deben borrar previamente los contenedores basados en esa imagen):
+          <div class="codigo">
+            <pre><code class="language-shell">sudo docker image rm IMAGEN</code></pre>
+          </div>
+        </li>
+      </ul>
+
+    <h4>CONTENEDORES</h4>
+
+    <p>En los comandos siguientes CONTENEDOR es el nombre del contenedor, que podemos elegir al crearlo, y RED es el nombre de una red ya existente.</p>
+    <ul>
+      <li>Para crear un contenedor (y ponerlo en marcha):
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker run --name=CONTENEDOR REPOSITORIO</code></pre>
+        </div>
+        <p>El problema de este comando es que dejamos de tener acceso a la shell y sólo se puede parar el proceso desde otro terminal.</p>
+
+        <p>Lo habitual es poner en marcha el contenedor en modo separado (<i>detached</i>), es decir, en segundo plano, y así podemos seguir utilizando la shell:</p>
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker run <strong>-d</strong> --name=CONTENEDOR REPOSITORIO</code></pre>
+        </div>
+
+        <p>Si queremos ver la secuencia de arranque del contenedor, podemos poner en marcha el contenedor en modo pseudo-tty, que trabaja en primer plano, pero del que podemos salir con <span class="soft-atajo-teclado">Ctrl+C</span>.</p>
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker run <strong>-t</strong> --name=CONTENEDOR REPOSITORIO</code></pre>
+        </div>
+
+        <p>Al crear el contenedor se pueden añadir diversas opciones:</p>
+        <ul>
+          <li>Para incluir el contenedor en una red privada virtual (y que se pueda comunicar con el resto de contenedores incluidos en esa red):
+            <div class="codigo">
+              <pre><code class="language-shell">sudo docker run --name=CONTENEDOR <strong>--net=RED</strong> REPOSITORIO</code></pre>
+            </div>
+          </li>
+          <li>Para que el contenedor atienda a un puerto determinado, aunque internamente atienda un puerto distinto:
+            <div class="codigo">
+              <pre><code class="language-shell">sudo docker run --name=CONTENEDOR <strong>-p PUERTO_EXTERNO:PUERTO_INTERNO</strong> REPOSITORIO</code></pre>
+            </div>
+          </li>
+          <li>Para establecer variables de configuración del contenedor:
+            <div class="codigo">
+              <pre><code class="language-shell">sudo docker run --name=CONTENEDOR <strong>-e VARIABLE=VALOR</strong> REPOSITORIO</code></pre>
+            </div>
+            <p>Las variables de configuración se pueden consultar en el repositorio del que obtenemos la imagen.</p>
+          </li>
+        </ul>
+      </li>
+      <li>Para ver los contenedores en funcionamiento:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker ps</code></pre>
+        </div>
+      </li>
+      <li>Para ver los contenedores en funcionamiento o detenidos:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker ps -a</code></pre>
+        </div>
+      </li>
+      <li>Para detener un contenedor:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker stop CONTENEDOR</code></pre>
+        </div>
+      </li>
+      <li>Para borrar un contenedor:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker rm CONTENEDOR</code></pre>
+        </div>
+      </li>
+      <li>Para poner en marcha un contenedor detenido:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker start CONTENEDOR</code></pre>
+        </div>
+      </li>
+      <li>Para entrar en la shell de un contenedor:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker exec -it CONTENEDOR /bin/bash</code></pre>
+        </div>
+      </li>
+      <li>Para entrar en la shell del contenedor como root:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker exec -u 0 -it CONTENEDOR /bin/bash</code></pre>
+        </div>
+      </li>
+      <li>Para salir de la shell del contenedor:
+        <div class="codigo">
+          <pre><code class="language-shell">exit</code></pre>
+        </div>
+      </li>
+      <li>Para copiar (o mover) archivos entre el contenedor y el sistema anfitrión o viceversa:
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker cp CONTENEDOR:ORIGEN DESTINO</code>
+</pre>
+        </div>
+        <div class="codigo">
+          <pre><code class="language-shell">sudo docker cp ORIGEN CONTENEDOR:DESTINO</code>
+</pre>
+        </div>
+      </li>
+    </ul>
 
 
+
+
+<p id="doclamp"><h3>Instalación de Apache en Docker</h3></p>
 <hr />
 <p class="mclibre">
   Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
