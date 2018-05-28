@@ -21,7 +21,7 @@
 <ul class="indice">
   <li><a href="#consejos">Consejos generales</a></li>
   <li><a href="#ssh">Mejorar la seguridad SSH</a></li>
-  <li><a href="#proxy">Proxy Internet: cache web SQUID</a></li>
+  <li><a href="#proxy">Proxy Internet: cache web - SQUID</a></li>
   <li><a href="#monitor">Monitorización en la Raspberry-Pi</a></li>
   <ul><li><a href="#logwatch">Archivos Log: Logwatch</a></li>
       <li><a href="#munin">Monitorización del sistema: Munin</a></li>
@@ -140,37 +140,141 @@ Configuraciones de seguridad adicionales
 
 <p>Así es como se activa la configuración con clave pública SSH en el sistema, no obstante, aún hay algunos pasos que se deben hacer para poder conectar al servidor, y es pasar la clave pública al propio equipo. Para hacerlo, se debe permitir (de momento) la autenticación con usuario/contraseña, una vez se terminen todos los pasos se podrá denegar la autenticación con usuario y contraseña sin ningún problema.</p>
 
-<p>Desde el ordenador desde el que se quiere conectar al servidor con claves criptográficas, se deben crear dichas claves y pasárselas al servidor. Para crear unas claves RSA de 4096 bits  hay que ejecutar en el cliente SSH la siguiente orden: <b>$ sudo ssh-keygen -t rsa -b 4096</b>
+<p>Desde el ordenador desde el que se quiere conectar al servidor con claves criptográficas, se deben crear dichas claves y pasárselas al servidor. Para crear unas claves RSA de 4096 bits  hay que ejecutar en el cliente SSH la siguiente orden: <b>$ sudo ssh-keygen -t rsa -b 4096</b></p>
 
-<p>El asistente de generación de estas claves, pregunta si se quiere guardar en <b>/home/usuario/.ssh/id_rsa</b>, se contesta que sí. Posteriormente se permitirá poner a la clave privada una contraseña de paso, de esta forma, si se pierde la llave privada no pasará nada porque no podrán conectarse, debido a que es necesario siempre introducir una contraseña de paso para poder realizar la conexión correctamente.<p>
+<p>El asistente de generación de estas claves, pregunta si se quiere guardar en <b>/home/usuario/.ssh/id_rsa</b>, se contesta que sí. Posteriormente se permitirá poner a la clave privada una contraseña de paso, de esta forma, si se pierde la llave privada no pasará nada porque no podrán conectarse, debido a que es necesario siempre introducir una contraseña de paso para poder realizar la conexión correctamente.</p>
 
-<p>Una vez que se haya creado la clave pública y privada en el equipo local, se debe enviar la clave pública al servidor SSH donde se quiere conectar, <strong>ojo:</strong> la clave pública, con el siguiente comando: <b>$ sudo ssh-copy-id usuario@IP_servidor</b>
+<p>Una vez que se haya creado la clave pública y privada en el equipo local, se debe enviar la clave pública al servidor SSH donde se quiere conectar, <strong>ojo:</strong> la clave pública, con el siguiente comando: <b>$ sudo ssh-copy-id usuario@IP_servidor</b> (se agrega la nueva clave pública en el archivo de autorización llamado <b>authorized_keys</b>). También se pueden utilizar otros métodos, ejecutando <b>$ sudo cat id_rsa.pub &gt&gt ~/.ssh/authorized_keys</b>, o se puede editar el archivo <b>$ sudo nano ~/.ssh/authorized_keys</b> y pegar la clave. Se pueden tener varias entradas en el archivo <b>authorized_keys</b>, por lo que SSH puede admitir varios clientes.</p>
 
-<p>Automáticamente la clave pública se copiará a dicho servidor, y ya se podrá habilitar la autenticación con solo clave pública</p>
+<p>Hay que tener en cuenta que el archivo authorized_keys necesita los permisos para que el sistema lo lea correctamente, ejecutando: <b>$ sudo chmod 644 ~/.ssh/authorized_keys</b></p>
 
-<p>En la siguiente conexión, el usuario deberá confirmar que quiere añadir la identidad e introducir las credenciales de login para la cuenta que se quiere utilizar en ese servicio. Por este motivo es importante que en el servidor aún se mantenga la posibilidad de autenticar con usuario/contraseña. Una vez completado este proceso, ya tendría que ser posible hacer inicio de sesión en el equipo sin introducir la contraseña. Recordad poner la directiva “PasswordAuthentication no” para no permitir accesos vía usuario y clave.</p>
+<p>En la siguiente conexión, el usuario deberá confirmar que quiere añadir la identidad e introducir las credenciales de login para la cuenta que se quiere utilizar en ese servicio. Por este motivo es importante que en el servidor aún se mantenga la posibilidad de autenticar con usuario/contraseña. Una vez completado este proceso, ya tendría que ser posible hacer inicio de sesión en el equipo sin introducir la contraseña. Hay que acordarse de poner la directiva “PasswordAuthentication no” para no permitir accesos vía usuario y contraseña.</p>
 
-Agregue la nueva clave pública al archivo de autorización de la siguiente manera:
+<p id="proxy"><h3>Proxy Internet: cache web - SQUID</h3></p>
 
-cat id_rsa.pub >> ~ / .ssh / authorized_keys
+<h4>¿Qué es un proxy?</h4>
 
-Alternativamente, puede editar el archivo sudo nano ~ / .ssh / authorized_keys y copiar / pegar la clave. Es perfectamente aceptable tener varias entradas en el archivo authorized_keys, por lo que SSH puede admitir varios clientes.
+<p>Servidor cuyo objetivo es la centralización del tráfico entre Internet y una red local, y, de esa forma, cada uno de los ordenadores de la red local no tiene necesidad de disponer de una conexión directa a Internet. El servidor proxy también se utiliza para controlar los accesos no permitidos desde Internet hacia la red local. El proxy hace una transformación de las direcciones de entrada y salida. Cuando un ordenador de la red local hace una solicitud o petición web, el proxy la intercepta y la procesa. De esa forma oculta la dirección IP del ordenador real que hace la solicitud y en la petición aparece la IP del proxy.</p>
 
-Tenga en cuenta que el archivo authorized_keys necesita los permisos correctos para que el sistema ssh lo lea correctamente.
+<p>Lo usual es que el ordenador que hace de servidor proxy tenga al menos dos interfaces de red: una conectada a la red local y la otra conectada a Internet a través de un dispositivo de electrónica de red adecuado. Todos los paquetes con origen en la red local llegan al servidor a través de la interfaz que atiende a la red local y son analizados antes de ser reenviados al exterior a través de la otra interfaz de red.</p>
 
-sudo chmod 644 ~ / .ssh / authorized_keys
+<h4>¿Qué es un proxy-caché?</h4>
 
-Finalmente, debemos deshabilitar los inicios de sesión de contraseñas, de modo que toda la autenticación sea realizada por los pares de claves.
+<p>Servidor situado entre la máquina del usuario y otra red, que normalmente sera Internet, que actúa como barrera de protección para separar las dos redes y como zona caché para acelerar el acceso a páginas web o poder restringir el acceso a contenidos. Almacena las páginas web de los servidores remotos en memorias intermedias para poder servirlas a los clientes bajo demanda.</p>
 
-sudo nano / etc / ssh / sshd_config
+<p>El uso de un proxy web no introduce retardos en la obtención de la información, ya que si la página solicitada no está en la caché del proxy, se iniciará la búsqueda normal rápidamente, y si la página se encuentra en la memoria caché, la página se sirve con la velocidad de conexión de la red local, que siempre es superior a la de Internet.</p>
 
-Hay tres líneas que deben cambiarse a no, si no están configuradas de esa manera:
+<h4>Funciones:</h4>
 
-ChallengeResponseAuthentication no
-PasswordAuthentication no
-UsePAM no
+<p>En general un proxy puede realizar  las siguientes funciones:</p>
 
-Guarde el archivo y reinicie el sistema ssh con sudo service ssh reload o reinicie.
+    <ul><li><b>Filtro de contenidos:</b> cuando el proxy puede seleccionar el tipo de contenidos accedidos por las estaciones de trabajo.</li>
+        <li><b>Memoria caché de páginas web:</b> Un proxy es capaz de almacenar las páginas consultadas por los clientes en una memoria caché, con esto acelera las conexiones sucesivas y es capaz de servir dichas páginas si se pierde la conexión a Internet de manera momentánea.</li>
+        <li><b>Servidor de direcciones IP:</b> Un proxy es capaz de asignar direcciones IP a las estaciones de trabajo utilizando un servidor DHCP.</li>
+        <li><b>Cortafuegos:</b> Si el proxy es un intermediario que recoge conexiones y es capaz de interrumpirlas o continuarlas, es porque está funcionando como un cortafuegos del sistema.</li>
+    </ul>
+
+<p>Otras funciones importantes de los proxy son:</p>
+
+    <ul><li>Permiten el acceso web a máquinas privadas (con una dirección IP privada) que no están conectadas directamente a Internet y que de esta forma sí pueden acceder a Internet.</li>
+    <li>Controlan el acceso web aplicando reglas o normas. Por ejemplo, dependiendo de la máquina, la página solicitada, el día y/o hora de la solicitud, etc.</li>
+    <li>Registran el tráfico web desde la red local hacia el exterior.</li>
+    <li>Controlan el contenido web visitado y descargado para detectar la presencia de posibles ataques a través de virus, gusanos, troyanos, conejos, etc.</li>
+    <li>Controlan la seguridad de la red local ante posibles ataques, intrusiones en el sistema, etc.</li>
+    </ul>
+
+<p>Además de la función de intermediario entre una red local e Internet y agilizar las conexiones mediante la caché, los proxy disponen de otras funcionalidades directamente relacionadas con temas de seguridad. Entre ellas:</p>
+
+    <ul><li>Autenticación de usuarios: son capaces de gestionar sesiones de usuario, lo que les da un valor añadido en cuanto a seguridad.</li>
+        <li>Filtrado del tráfico: son capaces de realizar un filtrado del tráfico de paquetes, pudiendo trabajar ya con dominios.</li>
+        <li>Creación de ficheros log: permiten la creación y gestión de los logs generados por la herramienta utilizada como proxy.</li>
+    </ul>
+
+<h4><i>Instalación de un servidor proxy-cache:</i> <i>SQUID</i></h4>
+
+<p>El servidor proxy de libre distribución más usado es <a href="http://www.squid-cache.org/" target="_blank">Squid</a>, basado en software libre GNU/Linux, aunque está disponible en varias plataformas, se puede encontrar una versión para windows <a href="http://wiki.squid-cache.org/SquidFaq/BinaryPackages" target="_blank">aquí</a>.</p>
+
+<p>El primer paso es instalar el paquete mediante el comando: <b>$ sudo apt-get install squid</b></p>
+<p>Al instalar la herramienta se generan una serie de archivos y directorios:</p>
+
+<ul><li><b>/usr/sbin/:</b> contiene archivos ejecutables.</li>
+    <li><b>/var/run/squid.pid</b>: archivo que contiene el PID (Process Identificator) del proceso squid.</li>
+    <li><b>/var/log/squid/:</b> Directorio que almacena los archivos de logs de Squid.</li>
+    <li><b>/var/spool/squid/:</b> Directorio que contiene la caché propiamente.</li>
+    <li><b>/etc/squid/squid.conf</b> :Archivo de configuración de Squid.</li>
+    <li><b>/usr/lib/squid/:</b> Complementos, autenticación,..</li>
+    <li><b>/usr/share/doc/squid/:</b> Documentación de la herramienta Squid.</li>
+</ul>
+
+ <p>El archivo de configuración de Squid es <b>/etc/squid/squid.conf</b>, pero es enorme con más de mil lineas de código, por lo tanto se recomienda hacer una copia de seguridad del original y trabajar con una copia adecuada a las necesidades de cada usuario, ejecutando: <b>$ sudo cp /etc/squid/squid.conf /etc/squid.conf.bak</b></p>
+
+<p>Una configuración básica debe de incluir, al menos, los siguientes parámetros:</p>
+
+<ul>
+    <li><b>cache_effective_user / group</b> Establece el usuario y grupo para Squid. Por problemas de seguridad es preferible que Squid y sus procesos asociados se         ejecuten como usuario y grupo proxy. Este usuario y grupo proxy tienen unas características especiales que no tienen ni el administrador (root) ni otros usuarios. En concreto proxy es un usuario que no tiene shell (no se puede conectar al sistema), tiene unos permisos limitados a su área de acción y debe ser el propietario del directorio caché y del directorio de logs.</li>
+    <li><b>http_port</b> Establece el puerto de escucha para Squid. Por defecto Squid atiende las peticiones de los clientes por el puerto 3128. Pero también se podría utilizar, por ejemplo, el puerto 8080. Se puede cambiar el puerto pero es importante tener en cuenta que éste no debe ser utilizado por ningún otro servicio. Es posible asociar el servicio Squid a una determinada IP, que sería la que conecta con la red local. En ese caso la sintaxis es: http_port 192.168.112.1:3128 (siendo 192.168.1.1 la IP de la tj de red por donde escucha el servidor proxy.)</li>
+    <li><b>cache_mem</b> Establece la cantidad de memoria RAM dedicada al almacenamiento de los bloques de la caché más solicitados. En la medida que se aumenta la cantidad de memoria física de la máquina, aumentará el rendimiento de Squid. La cantidad de RAM también depende de la cantidad de espacio en disco dedicado a la caché.</li>
+    <li><b>cache_dir</b> Establece la localización y el tamaño de la caché en disco duro. Por defecto son 100MB. Se puede especificar el nº de subdirectorios y el nº de niveles posibles dentro de cada subdirectorio. Por ejemplo: <b>cache_dir ufs /var/spool/squid/ 500 16 256</b>, indica una caché en disco de 500MB, con 16 subdirectorios, cada uno de ellos con 256 niveles. UFS (Unix File System) es un sistema de archivos utilizado por muchos sistemas operativos Unix y es el formato original de Squid.</li>
+    <li><b>visible_hostname</b> Establece el nombre del servidor. Se puede saber cuál es mediante el comando <b>hostname</b>. Si no se especifica el hostname de nuestra Raspberry-Pi puede que Squid no sea capaz de determinarlo automáticamente, causando así que el programa falle.</li>
+</ul>
+
+<p><b>acl</b>. Lista de control del acceso, el parámetro ACL permite:</p>
+
+    <ul><li>Proteger al servidor proxy-caché de conexiones externas, evitando, de esa forma, que se conecten clientes desconocidos que podrían saturar la conexión con el exterior.</li>
+    <li>Proteger a los clientes de accesos a puertos peligrosos actuando como cortafuegos contra posibles ataques desde la web.</li>
+    <li>Establecer una jerarquía de cachés.</li>
+    <li>Establecer la red como conjunto de trabajo o, por el contrario, como máquinas individuales.</li></ul>
+
+<p>A continuación, a cada <b>ACL</b> creada se le hace corresponder una <b>Regla de Control de Acceso (http_access)</b> que es la que permite o deniega las acciones definidas en la ACL. La sintaxis es variable. Estos son algunos de los formatos más utilizados:</p>
+
+<ul><li>acl [nombre_lista] src [componentes_lista]</li>
+<li>acl [nombre_lista] time marco_horario</li>
+<li>acl [nombre_lista] srcdomain/dstdomain domain</li>
+<li>acl [nombre_lista] url_regex patron</li>
+<li>acl [nombre_lista] maxconn limite</li></ul>
+
+<p>donde:</p>
+
+        <ul><li>nombre_lista: es el nombre que se le asigna a la ACL.</li>
+        <li>src: hace referencia al origen, es decir, la dirección IP de un cliente.</li>
+        <li>[componentes_lista]: puede indicar direcciones IP de redes con la máscara de red, o archivos cuyo contenido sean las direcciones IP.</li>
+        <li>time: permite/deniega las conexiones dentro de una franja horaria, donde marco_horario sigue unas reglas de construcción particular.</li>
+        <li>srcdomain/dstdomain: establece permisos sobre dominios web origen y destino.</li>
+        <li>url_regex: permite definir ACLs que identifican sitios web dependiendo de que la URL contenga ciertos caracteres o palabras. Es decir, identifica una url que cumple una expresión regular o patrón. Con la opción -i ignora la diferencia entre mayúscula y minúscula (ignorecase).</li>
+        <li>maxconn: establece un nº máximo de conexiones por IP.</li></ul>
+
+<p><b>http_access</b>. Regla de control de acceso: La regla de control de acceso indica si se permite o deniega el acceso a Squid para hacer peticiones HTTP. Actúa siempre sobre una lista de control de acceso permitiendo o denegando la situación definida en ella. La sintaxis es: <b>http_access [ deny / allow ] [ lista_control_acceso ...]</b></p>
+
+<p><b>Logs</b>. Registro de logs: Squid utiliza diferentes archivos para realizar el registro de actividad:</p>
+
+<ul><li><b>access.log:</b> almacena peticiones hechas al proxy. Del análisis de su contenido se pueden obtener estadísticas.</li>
+<li><b>cache.log:</b> almacena información general de funcionamiento de la caché, errores, etc.</li></ul>
+
+<p>Un ejemplo básico del archivo de configuración puede ser el siguiente:</p>
+<div class="codigo"><pre><code class="language-shell">
+    <ul><li>cache_effective_user proxy</li>
+    <li>cache_effective_group proxy</li>
+    <li>http_port 3128</li>
+    <li>cache_mem 500 MB</li>
+    <li>cache_dir ufs /var/spool/squid/ 500 16 256</li>
+    <li>visible_hostname nombreservidor</li>
+    <li>access_log /var/log/squid/access.log squid</li>
+   <li>cache_log /var/log/squid/cache.log</li>
+  </ul>
+</code></pre></div>
+
+<p><b>Arranque y parada de Squid.</b> Al instalar squid queda ejecutandose. Ahora se ha crear la estructura necesaria para la cache del servicio. Esto hay que hacerlo a squid parado. Por otra parte hay que activar en el archivo de configuración la directiva que especifica donde esta ubicada la cache y su tamaño. Para crear la cache ejecutar el siguiente comando sólo la primera vez: <b>$ sudo /usr/sbin/squid -z</b>. La opción -z crea los directorios de la caché.</p>
+
+<p>Siempre que se hagan modificaciones en el archivo de configuración se debe ejecutar la sigiente orden para validar la configuración de Squid, no debe dar ningún error al ejecutar la orden:<b>$ sudo squid -k parse</b>.Si no se ejecuta correctamente hay que comprobar los permisos de todos los directorios de caché y de logs dados en el archivo de configuración.</p>
+
+<p>A continuación arrancar el servicio utilizando la orden siguiente:<b>$ sudo service squid start </b> (ó $ sudo systemctl start squid).</p>
+
+<p>Si se necesita reiniciar para probar cambios hechos en la configuración, ejecutar:<b>$ sudo service squid restart</b> (ó $ sudo systemctl restart squid). Asimismo se puede comprobar si el servicio está iniciado o detenido con la orden:<b>$ sudo service squid status</b></p>
+
+<p>Se puede comprobar que squid se esta ejecutando y escuchando peticiones en el puerto 3128 con la orden:<b> $ sudo netstat -atunp | grep squid</b></p>
+
+<p id="monitor"><h3>Monitorización en la Raspberry-Pi</h3></p>
+
 
 <hr />
 <p class="mclibre">
