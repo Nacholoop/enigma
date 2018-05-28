@@ -16,8 +16,161 @@
 </head>
 <body>
     <span class="ir-arriba icon-circle-up"></span>
-<h1>Seguridad en la Raspberry-Pi</h1>
+<h1>Monitorización y Seguridad en la Raspberry-Pi</h1>
 <hr />
+<ul class="indice">
+  <li><a href="#consejos">Consejos generales</a></li>
+  <li><a href="#ssh">Mejorar la seguridad SSH</a></li>
+  <li><a href="#proxy">Proxy Internet: cache web SQUID</a></li>
+  <li><a href="#monitor">Monitorización en la Raspberry-Pi</a></li>
+  <ul><li><a href="#logwatch">Archivos Log: Logwatch</a></li>
+      <li><a href="#munin">Monitorización del sistema: Munin</a></li>
+  </ul>
+  <li><a href="#seguridad">Seguridad en la Raspberry-Pi</a></li>
+  <ul><li><a href="#fail2ban">Ataque por fuerza bruta: Fail2ban</a></li>
+    <li><a href="#rootkit">Detección de rootkits: Rootkit Hunter</a></li>
+    <li><a href="#audit">Auditoría de seguridad: Debsecan</a></li>
+    <li><a href="#firewall">Cortafuegos: UFW</a></li>
+</ul>
+</ul>
+
+<p id="consejos"><h3>Consejos Generales:</h3></p>
+
+<p>La seguridad de la Raspberry Pi es importante. Las brechas en la seguridad pueden dejar la Raspberry Pi abierta a los piratas informáticos que luego pueden usarla con fines maliciosos. El nivel de seguridad que se necesita depende de cómo se vaya a usar la Raspberry Pi. Por ejemplo, si simplemente se está utilizando la Raspberry Pi en la red doméstica, detrás de un router que actua como un firewall, entonces, en principio ya es bastante seguro por defecto.</p>
+
+<p>Sin embargo, si la Raspberry Pi va a estar directamente conectada a Internet, ya sea con una conexión directa (poco probable) o al permitir ciertos protocolos a través del firewall del router (por ejemplo, SSH), entonces se deben realizar algunos cambios de seguridad básicos. Incluso si se está protegido detrás de un firewall, es sensato tomarse la seguridad en serio. Los siguientes consejos describen algunas formas de mejorar la seguridad de la Raspberry Pi.</p>
+
+<h4>1. Cambiar la contraseña predeterminada:</h4>
+
+<p>Tal y como se explica en el <a href="anexo2.html#basica">anexo-2</a>, en el sistema operativo Raspbian viene el nombre de usuario <b>pi</b> y la contraseña <b>raspberry</b> predeterminados, por lo tanto, si se obtiene acceso a una Raspberry Pi, y estas configuraciones no se han cambiado, se tiene acceso de root a esa Raspberry Pi. Así que lo primero que se debe hacer es cambiar la contraseña. Esto puede hacerse a través de la aplicación raspi-config o desde la línea de comando, ejecutando <b>$ sudo raspi-config</b>, se  selecciona la opción 1 y se cambia la contraseña (de hecho, todo lo que raspi-config hace es ejecutar el comando <b>passwd</b> en la línea de comandos, que se puede hacer directamente desde la línea de comando, simplemente se escribe la nueva contraseña y se confirma).</p>
+<p>Consejos para crear una contraseña robusta <a href="http://eduteka.icesi.edu.co/articulos/ContrasenhasRobustas" target="_blank">aquí</a>.</p>
+
+
+<h4>2. Cambiar el nombre de usuario:</h4>
+
+<p>Se puede hacer que la Raspberry Pi sea un poco más segura cambiando también el nombre de usuario. Todas las Raspberry vienen con el nombre de usuario predeterminado <b>pi</b>, por tanto si se cambia, se consigue un poco más de seguridad. Para agregar un nuevo usuario se ejecuta: <b>$ sudo adduser nacho</b>, se pedirá una nueva contraseña y el nuevo usuario tendrá el directorio de inicio en <b>/home/nacho</b>.</p>
+
+<p>Para agregar el nuevo usuario al grupo sudo para otorgarles permisos de sudo: <b>$ sudo adduser nacho sudo</b>.</p>
+
+<p>Una vez que se ha confirmado que la nueva cuenta está funcionando, se puede eliminar el usuario <b>pi</b>. Sin embargo, hay que tener en cuenta que con la distribución actual de Raspbian, hay algunos aspectos que requieren que el usuario <b>pi</b> esté presente. Si no se está seguro de si esto va a afectar, es mejor no eliminar al usuario <b>pi</b>. Desde la web oficial de la Raspberry-Pi informan que se está trabajando para reducir la dependencia del usuario <b>pi</b>. Para eliminar el usuario <b>pi</b>, se ejecuta: <b>$ sudo deluser pi</b>.</p>
+
+<p>Este comando eliminará al usuario pi, pero no la carpeta <b>/home/pi</b>. Si es necesario, se puede usar el siguiente comando para eliminar la carpeta de inicio del usuario <b>pi</b> al mismo tiempo,<b>$ sudo deluser -remove-home pi</b>, pero hay que tener en cuenta que los datos de esta carpeta se borrarán de forma permanente, por lo tanto, hay que asegurarse de que los datos necesarios estén almacenados en otro lugar.</p>
+
+<h4>3. Hacer que sudo pida contraseña:</h4>
+
+<p>Al colocar <b>sudo</b> delante de un comando, se ejecuta como superusuario y, de forma predeterminada, no necesita una contraseña. En general, esto no es un problema. Sin embargo, si la Raspberry-Pi está expuesta a Internet y de alguna manera se consigue acceder a ella (tal vez mediante un exploit de página web, por ejemplo), el atacante podrá cambiar cosas que requieren credenciales de superusuario, a menos que se haya configurado <b>sudo</b> para requerir una contraseña. Para forzar que sudo requiera contraseña, hay que ejecutar la siguiente orden: <b>$ sudo nano /etc/sudoers.d/010_pi-nopasswd</b>, se edita el archivo y se cambia la entrada pi (o los nombres de usuario que tengan derechos de superusuario) a:</p>
+<p> <b>pi ALL=(ALL) PASSWD: ALL</b></p>
+<p align="left"><img src="images/sudo_pass1.png" title="hacer que sudo pida contraseña" alt="captura sudo pide contraseña" /></p>
+<p align="left"><img src="images/sudo_pass2.png" title="hacer que sudo pida contraseña 2" alt="captura 2 sudo pide contraseña" /></p>
+<p align="left"><img src="images/sudo_pass3.png" title="hacer que sudo pida contraseña 3" alt="captura 3 sudo pide contraseña" /></p>
+
+<h4>4. Tener las últimas actualizaciones de seguridad:</h4>
+
+<p>Esto puede ser tan simple como asegurarse de que la versión de Raspbian esté actualizada, ya que una distribución actualizada contiene las últimas actualizaciones de seguridad. Las instrucciones completas se pueden encontrar <a href="https://github.com/raspberrypi/documentation/blob/master/raspbian/updating.md" target="_blank">aquí</a>.</p>
+
+<p>Si se está utilizando SSH para conectarse a la Raspberry Pi, puede valer la pena agregar una tarea periódica con <b>cron</b> que actualice específicamente el servidor ssh. Esta tarea garantizará que tenga las últimas actualizaciones de seguridad SSH, independientemente de su proceso normal de actualización. Se puede encontrar más información sobre la configuración de cron <a href="https://github.com/raspberrypi/documentation/blob/master/linux/usage/cron.md" target="_blank">aquí</a></p>
+
+<p id="ssh"><h3>Mejorar la seguridad SSH:</h3></p>
+
+<p>En principio, no se debe acceder físicamente a un servidor salvo por razones excepcionales (como la actualización o la reparación de hardware, por ejemplo). La mejor manera de gestionar un servidor es remotamente. Sin embargo, este acceso deber hacerse de manera segura, para garantizar que la comunicación no sea interceptada por terceros. El protocolo SSH es la solución para garantizar conexiones remotas seguras. SSH es un protocolo de comunicación que encripta los datos que se intercambian, y es virtualmente imposible romper la privacidad de la comunicación. El acrónimo ssh viene del inglés: Secure SHell. El protocolo ssh es muy versátil, tiene un software cliente que posibilita el acceso a la línea de comandos, permite la transferencia de archivos y la creación de túneles seguros con soporte de comunicación para otros protocolos.</p>
+
+<p>SSH es una forma común de acceder a la Raspberry Pi de forma remota. De forma predeterminada, iniciar sesión con SSH requiere de nombre de usuario y contraseña, y hay formas de hacerlo más seguro, como por ejemplo usar autenticación basada en claves, mejorando la seguridad de nombre de usuario y contraseña. Lo más importante es asegurarse de tener una contraseña muy sólida, esto ayudará a evitar ataques de diccionario o similares.</p>
+
+<h4><i>Editar y configurar sshd_config:</i></h4>
+
+<p>Para editar la configuración del servidor SSH hay que editar el archivo sshd_config: <b>$ sudo nano /etc/ssh/sshd_config</b></p>
+
+<p>Otro directorio que hay que tener muy en cuenta es el de hosts conocidos, ya que ahí es donde se configuran las claves criptográficas RSA/DSA. El directorio donde se encuentran los hosts conocidos y las claves públicas es el siguiente: <b>/home/usuario/.ssh/</b>. Este directorio por defecto está oculto (.ssh) y hay un directorio por cada usuario que haya en el sistema operativo y que se conecte a un servidor remoto.</p>
+
+<p><b>1.</b> Cambiar el puerto por defecto del servidor SSH:</p>
+
+<p>Por defecto los servidores SSH utilizan el puerto 22 para las conexiones. Es recomendable cambiar este número de puerto, para evitar que bots o cibercriminales puedan intentar iniciar sesión, aunque por sí solo esto no proporciona seguridad, sí se puede pasar desapercibido a los escaneos masivos desde Internet. Si por ejemplo se quiere usar el puerto 22445 se debe poner en el fichero de configuración lo siguiente: <b>Port 22445</b></p>
+
+<p><b>2.</b> Bloquear el acceso root en las conexiones remotas:</p>
+
+<p>Por defecto, cualquier usuario en el sistema operativo que tenga permisos de Shell, podrá iniciar sesión en el servidor. Además, se debe tener en cuenta que si se tiene activado el usuario root, también podrá conectarse al servidor de forma local o remota, evitando al atacante tener que “adivinar” el nombre de usuario. Por defecto, los bots siempre intentan atacar el puerto 22 y al usuario “root”. Desactivando al propio usuario root, y usando “sudo” para elevar a permisos de superusuario, se evita esto. Además, OpenSSH también permitirá deshabilitar el login del usuario root para dotar al sistema de mayor seguridad: <b>PermitRootLogin no</b></p>
+
+<p>De esta manera las conexiones root quedarán bloqueadas evitando que usuarios no autorizados puedan realizar ataques de fuerza bruta contra el servidor SSH para adivinar los credenciales del usuario Root. También hay otras opciones en este apartado del archivo sshd_config, como por ejemplo “PermitRootLogin without-password” donde se permite autenticación pero no con usuario y contraseña, sino con claves criptográficas RSA.</p>
+Configuraciones de seguridad adicionales
+
+<p><b>3.</b> Existen otras configuraciones recomendadas para evitar las conexiones no deseadas al servidor SSH:</p>
+
+  <ul><li><b>LoginGraceTime:</b> Establece el tiempo necesario para introducir la contraseña, evitando que el atacante tenga que “pensar mucho”.</li>
+      <li><b>MaxAuthTries:</b> Número de intentos permitidos al introducir la contraseña antes de ser desconectados.</li>
+      <li><b>MaxStartups:</b> Número de logins simultáneos desde una IP, para evitar que se pueda utilizar la fuerza bruta con varias sesiones a la vez.</li>
+      <li><b>AllowUsers: </b> crear una lista blanca de usuario. Este parámetro permite configurar los usuarios que podrán conectarse. Una medida muy restrictiva pero a la vez muy segura ya que bloqueará todas las conexiones de los usuarios que no estén en el listado. Los usuarios que esten aquí podrán conectarse, y el resto no.</li>
+      <li><b>DenyUsers:</b> Parecido al anterior, pero ahora se crea una lista negra. Los usuarios que esten aquí no podrán conectarse, y el resto sí.</li>
+      <li><b>AllowGroups/DenyUsers:</b> Exactamente igual a lo anterior, pero en lugar de crear una lista blanca/negra de usuarios, es de grupos de usuarios.</li>
+  </ul>
+
+<p>Por ejemplo, un archivo de configuración de sshd_config sería el siguiente:</p>
+
+<div class="codigo"><pre><code class="language-shell">
+  <ul><li>Port 22445</li>
+  <li>PermitRootLogin no</li>
+  <li>LoginGraceTime 30</li>
+  <li>MaxAuthTries 3</li>
+  <li>MaxStartups 3</li>
+  <li>AllowUsers nacho pi</li>
+  <li>DenyUsers nacho2</li></ul>
+</code></pre></div>
+<p>Después de los cambios, se deberá reiniciar el servicio sshd utilizando <b>$ sudo systemctl restart ssh</b> o reiniciar para que los cambios surtan efecto.</p>
+
+<h4><i>Autenticación en SSH:</i> usuario/contraseña y claves criptográficas.</h4>
+
+<p>En este apartado se muestran los diferentes métodos de autenticación que hay disponibles en el servidor. Principalmente hay dos: <b>usuario y contraseña</b> (algo que sabemos), y también con <b>claves criptográficas</b> (algo que tenemos). No obstante, se puede dotar al sistema de una seguridad adicional, combinando estas autenticaciones con por ejemplo un <b>One Time Password</b> generado por una aplicación como <b>Google Authenticator</b> o <b>Latch OTP</b>. Además, también se puede dotar al sistema de <b>Latch</b>, para evitar que cualquier usuario inicie sesión si no está el “pestillo” abierto.</p>
+
+<h4>1. Usuario y contraseña:</h4>
+
+<p>Si se quiere habilitar el login en el servicio a través del usuario y contraseña del sistema, el archivo de configuración deberá tener esta sentencia: <b>PasswordAuthentication yes</b></p>
+
+<p>De lo contrario, si se quiere impedir la autenticación a través de usuario/contraseña, y permitir únicamente las conexiones a través de claves criptográficas, se debe indicar no: <b>PasswordAuthentication no</b></p>
+
+<p>Esta sentencia afecta a todos los usuarios del sistema. Para no quedarse sin acceso al servidor, hay que asegurarse de que la sentencia <b>PubkeyAuthentication</b> esté configurada a “yes”, para permitir el inicio de sesión con claves criptográficas.</p>
+
+<p>Hay otra sentencia relacionada con esto llamada <b>ChallengeResponseAuthentication</b>, si se pone la configuración a “no”, no permitirá las conexiones donde se interactúe con el teclado, por lo que si por ejemplo hay configurado un One Time Password, no se podrá iniciar sesión en el sistema. Si únicamente se va a usar claves criptográficas, se puede poner a “no” sin problemas.</p>
+
+<h4>2. Clave pública SSH:</h4>
+
+<p>Los pares de claves son dos claves criptográficamente seguras. Una es privada y la otra es pública. Se pueden usar para autenticar un cliente en un servidor SSH (en este caso, el Raspberry Pi). El cliente genera dos claves, que están criptográficamente vinculadas entre sí. La clave privada nunca se debe compartir, pero la clave pública se puede compartir libremente. El servidor SSH usa una copia de la clave pública y, cuando se solicita un enlace, utiliza esta clave para enviar al cliente un mensaje de desafío, que el cliente cifrará con la clave privada. Si el servidor puede usar la clave pública para descifrar este mensaje de vuelta al mensaje de desafío original, entonces la identidad del cliente puede ser confirmada.</p>
+
+<p>La generación del par de claves en Linux se realiza utilizando el comando <b>ssh-keygen</b> en el cliente, las claves se almacenan de forma predeterminada en la carpeta <b>.ssh</b> en el home del usuario directamente. La clave privada se llamará <b>id_rsa</b> y la clave pública asociada se llamará <b>id_rsa.pub</b>. La clave tendrá 2048 bits de longitud, romper el cifrado en una clave de esa longitud llevaría un tiempo extremadamente largo, por lo que es muy seguro. Se pueden crear claves más largas si la situación así lo exige. Hay que tener en cuenta que solo se debe hacer el proceso de generación una vez, si se repite, se sobrescribiran las claves generadas anteriormente. Todo lo que dependa de esas claves antiguas deberá actualizarse a las nuevas claves. Se pedirá una frase de contraseña durante la generación de claves, este es un nivel de seguridad adicional.</p>
+
+<p>Para configurar el acceso con clave pública al servidor, se debe poner la sentencia siguiente a “yes”: <b>PubkeyAuthentication yes</b></p>
+
+<p>Así es como se activa la configuración con clave pública SSH en el sistema, no obstante, aún hay algunos pasos que se deben hacer para poder conectar al servidor, y es pasar la clave pública al propio equipo. Para hacerlo, se debe permitir (de momento) la autenticación con usuario/contraseña, una vez se terminen todos los pasos se podrá denegar la autenticación con usuario y contraseña sin ningún problema.</p>
+
+<p>Desde el ordenador desde el que se quiere conectar al servidor con claves criptográficas, se deben crear dichas claves y pasárselas al servidor. Para crear unas claves RSA de 4096 bits  hay que ejecutar en el cliente SSH la siguiente orden: <b>$ sudo ssh-keygen -t rsa -b 4096</b>
+
+<p>El asistente de generación de estas claves, pregunta si se quiere guardar en <b>/home/usuario/.ssh/id_rsa</b>, se contesta que sí. Posteriormente se permitirá poner a la clave privada una contraseña de paso, de esta forma, si se pierde la llave privada no pasará nada porque no podrán conectarse, debido a que es necesario siempre introducir una contraseña de paso para poder realizar la conexión correctamente.<p>
+
+<p>Una vez que se haya creado la clave pública y privada en el equipo local, se debe enviar la clave pública al servidor SSH donde se quiere conectar, <strong>ojo:</strong> la clave pública, con el siguiente comando: <b>$ sudo ssh-copy-id usuario@IP_servidor</b>
+
+<p>Automáticamente la clave pública se copiará a dicho servidor, y ya se podrá habilitar la autenticación con solo clave pública</p>
+
+<p>En la siguiente conexión, el usuario deberá confirmar que quiere añadir la identidad e introducir las credenciales de login para la cuenta que se quiere utilizar en ese servicio. Por este motivo es importante que en el servidor aún se mantenga la posibilidad de autenticar con usuario/contraseña. Una vez completado este proceso, ya tendría que ser posible hacer inicio de sesión en el equipo sin introducir la contraseña. Recordad poner la directiva “PasswordAuthentication no” para no permitir accesos vía usuario y clave.</p>
+
+Agregue la nueva clave pública al archivo de autorización de la siguiente manera:
+
+cat id_rsa.pub >> ~ / .ssh / authorized_keys
+
+Alternativamente, puede editar el archivo sudo nano ~ / .ssh / authorized_keys y copiar / pegar la clave. Es perfectamente aceptable tener varias entradas en el archivo authorized_keys, por lo que SSH puede admitir varios clientes.
+
+Tenga en cuenta que el archivo authorized_keys necesita los permisos correctos para que el sistema ssh lo lea correctamente.
+
+sudo chmod 644 ~ / .ssh / authorized_keys
+
+Finalmente, debemos deshabilitar los inicios de sesión de contraseñas, de modo que toda la autenticación sea realizada por los pares de claves.
+
+sudo nano / etc / ssh / sshd_config
+
+Hay tres líneas que deben cambiarse a no, si no están configuradas de esa manera:
+
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+UsePAM no
+
+Guarde el archivo y reinicie el sistema ssh con sudo service ssh reload o reinicie.
 
 <hr />
 <p class="mclibre">

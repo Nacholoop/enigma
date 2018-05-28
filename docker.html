@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Docker: Instalación y primeros pasos</title>
+  <title>Docker: Instalación - primeros pasos - Apache</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="estilo.css" />
   <link rel="stylesheet" type="text/css" href="fonts.css" />
@@ -16,7 +16,7 @@
 </head>
 <body>
     <span class="ir-arriba icon-circle-up"></span>
-<h1>DOCKER: Instalación y primeros pasos</h1>
+<h1>DOCKER: Instalación - primeros pasos - Apache</h1>
 <hr />
 
 <ul class="indice">
@@ -280,10 +280,60 @@
       </li>
     </ul>
 
-
-
-
 <p id="doclamp"><h3>Instalación de Apache en Docker</h3></p>
+
+<p>Una vez instalado Docker, se puede continuar eligiendo una de las siguientes posibilidades:</p>
+
+  <ul><li> Descargar la imagen limpia del sistema operativo.</li>
+      <li>Descargar un contenedor creado por alguien con aplicaciones instaladas y subido a los repositorios de Docker.</li>
+      <li>Importar un contenedor que previamente se ha exportado.</li>
+  </ul>
+
+<p>Cosas importantes a saber antes de crear un contenedor Docker:</p>
+
+  <ul><li>El contenedor no tendrá nada instalado por defecto, lo primero que se hará es un <b>apt-get update</b> para descargar los repositorios del sistema</li>
+      <li>Una vez dentro del contenedor se puede escribir <b>exit</b> y se saldrá del contenedor, pero se perderá toda la información del contenedor, archivos, aplicaciones, instalaciones… (después se verá como salir sin cerrar el contenedor)</li>
+  </ul>
+
+<p>Por defecto, y como se ha mostrado anteriormente, la instalación de Docker crea un contenedor llamado <b>hello-world</b>. Para ver las imágenes que hay descargadas se ejecuta <b>$ docker images</b></p>
+
+<p>Para comenzar con la creación del contenedor, se ha elegido una imagen de Debian, sería el mismo proceso para Ubuntu y demás, se descarga la imagen de Debian mediante el comando <b>$ docker pull debian</b>. Por defecto descarga la última versión disponible, si se desea descargar una en concreto se utilizaría docker pull debian:12.04 por ejemplo. Si se obsevan las imágenes descargadas con <b>docker images</b> se ve que debian está disponible y ocupa solo 84´99 MB</p>
+
+<p align="center"><img src="images/docker_pull.png" title="instalar Apache en docker comando pull" alt="captura 1 instalar Apache en docker" /></p>
+<p align="center"><img src="images/docker_images.png" title="instalar Apache en docker comando images" alt="captura 2 instalar Apache en docker" /></p>
+
+<p>Lo siguiente es crear el contenedor, para ello se usará la imagen de debian, ejecutando el siguiente comando: <b>$ docker run -i -t -- name=DEBRASP debian /bin/bash</b></p>
+<p align="center"><img src="images/docker_run2.png" title="instalar Apache en docker comando run" alt="captura 3 instalar Apache en docker" /></p>
+
+<p>Al ejecutar el comando anterior, se accede automáticamente al contenedor y lo primero será descargar los repositorios de Debian mediante el comando <b>$ apt-get update</b>. Una vez estan los repositorios de debian, se instalan los paquetes que hacen falta, <b>Apache2</b> como servidor web y <b>nano</b> como editor de texto para editar el archivo <b>index.html</b></p>
+
+<p align="center"><img src="images/docker_apache.png" title="instalar Apache en docker comando apt get install apache2" alt="captura 4 instalar Apache en docker" /></p>
+<p>Una vez está todo instalado, se edita el archivo index.html, para poder comprobar después que realmente funciona y se reinicia Apache <b>$ service apache2 restart</b></p>
+<p align="center"><img src="images/docker_apache2.png" title="instalar Apache en docker comando editar con nano" alt="captura 5 instalar Apache en docker" /></p>
+<p align="center"><img src="images/docker_apache4.png" title="instalar Apache en docker comando editar con nano 2" alt="captura 6 instalar Apache en docker" /></p>
+
+<p><strong>IMPORTANTE:</strong> El paso de ahora es muy importante, pues no se puede salir del contenedor con <b>exit</b>. Para salir y dejar el contenedor abierto se hará con una combinación de teclas, <b>ctrl q + p</b>. Una vez pulsadas se pueden ver los contenedores activos con <b>$ docker ps</b></p>
+<p align="center"><img src="images/docker_apache22.png" title="instalar Apache en docker comando editar con nano 2" alt="captura 6 instalar Apache en docker" /></p>
+
+
+<p>Docker le asigna el nombre DEBRASP al contenedor, que es el que se le ha asignado anteriormente con el argumento "--name=". Si se cierra y se vuelve a abrir el contenedor y no le asignamos nombre, asignará un nombre aleatorio, pero mientras permanezca activo utilizará ese. Si por lo que sea se quiere volver a acceder a ese contenedor se haría con el comando: <b>$ docker attach DEBRASP</b>, Esto se podría hacer con un contenedor que esté abierto, si se lanza un contenedor y se le asigna un puerto y está cerrado se bloquea la máquina y habrá que apagarla por la fuerza.</p>
+
+<p>Volviendo al contenedor, como está abierto, todavia se puede perder la información. Para que esto no suceda hay que guardar el contenedor. Para guardar el contenedor hay que asignarle un nombre distinto, ya que no se pueden sobreescribir contenedores. Esto implica que cada cambio que se haga de un contenedor ya creado se tiene que guardar como otro contenedor. Para guardarlo se ejecuta la siguiente orden: <b>$ docker commit DEBRASP apache</b>. Una vez guardado este contenedor (se le ha asignado el nombre apache), si se revisan las imagenes con <b>$ docker images</b> se ve que se encuentra disponible y ocupa 204 MB.</p>
+
+<p align="center"><img src="images/docker_commit2.png" title="instalar Apache en docker comando commit" alt="captura 7 instalar Apache en docker" /></p>
+
+<p>Para modificar ese contenedor se haría igual que debian, <b>$ docker run -i -t apache /bin/bash</b>. Bueno, lo que queda es lanzar el contenedor apache y asignarle un puerto. Para ello se utilizará la orden: <b>$ docker run -d -p 81:80 apache /usr/sbin/apache2ctl -D FOREGROUND</b>. Con esto se lanza el contenedor con puerto 81 al exterior, 80 interno y se ejecuta el servicio apache2 en segundo plano.</p>
+
+<p align="center"><img src="images/docker_run3.png" title="instalar Apache en docker asignando puerto" alt="captura 8 instalar Apache en docker" /></p>
+
+<p>Como se ve en la imagen anterior, hay dos contenedores lanzados, el de apache con el puerto asignado, y el de debian que se ha quedado abierto, este último se puede parar con la orden: <b>$ docker stop DEBRASP</b></p>
+<p align="center"><img src="images/docker_stop.png" title="instalar Apache en docker comando stop" alt="captura 9 instalar Apache en docker" /></p>
+
+<p>Ya por último se comprueba si funciona el contenedor con apache que se ha creado. para ello se accede desde un navegador a la dirección ip de la máquina que contiene docker y se añade el puerto 81 en este caso 192.168.1.21:81</p>
+<p align="center"><img src="images/docker_apache3.png" title="instalar Apache en docker comprobando funcionamiento" alt="captura 10 instalar Apache en docker" /></p>
+
+
+
 <hr />
 <p class="mclibre">
   Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
