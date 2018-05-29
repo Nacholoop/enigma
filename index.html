@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- <ol style="margin-bottom: 0;" start="4"><li class="afa-indice"><a href="#base-datos">Acerca de la Base de Datos</a><ol class="afa-subindice" style="list-style-type: none; padding-left: 0; padding-bottom: 1em;"><li class="afa-indice">4.1 <a href="#configurando">Configurando el comportamiento de WordPress</a></li><li class="afa-indice">4.2 <a href="#desfragmentando">Desfragmentando la Base de Datos</a></li><li class="afa-indice">4.3 <a href="#pluginsBD">Sí, también hay plugins para optimizar la Base de Datos</a></li><li class="afa-indice">4.4 <a href="#BDdespues">La Base de Datos después de optimizarla</a></li></ol></li><li class="afa-indice"><a href="#descargas">Acerca de ficheros y descargas</a><ol class="afa-subindice" style="list-style-type: none; padding-left: 0;"><li class="afa-indice">5.1 <a href="#reduciendo">Reduciendo los ficheros que bloquean el renderizado</a></li><li class="afa-indice">5.2 <a href="#cachea">Cachea WordPress y no generes las mismas páginas una y otra vez</a></li><li class="afa-indice">5.3 <a href="#cdn">CDN: Externaliza tus imágenes</a></li></ol></li><li class="afa-indice"><a href="#extremas">Optimizaciones extremas</a><ol class="afa-subindice" style="list-style-type: none; padding-left: 0;"><li class="afa-indice">6.1 <a href="#revisando">Revisando las optimizaciones ya realizadas</a></li><li class="afa-indice">6.2 <a href="#analizando">Analizando los informes de rendimiento</a></li></ol></li></ol> -->
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -9,29 +8,130 @@
   <link rel="stylesheet" type="text/css" href="fonts.css" />
   <script src="https://code.jquery.com/jquery-latest.js"></script>
   <script src="arriba.js"></script>
-</head>
+  <style>
+    ol {
+      counter-reset: seccion;
+      list-style-type: none;
+    }
 
+    li::before {
+      counter-increment: seccion;
+      content: counters(seccion, ".") " ";
+    }
+
+  </style>
+</head>
 <body>
-  <span class="ir-arriba icon-circle-up"></span>
+<span class="ir-arriba icon-circle-up"></span>
+
 <h1>Mini servidor para prácticas ASIR basado en Raspberry Pi</h1>
+
 <p align="center"><img src="images/portada.png" alt="Portada del proyecto ASIR" title="portada" width="900" /></p>
+
 <h2>Índice</h2>
-<ul class="indice">
-<li><a href="objetivos.html" style="text-decoration:none">Introducción, justificación y objetivos del Proyecto</a></li>
+
+
+<ol class="indice">
+<li><a href="objetivos.html" style="text-decoration:none">Introducción, justificación y objetivos del Proyecto</a>
+  <ol><li>Introducción</li>
+      <li>Justificación</li>
+      <li>Objetivos</li>
+  </ol>
+</li>
 <li><a href="planif.html" style="text-decoration:none">Planificación del Proyecto</a></li>
 <li><a href="selecso.html" style="text-decoration:none">Selección de Sistema Operativo: Raspbian</a></li>
-<li><a href="lamp.html" style="text-decoration:none">Instalación de un servidor web con LAMP</a></li>
-<li><a href="acceso_externo.html" style="text-decoration:none">Acceso Externo al servidor WEB</a></li>
-<li><a href="conex_segura.html" style="text-decoration:none">Conexión segura HTTPS: Uso de Let's Encrypt</a></li>
-<li><a href="docker.html" style="text-decoration:none">DOCKER: Instalación, primeros pasos y Apache</a></li>
-<li><a href="seguridad.html" style="text-decoration:none">Monitorización y Seguridad en la Raspberry-Pi</a></li>
+<li><a href="lamp.html" style="text-decoration:none">Instalación de un servidor web con LAMP</a>
+  <ol><li><a href="lamp.html#acron">¿Que es LAMP?</a>
+      <li><a href="lamp.html#apache">Instalación y configuración servidor web Apache</a>
+      <ol><li><a href="lamp.html#instalapache">Instalación de Apache</a></li>
+          <li><a href="lamp.html#configapache">Configuración y comprobación de su funcionamiento</a></li>
+          <li><a href="lamp.html#scp">SCP (Secure Copy): Copiar archivos a través de ssh</a></li>
+      </ol>
+      </li>
+      <li><a href="lamp.html#instalphp">Instalación y configuración PHP</a></li>
+      <li><a href="lamp.html#instalmariadb">Instalación y configuración MariaDB</a>
+        <ol>
+          <li><a href="lamp.html#bdmariadb">Creación base de datos en MariaDB</a></li>
+        </ol>
+      <li><a href="lamp.html#instalphpmy">Instalación de phpMyAdmin</a>
+        <ol>
+          <li><a href="lamp.html#seg1">Consideraciones de seguridad</a></li>
+        </ol>
+      </li>
+    </li>
+  </li>
+  </ol>
+</li>
+<li><a href="acceso_externo.html" style="text-decoration:none">Acceso Externo al servidor WEB</a>
+  <ol><li><a href="acceso_externo.html#accessip">Acceso mediante IP externa</a></li>
+      <li><a href="acceso_externo.html#accessdom">Acceso mediante nombre de dominio</a></li>
+      <li><a href="acceso_externo.html#ddns">Instalar y configurar DNS Dinámico</a></li>
+  </ol>
+</li>
+<li><a href="conex_segura.html" style="text-decoration:none">Conexión segura HTTPS: Uso de Let's Encrypt</a>
+  <ol> <li><a href="conex_segura.html#puerto443">Acceso al puerto 443</a></li>
+    <li><a href="conex_segura.html#encrypt">¿Qué es Let's Encrypt?</a></li>
+    <li><a href="conex_segura.html#certif">Obtención de certificado: Uso de certbot</a></li>
+    <li><a href="conex_segura.html#ajustes">Ajustes adicionales</a></li>
+  </ol>
+</li>
+<li><a href="docker.html" style="text-decoration:none">DOCKER: Instalación, primeros pasos y Apache</a>
+  <ol><li><a href="docker.html#docker">¿Que es Docker?</a></li>
+      <li><a href="docker.html#docrasp">Instalación de Docker en Raspbian</a></li>
+      <li><a href="docker.html#pasos">Primeros pasos</a></li>
+      <li><a href="docker.html#doclamp">Instalación de Apache en Docker</a></li>
+  </ol>
+</li>
+<li><a href="seguridad.html" style="text-decoration:none">Monitorización y Seguridad en la Raspberry-Pi</a>
+  <ol><li><a href="seguridad.html#consejos">Consejos generales</a></li>
+    <li><a href="seguridad.html#ssh">Mejorar la seguridad SSH</a></li>
+    <li><a href="seguridad.html#proxy">Proxy Internet: cache web - SQUID</a></li>
+    <li><a href="seguridad.html#monitor">Monitorización en la Raspberry-Pi</a>
+    <ol>
+        <li><a href="seguridad.html#logwatch">Archivos Log: Logwatch</a></li>
+        <li><a href="seguridad.html#munin">Monitorización del sistema: Munin</a></li>
+    </ol>
+    <li><a href="seguridad.html#seguridad">Seguridad en la Raspberry-Pi</a>
+    <ol>
+        <li><a href="seguridad.html#fail2ban">Ataque por fuerza bruta: Fail2ban</a></li>
+        <li><a href="seguridad.html#rootkit">Detección de rootkits: Rootkit Hunter</a></li>
+        <li><a href="seguridad.html#audit">Auditoría de seguridad: Debsecan</a></li>
+        <li><a href="seguridad.html#firewall">Cortafuegos: UFW</a></li>
+    </ol>
+    </li>
+    </li>
+  </ol>
+</li>
 <li><a href="consid.html" style="text-decoration:none">Consideraciones finales</a></li>
-<li><a href="anexo1.html" style="text-decoration:none">Anexo 1: Hardware y montaje Raspberry-Pi</a></li>
-<li><a href="anexo2.html" style="text-decoration:none">Anexo 2: Instalación y configuración SO Raspbian</a></li>
+<li><a href="anexo1.html" style="text-decoration:none">Anexo 1: Hardware y montaje Raspberry-Pi</a>
+  <ol><li>Recomendaciones</li>
+      <li>Características</li>
+  </ol>
+</li>
+<li><a href="anexo2.html" style="text-decoration:none">Anexo 2: Instalación y configuración SO Raspbian</a>
+  <ol><li><a href="anexo2.html#instal">Instalación de Raspbian</a>
+    <ol><li><a href="anexo2.html#instal">Preparación tarjeta SD</a></li>
+        <li><a href="anexo2.html#noobs">NOOBS. El instalador de Raspbian</a></li>
+        <li><a href="anexo2.html#otras">Otras opciones para la Raspberry</a></li>
+    </ol>
+    <li><a href="anexo2.html#conex">Conexión a través de SSH</a></li>
+    <li><a href="anexo2.html#basica">Configuración básica de Raspbian</a></li>
+    <li><a href="anexo2.html#ipfija">Asignación de IP fija para la Raspberry Pi</a>
+      <ol><li><a href="anexo2.html#adapt">Adaptador de red</a></li>
+        <li><a href="anexo2.html#dhcp">/etc/dhcpcd.conf</a></li>
+        <li><a href="anexo2.html#interface">/etc/network/interfaces</a></li>
+        <li><a href="anexo2.html#router">Dirección MAC en el router</a></li>
+      </ol>
+    </li>
+  </li>
+  </ol>
+</li>
 <li><a href="anexo3.html" style="text-decoration:none">Anexo 3: Git - Github - Visual Studio Code</a></li>
 <li><a href="anexo4.html" style="text-decoration:none">Anexo 4: Backup de la Raspberry-Pi</a></li>
 <li><a href="anexo5.html" style="text-decoration:none">Anexo 5: Referencias</a></li>
-</ul>
+</ol>
+
+
 <address>Datos obtenidos en <a href="https://www.raspberrypi.org" style="text-decoration:none"><cite>Web oficial Raspberry Pi</cite></a><br /> Última modificación: 28 de mayo de 2018</address>
 <hr />
 

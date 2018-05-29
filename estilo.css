@@ -197,6 +197,15 @@ ul.indice a {
 }
 
 
+ol.indice {
+  font-size: 110%;
+}
+
+ol.indice a {
+  text-decoration:none;
+}
+
+
 /* Pantallas estrechas */
 
 @media screen and (max-width: 768px) {
