@@ -336,6 +336,112 @@ Configuraciones de seguridad adicionales
 
 <p><b>Servidor:</b> En el servidor deben añadirse a la configuración las direcciones de los clientes a contactar, lo que puede hacerse en el archivo /etc/munin/munin.conf:</p>
 
+<p align="left"><img src="images/munin_install.png" title="Instalación Munin" alt="captura instalación Munin" /></p>
+<p align="left"><img src="images/munin_node_conf.png" title="archivo configuración Munin cliente" alt="captura munin-node.conf" /></p>
+
+<p id="seguridad"><h3>Seguridad en la Raspberry-Pi</h3></p>
+
+<p><b>Seguridad informática:</b> Según la Real Academia Española, la Seguridad es Calidad de seguro, donde Seguro es Libre y exento de Peligro, por lo que se podría concluir que Seguridad Informática es “la cualidad de un sistema informático exento de peligro”. Sin embargo, esta a pesar de que puede ser una definición válida, no es una definición aceptable para nosotros. Una definición más acertada sería la siguiente: <b>Un conjunto de métodos y herramientas destinados a proteger la información y por ende, los sistemas informáticos ante cualquier amenaza</b>. Otra definición sería, resguardar y mantener estable una red de datos y red de computadoras ante cualquier amenaza de entidades externas.</p>
+<p>Si la seguridad es la condición de estar seguros, entonces la mejor estrategia es conocer los riesgos y planear su prevención.</p>
+
+<p id="fail2ban"><h4><i>Ataque de fuerza bruta:</i> <i>Fail2ban</i></h4></p>
+
+<p>Un <b>Ataque de Fuerza Bruta</b> se caracteriza por una intento continuado de obtener acceso a un servicio del sistema (ssh, smtp, http, etc.), intentando diversas combinaciones de nombre del usuario y su contraseña. Para llevar a cabo este ataque, el intruso puede usar un software que gestiona diversas combinaciones de caracteres o basarse en una lista de palabras (diccionario). En ambos casos, un ataque de este género consume muchos recursos y es potencialmente peligroso, especialmente si los usuarios del sistema no tienen un mínimo de cuidado al elegir sus contraseñas.</p>
+
+<p>Otro género de Ataque de Fuerza Bruta es un <b>Ataque de Negación de Servicio</b> (DoS) o Ataque Distribuido de Negaciones de Servicio (DDoS), en donde el servidor es bombardeado con solicitudes a un determinado servicio en tal número que no las puede gestionar, consumiendo todos los recursos del sistema, o haciéndolo inestable.</p>
+
+<p>Afortunadamente, esos ataques pueden ser detectados a tiempo, posibilitando una acción preventiva, como por ejemplo, ignorar o bloquear la dirección IP de origen del ataque.</p>
+
+<h4>Instalación y configuración de <a href="https://www.fail2ban.org/wiki/index.php/Main_Page" target="_blank">Fail2ban</a>:</h4>
+
+<p><em>Fail2Ban</em> es una aplicación que analiza continuamente los ficheros log y bloquea las direcciones ip de donde se hayan originado varios intentos fallidos de acceso con contraseña inválida, es extremadamente eficaz en la prevención de ataques de fuerza bruta y ataques de negación de servicio (DoS).</p>
+
+<p align="left"><img src="images/fail2ban_install.png" title="Instalación Fail2ban" alt="captura instalación Fail2ban" /></p>
+
+<p>Una vez instalado, hay que configurarlo para evitar posibles ataques. Puede que haya abiertos varios puertos en el router para acceder desde fuera de la LAN, así que es importante asegurarlo. Si alguien intenta entrar con una contraseña incorrecta, se le baneará durante 30 minutos (se puede elegir el tiempo en el archivo de configuración).</p>
+
+<p>Fail2Ban escanea el fichero <b>/var/log/auth.log</b> aplicando el filtro <b>/etc/fail2ban/filter.d/ssh.conf</b>. Se modifica la configuración desde el archivo <b>/etc/fail2ban/jail.conf</b>. Únicamente se muestran ejemplos de modificación de parámetros que se consideran convenientes, cada usuario puede modificarlo a su gusto:</p>
+
+<div class="codigo"><pre><code class="language-shell">
+[DEFAULT]<br/>
+# "ignoreip" can be an IP address, a CIDR mask or a DNS host<br/>
+ignoreip = 127.0.0.1/8<br/>
+bantime  = 1800<br/>
+maxretry = 3<br/><br/>
+
+[apache]<br/>
+enabled  = true<br/><br/>
+
+[ssh-ddos]<br/>
+enabled  = true<br/><br/>
+
+[pure-ftpd]<br/>
+enabled  = true<br/>
+</code></pre></div>
+
+<p>Para comprobar si Fail2Ban está funcionando correctamente, podemos introducir el siguiente comando: <b>cat /var/log/fail2ban.log</b></p>
+<p align="left"><img src="images/fail2ban_cat.png" title="comprobación Fail2ban" alt="captura comprobación Fail2ban" /></p>
+
+<p id="rootkit"><h4><i>Detección de rootkits:</i> <i>Rootkit Hunter</i></h4></p>
+
+<p>Un rootkit es una sección de código malicioso que intenta alterar componentes del sistema y camuflar su existencia o la existencia de archivos asociados. Por ejemplo, un rootkit que altere los mandos <b>ls</b> o <b>ps</b>, de modo que sus archivos y procesos en ejecución no sean listados, su detección es muy difícil y puede abrir una puerta de entrada para el sistema, comprometiendo seriamente la seguridad. Por tanto es muy importante que sea verificado periódicamente la posible existencia de rootkits en el sistema para eliminarlos tan pronto como sea posible.</p>
+
+<h4>Instalación y configuración de <a href="http://rkhunter.sourceforge.net/" target="_blank">RootKit Hunter</a>:</h4>
+
+<p><em>RootKit Hunter</em>, es un sistema de detección de rootkits que alerta por e-mail al administrador del sistema, en caso de que detecte alteraciones en el sistema que indiquen la presencia de un rootkit. Para instalarlo hay que ejecutar el siguiente comando: <b>$ sudo apt-get install rkhunter</b></p>
+
+<p align="left"><img src="images/rkhunter_install.png" title="Instalación RootKit Hunter" alt="captura instalación RootKit Hunter" /></p>
+
+<p>La configuración predeterminada del paquete rkhunter suele ser suficiente. El archivo <b>/etc/default/rkhunter</b> define que las actualizaciones de la base de datos tengan una periodicidad semanal, la verificación de rootkits diaria y que los resultados sean enviados por e-mail al administrador del sistema (root). Para esto, debe actualizarse la base de datos de propiedades de los archivos de rkhunter:<b>$ sudo rkhunter --propupd</b></p>
+
+<p align="left"><img src="images/rkhunter_propupd.png" title="Actualización base de datos RootKit Hunter" alt="captura actualización base de datos RootKit Hunter" /></p>
+
+<p>rkhunter puede ser ejecutado desde la línea de comandos: <b>$ sudo rkhunter --check</b></p>
+<p align="left"><img src="images/rkhunter_check.png" title="Comprobación RootKit Hunter" alt="captura comprobación RootKit Hunter" /></p>
+
+<p>La base de datos del rkhunter se actualiza cada semana de forma automática. Pero, es posible proceder a su actualización siempre que sea necesario: <b>$ sudo rkhunter --update</b></p>
+
+<p id="audit"><h4><i>Auditoría de seguridad:</i> <i>Debsecan</i></h4></p>
+
+<p>Los miles de paquetes de software que componen cualquier distribución Linux se actualizan constantemente, para corregir bugs. Por supuesto, algunos de estos bugs pueden tener un impacto, más o menos grave en la seguridad del sistema. Por tanto, es conveniente estar atentos a las posibles vulnerabilidades que contenga el software instalado en el sistema. Debian mantiene una extensa Lista de vulnerabilidades, sin embargo, es más práctico estar informado sólo de las vulnerabilidades que puedan afectar a nuestro sistema.</p>
+
+<h4>Instalación y configuración de <a href="https://wiki.debian.org/DebianSecurity/debsecan" target="_blank">Debsecan</a>:</h4>
+
+<p><em>Debsecan</em> (Debian Security Analyzer) efectúa una evaluación de la seguridad del sistema y muestra las vulnerabilidades conocidas y asociadas a los paquetes instalados en el sistema, notificando al administrador (root) los resultados. </p>
+<p align="left"><img src="images/debsecan_install.png" title="Instalación Debsecan" alt="captura instalación Debsecan" /></p>
+
+<p>Para informes más rigorosos, debe indicarse la versión Debian del sistema en el archivo <b>/etc/default/debsecan</b></p>
+<p>Debsecan puede configurarse para ser ejecutado diariamente a través de una tarea programada (cron). Sus resultados se envían por e-mail al administrador del sistema (root): <b>$ sudo debsecan-create-cron</b></p>
+<p>La tarea programada durante la configuración enviará un e-mail al administrador con el resultado del análisis de seguridad. De forma opcional, debsecan también puede ejecutarse en la línea de comandos: <b>$ sudo debsecan</b></p>
+
+<p id="firewall"><h4><i>Cortafuegos:</i> <i>UFW</i></h4></p>
+
+<p>Un cortafuegos (firewall en inglés) es una parte de un sistema o una red que está diseñada para bloquear el acceso no autorizado, permitiendo al mismo tiempo comunicaciones autorizadas. Se trata de un dispositivo o conjunto de dispositivos configurados para permitir, limitar, cifrar, descifrar, el tráfico entre los diferentes ámbitos sobre la base de un conjunto de normas y otros criterios. Los cortafuegos pueden ser implementados en hardware o software, o una combinación de ambos.</p>
+
+<p>En el arsenal de armas de defensa un firewall o cortafuegos es probablemente una de las más poderosas</p>
+
+<h4>Instalación y configuración de <a href="https://help.ubuntu.com/community/UFW" target="_blank">UFW</a>:</h4>
+
+<p>La instalación de <em>UFW</em> (abreviatura de “Uncomplicated Firewall” o “cortafuegos sin complicaciones”) permite definir políticas de seguridad de la red, la creación de limitaciones o permisos para acceder a diferentes servicios o aplicaciones, es una interfaz de línea de comando que consiste en un pequeño número de órdenes simples que nos permite configurar las iptables del firewall. También dispone de una versión GUI conocida como Gufw, GUI for Uncomplicated Firewall, que facilita todavía más la tarea, y que está disponible para casi todas las distribuciones Linux.</p>
+
+<p align="left"><img src="images/ufw_install.png" title="Instalación Firewall ufw" alt="captura instalación ufw" /></p>
+
+<p><strong>Atención:</strong>La configuración de un cortafuegos incorrecta puede bloquear completamente el acceso remoto a un servidor. Antes de introducir un comando comprobar que lo que se ha escrito es exactamente lo que se quiere y los posibles “efectos secundarios” no deseados!</p>
+
+<p>La configuración predeterminada de UFW permite al servidor iniciar las comunicaciones con el exterior <b>DEFAULT_OUTPUT_POLICY=“ACCEPT”</b>, pero ignora cualquier intento de acceso al servidor desde fuera <b>DEFAULT_INPUT_POLICY=“DROP”</b>. Esta configuración impide, por ejemplo, el acceso a un servidor remoto. En primer lugar debe estar garantizado el acceso al servidor remoto por ssh: <b>$ sudo ufw allow ssh/tcp</b></p>
+<p>También es necesario activar el registro de eventos: <b>$ sudo ufw logging on</b></p>
+<p>Por último, el cortafuegos debe estar activado:<b>$ sudo ufw enable</b> (disable lo desactiva)</p>
+
+<p align="left"><img src="images/ufw_install1.png" title="configuración Firewall ufw" alt="captura 1 configuración ufw" /></p>
+<p>A partir de este momento sólo se puede acceder al servidor de forma remota utilizando el protocolo ssh que utiliza el puerto de acceso remoto 22. Será negada a cualquier otro servicio disponible en el servidor.</p>
+
+<p>En cualquier momento usted puede comprobar el estado del cortafuego:</p>
+<p align="left"><img src="images/ufw_install2.png" title="configuración Firewall ufw" alt="captura 2 configuración ufw" /></p>
+<p>Ejemplo: se permite el acceso https</p>
+<p align="left"><img src="images/ufw_install3.png" title="configuración Firewall ufw" alt="captura 3 configuración ufw" /></p>
+
+
+
 <hr />
 <p class="mclibre">
   Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
