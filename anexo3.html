@@ -18,6 +18,76 @@
 <body>
   <span class="ir-arriba icon-circle-up"></span>
 <h1>Git - Github - Visual Studio Code</h1>
+
+<ul class="indice">
+  <li><a href="#git">Git</a></li>
+  <li><a href="#github">GitHub</a></li>
+  <li><a href="#vsc">Visual Studio Code</a></li>
+</ul>
+
+<p>Para la elaboración de esta web se han utilizado las herramientas que se detallan a continuación, por considerar que a la hora de poder compartir la información aquí mostrada y facilitar que futuros proyectos o alumnos interesados en ampliar, corregir, modificar o simplemente actualizar la web, son las más adecuadas. Aunque tal y como avanza todo en la informática, puede que en un futuro no muy lejano queden obsoletas y se usen otras.</p>
+
+<p id="git"><h3>GIT</h3></p>
+
+<p>Los Sistemas de Control de Versiones permiten gestionar los cambios realizados en el código fuente de programas o documentos. En los años 90 la mayoría de VCS era sistemas centralizados, en el que un servidor central guarda toda la información y los clientes se conectan al servidor. En el mundo del software libre, el sistema más popular fue CVS (Concurrent Versions System), sustituido a partir del 2004 por Subversion.</p>
+
+<p>En el año 2000 apareció BitKeeper, un sistema de control de versiones distribuido, en el que cada cliente mantiene su propia copia completa del repositorio y puede trabajar sin estar conectado al servidor. BitKeeper era un programa comercial, pero permitía su uso en proyectos de software libre. Entre 2002 y 2005, BitKeeper se utilizó en el desarrollo del kernel Linux, pero en 2005 BitKeeper revocó la licencia que había concedido a los programadores del kernel. Aunque para entonces ya había sistemas de control de versiones distribuidos libres (Monotone, darcs), Linus Torvalds decidió crear un nuevo programa, Git, que se publicó en abril de 2005.</p>
+
+<p><a href="https://git-scm.com/" target="_blank">Git</a> se ha convertido en el sistema de control de versiones más utilizado.</p>
+<p> Libro <a href="https://git-scm.com/book/en/v2" target="_blank">Pro Git book</a> (2º edición, 2014), de Scott Chacon y Ben Straub. Hay una <a href="https://git-scm.com/book/es/v2" target="_blank">traducción incompleta en español</a>.</p>
+
+<p id="github"><h3>GitHub</h3></p>
+
+<p><a href="https://github.com/" target="_blank">GitHub</a> es una empresa de alojamiento de proyectos de software basados en git fundada en 2008. El alojamiento es gratuito para los proyectos libres y públicos y de pago para el resto. GitHub se ha convertido en el mayor repositorio de proyectos de software libre.</p>
+<p>Para crearse una cuenta es muy sencillo, sólo hay que entrar en su web y darse de alta siguiendo los pasos, una vez verificado el correo ya se podrá entrar en la cuenta creada</p>
+
+<h4>Crear un repositorio en GitHub</h4>
+
+<p>Para crear un nuevo repositorio en GitHub:</p>
+
+    <ol><li>Haga clic en el icono en forma de cruz situado arriba a la derecha y elija la opción "New repository". Si no ha creado todavía ningún repositorio, en la página web se puede mostrar un botón "Start a project", que también permite crear un nuevo repositorio. </li>
+    <li>Indique el nombre del repositorio, su descripción, si es público o privado. Se recomienda incluir en el repositorio un fichero README, pero no es necesario crear el fichero .gitignore (salvo si se trata de un proyecto de software de uno de los tipos disponibles). Si se trata de un proyecto de software libre, elija la licencia que desee emplear. Haga clic en Create repository.</li>
+    <li>Inmediatamente se mostrará el repositorio recién creado. En este caso únicamente contiene el fichero Readme.md</li>
+    </ol>
+
+<h4>Publicar repositorios web</h4>
+
+<p><a href="https://pages.github.com/" target="_blank">GitHub Pages</a> es un servicio de GitHub que permite publicar en la web el contenido de un repositorio.</p>
+
+<p>Activar este servicio es muy sencillo:</p>
+
+    <ul><li>Si el respositorio contiene únicamente las páginas web que queremos publicar, haga clic en el enlace Settings (configuración)</li>
+      <li>Casi al final de la página de configuración se encuentra el apartado correpsondiente a GitHub Pages. Haga clic en el botón que ahora dice None ... </li>
+      <li>... cambie a "master branch" ... </li>
+      <li> y haga clic en "Save"</li>
+      <li>La página se actualizará y le mostrará la URL pública</li>
+      <li>En unos segundos la página estará disponible.</li>
+    </ul>
+<p>Como ejemplos se añaden el repositorio y la cuenta de github usadas en el proyecto</p>
+<ul><li><a href="https://github.com/Nacholoop/enigma" target="_blank">Repositorio Proyecto</a></li>
+<li><a href="https://nacholoop.github.io/enigma/" target="_blank">Página web repositorio</a></li>
+</ul>
+
+<h4>Detalles adicionales:</h4>
+
+    <ul>
+      <li>El contenido de la web pública es el propio repositorio. Si posteriormente modifica el contenido del repositorio, el sitio web cambiará inmediatamente.</li>
+      <li>El contenido de la web pública no tiene por qué ser todo el repositorio. Si el repositorio contiene un directorio "docs" y se elige la opción "master/branch /docs folder" en la página Settings, la web pública corresponderá al contenido del directorio "docs".</li>
+      <li>GitHub pages permite acceder al contenido a través de un dominio propio.</li>
+      <li>Si el repositorio se llama nombre-de-usuario.github.io, la dirección pública es https://nombre-de-usuario.github.io/</li>
+      <li>GitHub Pages admite como fuente el generador de sitios estáticos <a href="https://jekyllrb.com/">Jekyll</a>.</li>
+    </ul>
+
+<p id="vsc"><h3>Visual Studio Code</h3></p>
+
+<p>Visual Studio Code es un editor de programación multiplataforma desarrollado por Microsoft. Es un proyecto de software libre que se distribuye bajo la licencia MIT, aunque los ejecutables se distribuyen bajo una licencia gratuita no libre.</p>
+
+<p>La página oficial de Visual Studio Code es <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>. El código fuente se encuentra en GitHub <a href="https://github.com/Microsoft/vscode" target="_blank">aquí</a></p>
+
+<p>La página de descarga es <a href="https://code.visualstudio.com/Download" target="_blank">descarga</a>. Desde ella se pueden descargar las versiones para diferentes versiones operativos (32 / 64 bits, Windows / GNU/Linux / Mac). Una vez descargado e instalado es conveniente actualizar. La primera vez que se abre Visual Studio Code tras la instalación, se muestra una página de bienvenida al programa, si no está instalado Git, se muestra un mensaje de aviso, sii no se va a utilizar Git, se puede cerrar el aviso pero si se quiere utilizar Git, se deber instalar </p>
+
+<p>Lo más interesante de Visual Studio Code, en lo que se refiere al Proyecto aquí expuesto, es la capacidad que tiene de poder trabajar con repositorios clonados en local y poder publicar automáticamente en GitHub los cambios que se van realizando, aquí se muestra como hacerlo, <a href="http://mclibre.org/consultar/informatica/lecciones/vsc-git-repositorio.html" target="_blank">clonar repositorio</a></p>.
+
 <hr />
 <p class="mclibre">
   Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López Espert</cite>
