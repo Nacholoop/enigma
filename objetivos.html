@@ -27,6 +27,54 @@
   <li><a href="elecc">Elección Sistema Operativo: Raspbian</a></li>
 </ul>
 
+<p id="intro"><h4>Introducción:</h4></p>
+
+<p>El proyecto que se expone a continuación como final de CFGS consiste en la instalación y configuración, explicada paso a paso, sobre una Raspberry-Pi 3 modelo B, de una estructura LAMP, es decir, el montaje y puesta en marcha de un servidor web Apache, con soporte tanto para bases de datos a través de MySQL como para páginas web dinámicas a través de Php, todo ello sobre un sistema operativo Linux, de ahí el acrónimo LAMP (Linux-Apache-MySQL-Php)</p>
+
+<p>Una vez montado el servidor web con LAMP, se sigue con el acceso desde el exterior al servidor, acceso seguro mediante https, la instalación de Docker para su posterior uso y sobretodo diferentes puntos sobre la seguridad en la Raspberry-Pi.</p>
+
+<p id="justif"><h4>Justificación:</h4></p>
+
+<p>La idea principal que se trata de desarrollar en este proyecto, siendo consciente de a la velocidad que se mueve la informática y que mientras se estudia cierta materia puede ser ya obsoleta, es la de intentar facilitar la complicada tarea de acercar las diferentes asignaturas que imparten los profesores a sus alumnos, y por otro lado ofrecer al alumno de ASIR un entorno de pruebas en el que poder desarrollar las prácticas que se abordan durante el ciclo o al menos parte de ellas.</p>
+
+<p>Se abordan temas que en mayor o menor profundidad estan relacionadas con asignaturas del ciclo de Asir, tales como, Lenguaje de marcas (se crea una web para la presentación del proyecto), Planificación y Administración de Redes (se muestran diagramas de red, configuraciones de red etc.), Administración de Sistemas Operativos (configuración e instalación de Linux, windows, macOSx etc.), Seguridad y Alta Disponibilidad (toda la seguridad necesaria para ofrecer un entorno mínimamente seguro).</p>
+
+<p>Por otro lado se busca que el coste económico sea mínimo, de ahí la elección de software de licencia libre y de hardware como la Raspberry-Pi, que con una mínima inversión de 20-30€, ofrece un miniordenador bastante potente y completo, con el que se puede desarrollar por completo el proyecto sin ningún problema. Además su reducido tamaño y su bajo consumo eléctrico, lo hace idóneo para alojarlo en cualquier red doméstica, incluso poder transportarlo físicamente sin ningún transtorno, ya que no es más grande que una tarjeta de crédito.</p>
+
+<p>Por último, señalar que como no va a ser necesario disponer de un entorno de escritorio, ya que la conexión al servidor será siempre por SSH, no seran necesarios periféricos como ratón, teclado o monitor.</p>
+
+<p id="objet"><h4>Objetivos:</h4></p>
+
+<p>El objetivo principal es conseguir llamar la atención a los alumnos de Asir, y hacer de este proyecto una herramienta útil de prueba y ensayo, en el que poder probar el material de las distintas asignaturas que se imparten, y por otro lado que los profesores puedan usar este proyecto como una via de comunicación más con sus alumnos, a la hora de interactuar con ellos, usando un entorno común en el que poder practicar los temas tratados en clase.</p>
+
+<p>Abrir nuevas vias de investigación para futuros proyectos, porque este proyecto no prentende ser un documento cerrado, si no que se puede usar como base para asentar la idea principal y sobre todo para profundizar sobre cualquiera de los puntos mostrados en el proyecto.</p>
+
+<p>Una vez finalizados todos los pasos mostrados en el proyecto, se pretende conseguir tener en pleno funcionamiento un servidor web para poder alojar webs de contenido estático y dinámico con soporte de bases de datos, instalación de aplicaciones web y con las herramientas de seguridad necesarias para poder conectarlo a la red doméstica y tener un mínimo de tranquilidad, sabiendo que no se abre en casa un agujero más de seguridad.</p>
+
+<p id="plani"><h4>Planificación del proyecto.</h4></p>
+
+<p>El proyecto consiste en la instalación y configuración del software utilizado en el siguiente orden:</p>
+<ul>
+  <li>Adquisición y montaje de la Raspberry-Pi 3 modelo B</li>
+  <li>Descarga e instalación de Raspbian.</li>
+  <li>Configuración de Raspbian.</li>
+  <li>Instalación de LAMP: Apache, MariaDB y PHP.</li>
+  <li>Instalación de phpMyAdmin.</li>
+  <li>Acceso desde el exterior al servidor web.</li>
+  <li>Instalación y configuración de HTTPS: Let's Encrypt.</li>
+  <li>Instalación de Docker y montaje de Apache sobre Docker.</li>
+  <li>Monitorización y Seguridad en la Raspberry-Pi.</li>
+  <li>Backup de la Raspberry-Pi.</li>
+  <li>Creación de una web que muestra toda la elaboración del proyecto paso por paso y de forma paralela utilizando herramientas como Git, GitHub y Visual Studio Code.</li>
+  </ul>
+
+
+<p id="elecc"><h4>Elección Sistema Operativo: Raspbian.</h4></p>
+
+<p>Existen diferentes sistemas operativos soportados por Raspberry Pi, siendo algunos de ellos distribuciones de terceros (tales como Ubuntu, Windows, etc.). En este caso, se opta por la distribución oficial de la propia fundación, que está basada en Debian y se denominada RASPBIAN. En concreto RASPBIAN STRETCH LITE, que es una versión sin interfaz de escritorio, lo cual la hace más ligera y más acorde a los objetivos de este proyecto, como es su utilización a modo de servidor y donde no será necesario hacer uso del escritorio. Los pasos detallados del proceso a seguir para la descarga, instalación y configuración de Raspbian para su uso como servidor, pueden consultarse en el <a href="anexo2.html">ANEXO 2</a> del proyecto.</p>
+
+
+
 <hr />
 <p class="mclibre">
   Esta página forma parte del proyecto <a href="https://nacholoop.github.io/enigma/"><cite>Mini servidor para prácticas ASIR</cite></a> por <cite>Nacho López</cite>, que se distribuye bajo una <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es_ES">Licencia Creative Commons Reconocimiento-CompartirIgual 4.0 Internacional (CC BY-SA 4.0)</a>.
