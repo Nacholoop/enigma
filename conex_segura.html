@@ -26,67 +26,88 @@
   <li><a href="#ajustes">Ajustes adicionales</a></li>
 </ul>
 
-<p id="puerto443"><h3>Acceso al puerto 443</h3></p>
+<h2 id="puerto443">Acceso al puerto 443</h2>
 
-<p>Para hacer que la conexión al servidor web sea segura, es decir, utilice el protocolo HTTPS en lugar de HTTP, es necesario el uso de un certificado generado por una Entidad Certificadora y habilitar el acceso al puerto 443 desde el exterior. Para que todo funcione correctamente, en primer lugar, hay que crear una nueva redirección de puerto para que al intentar acceder mediante  HTTPS desde el exterior,se acceda al servidor. Para ello se redirecciona el puerto 443 del mismo modo que se ha hecho anteriormente para el 80 en el router.Ahora habrá dos reglas de reenvío de puertos en el router, apuntando ambas al servidor web</p>
+<p>Para hacer que la conexión al servidor web sea segura, es decir, utilice el protocolo HTTPS en lugar de HTTP, es necesario el uso de un certificado generado por una Entidad Certificadora y habilitar el acceso al puerto 443 desde el exterior. Para que todo funcione correctamente, en primer lugar, hay que crear una nueva redirección de puerto para que al intentar acceder mediante  HTTPS desde el exterior,se acceda al servidor. Para ello se redirecciona el puerto 443 del mismo modo que se ha hecho anteriormente para el 80 en el router. Ahora habrá dos reglas de reenvío de puertos en el router, apuntando ambas al servidor web</p>
 
 <p align="center"><img src="images/reenvio_puerto443.png" title="reenvio puerto 443 del router" alt="captura reenvio puerto 443 del router" /></p>
 
-<p id="encrypt"><h3>¿Qué es Let's Encrypt?</h3></p>
+<h2 id="encrypt">¿Qué es Let's Encrypt?</h2>
 
 <p><em>Let's Encrypt</em> es una autoridad de certificación que se puso en marcha el 12 de abril de 2016 y que proporciona certificados X.509 <b>gratuitos</b> para el cifrado de Seguridad de nivel de transporte (TLS) a través de un proceso automatizado diseñado para eliminar el complejo proceso actual de creación manual, la validación, firma, instalación y renovación de los certificados de sitios web seguros.</p>
 
 <p>El proyecto tiene como objetivo hacer conexiones cifradas a servidores Web. Al eliminar el pago, la configuración del servidor web, gestión de correo electrónico de validación y las tareas de renovación del certificado, está destinado a reducir significativamente la complejidad de la configuración y el mantenimiento de cifrado TLS. En un servidor web Linux, la ejecución de dos comandos es suficiente para configurar el cifrado HTTPS y adquirir e instalar certificados en el plazo de 20 a 30 segundos.</p>
 
-<p>Para ello fue incluido un paquete de software en los repositorios de software oficiales de Debian. Las iniciativas actuales de los principales desarrolladores de navegadores como Mozilla y Google para despreciar HTTP sin cifrar están contando con la disponibilidad de Let's Encrypt. El proyecto se reconoce que tienen el potencial de lograr conexiones cifradas como el caso por defecto para toda la web. Sólo se emiten certificados de dominio validado, no se ofrecerán la validación de organizaciones certificados de validación extendida.</p>
-
 <p>Pretende ser lo más transparente posible, tanto para proteger su propia integridad como para evitar ataques e intentos de manipulación. Así, se publican regularmente informes de transparencia, se registran todas las transacciones ACME (por ejemplo, mediante el uso de un Certificado de Transparencia), y se usan estándares abiertos y software libre tanto como sea posible.</p>
 
-<p><b>Patrocinadores</b>: Let's Encrypt está siendo desarrollado por el <a href="https://letsencrypt.org/isrg/">Internet Security Research Group</a>. Entre sus patrocinadores están la Electronic Frontier Foundation (EFF), la Fundación Mozilla, OVH, Akamai, y Cisco Systems. Otros colaboradores incluyen la Autoridad de Certificados IdenTrust, la Universidad de Michigan (U-M), la Stanford Law School, la Fundación Linux y Stephen Kent de IBM y Alex Polvi de CoreOS.</p>
+<p>Let's Encrypt está siendo desarrollado por el <a href="https://letsencrypt.org/isrg/">Internet Security Research Group</a>. Entre sus patrocinadores están la Electronic Frontier Foundation (EFF), la Fundación Mozilla, OVH, Akamai, y Cisco Systems. Otros colaboradores incluyen la Autoridad de Certificados IdenTrust, la Universidad de Michigan (U-M), la Stanford Law School, la Fundación Linux y Stephen Kent de IBM y Alex Polvi de CoreOS.</p>
 
-<p id="certif"><h3>Obtención de certificado Let's Encrypt: uso de certbot</h3></p>
+<h2 id="certif">Obtención de certificado Let's Encrypt: uso de certbot</h2>
+
 <p><a href="https://letsencrypt.org/getting-started/">Let’s Encrypt</a> utiliza el protocolo <a href="https://ietf-wg-acme.github.io/acme/">ACME</a> (Automatic Certificate Management Environment) , el cual se basa en un proceso en dos pasos, por un lado la validación del dominio y por otro la solicitud del certificado. En la <a href="https://letsencrypt.org/how-it-works/">documentación oficial</a> muestra un ejemplo especificando todo el proceso.</p>
 
-<p>Para proceder a la obtención e instalación en el servidor del certificado, se usará el script <b>CERTBOT</b> que ofrece la propia entidad para facilitar el proceso. Cerbot es una herramienta que permite activar automáticamente el certificado ssl a través de Let’s encrypt. La instalación es sencilla y se encuentra explicada en la web de la <a href="https://certbot.eff.org/">EFF</a>.En el menú que muestra se selecciona el servidor que se vaya a usar (en este caso Apache) y el sistema operativo (Debian 9 stretch) y automáticamente muestra la explicación del proceso de instalación.</p>
+<p>Para proceder a la obtención e instalación en el servidor del certificado, se usará el script <b>CERTBOT</b> que ofrece la propia entidad para facilitar el proceso. Cerbot es una herramienta que permite activar automáticamente el certificado ssl a través de Let’s encrypt. La instalación es sencilla y se encuentra explicada en la web de la <a href="https://certbot.eff.org/">EFF</a>. En el menú que muestra se selecciona el servidor que se vaya a usar (en este caso Apache) y el sistema operativo (Debian 9 stretch) y automáticamente muestra la explicación del proceso de instalación.</p>
 
 <p align="center"><img src="images/certbot.png" title="Herramienta Certbot" alt="captura certbot" /></p>
 
-<i>Pasos para la instalación y configuración de Certbot:</i>
-<p><b>1.</b> Actualización del sistema: Al usar  Raspbian Stretch el paquete que se utiliza para configurar SSL en la Raspberry Pi está disponible en el repositorio Raspbian Stretch, y como se usa con el servidor Apache, se ejecuta la orden <b>$ sudo apt-get install python-certbot-apache</b>, como se muestra en la captura.</p>
+<h3><i>Pasos para la instalación y configuración de Certbot:</i></h3>
+<ol>
+<li> Actualización del sistema: Al usar  Raspbian Stretch el paquete que se utiliza para configurar SSL en la Raspberry Pi está disponible en el repositorio Raspbian Stretch, y como se usa con el servidor Apache, se ejecuta la orden <b>$ sudo apt-get install python-certbot-apache</b>, como se muestra en la captura.
+
 <p align="center"><img src="images/install_certbot.png" title="Actualizando el sistema para Certbot" alt="captura 2 certbot" /></p>
+</li>
 
-<p><b>2.</b>Obtención Certificado: Con <b>Certbot</b> instalado se puede proceder a obtener un certificado SSL para la Raspberry Pi de Let's Encrypt. Como se está utilizando Apache, la forma más fácil de obtener un certificado es ejecutando el comando que se muestra a continuación,esto automáticamente instalará el certificado con la configuración de Apache. <b>$ sudo certbot --apache</b>. Antes de hacerlo, primero hay que asegurarse de que el puerto 80 y el puerto 443 se reenvíen correctamente, como se muestra arriba</p>
+<li> Obtención Certificado: Con <b>Certbot</b> instalado se puede proceder a obtener un certificado SSL para la Raspberry Pi de Let's Encrypt. Como se está utilizando Apache, la forma más fácil de obtener un certificado es ejecutando el comando <b>$ sudo certbot --apache</b>, que instalará automáticamente el certificado con la configuración de Apache. Antes de hacerlo, primero hay que asegurarse de que el puerto 80 y el puerto 443 se reenvíen correctamente, como se muestra arriba.
+
 <p align="center"><img src="images/install_certbot2.png" title="Obteniendo el certificado de Let's Encrypt" alt="captura 2 certbot" /></p>
+</li>
 
-<p><b>3.</b>También se puede obtner el certificado de forma manual, obteniendo el script certbot por un lado, hacerlo ejecutable y así poder ejecutarlo para obtener el certificado. Las órdenes son las siguientes: <b>$ sudo wget  https://dl.eff.org/certbot-auto</b>, <b>$ sudo chmod a+x certbot-auto</b> y por último <b>$ ./certbot-auto</b>. En las capturas se observa que se han ejecutado las órdenes desde el path <b>/etc/letsencrypt/</b>, pero también se pueden ejecutar desde el home del usuario, tan solo se debe recordar la ubicación de la descarga del script.</p>
+<li>También se puede obtener el certificado de forma manual, obteniendo el script certbot por un lado, hacerlo ejecutable y así poder ejecutarlo para obtener el certificado. Las órdenes son las siguientes: <b>$ sudo wget  https://dl.eff.org/certbot-auto</b>, <b>$ sudo chmod a+x certbot-auto</b> y por último <b>$ ./certbot-auto</b>. En las capturas se observa que se han ejecutado las órdenes desde el path <b>/etc/letsencrypt/</b>, pero también se pueden ejecutar desde el home del usuario, tan solo se debe recordar la ubicación de la descarga del script.
+
 <p align="center"><img src="images/install_certbot3.png" title="Obteniendo el certificado de Let's Encrypt 2" alt="captura 3 certbot" /></p>
 <p align="center"><img src="images/install_certbot4.png" title="Obteniendo el certificado de Let's Encrypt 3" alt="captura 4 certbot" /></p>
 <p align="center"><img src="images/install_certbot5.png" title="Obteniendo el certificado de Let's Encrypt 4" alt="captura 5 certbot" /></p>
 
-<p><strong>Nota:</strong> Como se puede apreciar en las capturas anteriores, se muestran un par de errores que he considerado importante nombrar ya que pone de manifiesto un error muy infantil, fácil de cometer y que puede hacer que se pierda mucho tiempo. En la configuración del servidor web Apache (apartado: instalación de un servidor web con LAMP) y como consejo de seguridad, se habla de anular el archivo de configuración por defecto del servidor web y crear uno nuevo, llamado en este caso <b>raspberryasir.conf</b>.Pues bien, en la edición de ese archivo se muestra el nombre del dominio www.raspberryasir.com (de nuevo a modo de ejemplo), pero la creación real del dominio ha sido <b>www.raspberryasir.es</b>, y de ahí el error que muestra el script certbot cuando trata de crear el certificado, ya que lo primero que compueba son las dns del dominio en cuestión. Una vez subsanado el error en el archivo de configuración se puede observar que el certificado se crea sin problemas, tan sólo se debe constestar si se desea que se reenvien las peticiones http a https para evitar que se dupliquen, a lo que se contesta que SI, y lo hace el script automáticamente.</p>
+<p><strong>Nota:</strong> Como se puede apreciar en las capturas anteriores, se muestran un par de errores que he considerado importante nombrar ya que pone de manifiesto un error muy infantil, fácil de cometer y que puede hacer que se pierda mucho tiempo. En la configuración del servidor web Apache (apartado: instalación de un servidor web con LAMP) y como consejo de seguridad, se habla de anular el archivo de configuración por defecto del servidor web y crear uno nuevo, llamado en este caso <b>raspberryasir.conf</b>. Pues bien, en la edición de ese archivo se muestra el nombre del dominio www.raspberryasir.com (de nuevo a modo de ejemplo), pero la creación real del dominio ha sido <b>www.raspberryasir.es</b>, y de ahí el error que muestra el script certbot cuando trata de crear el certificado, ya que lo primero que compueba son las dns del dominio en cuestión. Una vez subsanado el error en el archivo de configuración se puede observar que el certificado se crea sin problemas, tan sólo se debe constestar si se desea que se reenvien las peticiones http a https para evitar que se dupliquen, a lo que se contesta que SI, y lo hace el script automáticamente.</p>
+
 <p align="center"><img src="images/install_certbot6.png" title="Obteniendo el certificado de Let's Encrypt 5" alt="captura 6 certbot" /></p>
 <p align="center"><img src="images/comprob_https.png" title="Comprobando el certificado de Let's Encrypt" alt="captura 7 certbot" /></p>
+</li>
 
-<p><b>4.</b>Renovación automática: Sólo falta por configurar la renovación automática del certificado, ya que su validez es de 3 meses. Para ello lo que se hace es introducir en el cron una tarea que trate de renovar el certificado dos veces por día, según <a href="https://certbot.eff.org/lets-encrypt/debianother-apache.html" target="_blank">recomendación oficial</a>. También indican en la web, en las recomendaciones para la versión <a href="https://certbot.eff.org/lets-encrypt/debianstretch-apache.html" target="_blank">debian Stretch</a>, que "Los paquetes de Certbot instalados en el sistema vienen con un trabajo cron que renovará los certificados automáticamente antes de que caduquen. Como los certificados Let's Encrypt duran 90 días, es muy recomendable aprovechar esta característica." Para probar la renovación automática se ejecuta el siguiente comando, con el parámetro “dry-run”, que simula la renovación: <b>$ sudo certbot renew --dry-run</b>.</p>
+<li>Renovación automática: Sólo falta por configurar la renovación automática del certificado, ya que su validez es de 3 meses. Para ello lo que se hace es introducir en el cron una tarea que trate de renovar el certificado dos veces por día, según <a href="https://certbot.eff.org/lets-encrypt/debianother-apache.html" target="_blank">recomendación oficial</a>. También indican en la web, en las recomendaciones para la versión <a href="https://certbot.eff.org/lets-encrypt/debianstretch-apache.html" target="_blank">debian Stretch</a>, que "Los paquetes de Certbot instalados en el sistema vienen con un trabajo cron que renovará los certificados automáticamente antes de que caduquen. Como los certificados Let's Encrypt duran 90 días, es muy recomendable aprovechar esta característica." Para probar la renovación automática se ejecuta el siguiente comando, con el parámetro “dry-run”, que simula la renovación: <b>$ sudo certbot renew --dry-run</b>.
+
 <p align="center"><img src="images/certbot_renew.png" title="simulando renovación certificado de Let's Encrypt" alt="captura renovación certbot" /></p>
 
 <p>Como se observa en la captura anterior, se detectan errores al ejecutar el script como aconseja la web de certbot en la versión debian stretch, por tanto he decidido a partir de aquí usar el script de forma manual que funciona para todas las versiones de debian, incluido raspbian, ejecutando el siguiente comando <b>$ ./certbot-auto renew --dry-run</b>. </p>
+
 <p align="center"><img src="images/certbot_auto_renew.png" title="simulando renovación manual certificado de Let's Encrypt" alt="captura renovación manual certbot" /></p>
 
 <p>Lo siguiente es probar el comando, pero añadiéndole un "post hook", que permite ejecutar un comando por shell tras el intento de renovación del certificado. Esto se hace para que Apache cargue los nuevos certificados, ya que podría pasar que los tuviera renovados y que, al no recargar la configuración, siguiera usando los antiguos y estos caducaran. Más información <a href="https://certbot.eff.org/docs/using.html#renewing-certificates" target="_blank">aquí</a></p>
 <p align="center"><img src="images/certbot_auto_posthook_apache.png" title="simulando renovación manual certificado de Let's Encrypt 2" alt="captura renovación manual certbot 2" /></p>
+</li>
+</ol>
 
 <p>Por último, si la simulación ha sido correcta, se añade dicho proceso de renovación a crontab para que se ejecute automáticamente cuando la licencia vaya a expirar,hay que seguir los siguientes pasos:</p>
-<p> <b>1.</b>Editar el archivo crontab ejecutando el comando <b>$ sudo crontab -e</b></p>
-<p align="left"><img src="images/sudo_crontab.png" title="editando crontab" alt="captura editando crontab" /></p>
 
-<p><b>2.</b> Agregar una secuencia de comandos en la parte inferior del archivo crontab que se ejecutará dos veces al día y renovará automáticamente los certificados SSL si están a punto de caducar. En este caso se comprobará todos los días a las 14:30h. y a las 2:30h.</p>
+<ol>
+  <li> Editar el archivo crontab ejecutando el comando <b>$ sudo crontab -e</b>
+  <p align="left"><img src="images/sudo_crontab.png" title="editando crontab" alt="captura editando crontab" /></p>
+  </li>
+
+<li>Agregar una secuencia de comandos en la parte inferior del archivo crontab que se ejecutará dos veces al día y renovará automáticamente los certificados SSL si están a punto de caducar. En este caso se comprobará todos los días a las 14:30h. y a las 2:30h.
+
 <p align="left"><img src="images/edit_crontab.png" title="editando crontab" alt="captura editando crontab" /></p>
+</li>
+</ol>
+
 <p>Se puede usar un Comprobador SSL <a href="https://www.sslshopper.com/ssl-checker.html" target="_blank">ssl checker</a> para verificar si los certificados se han renovado con éxito.</p>
+
 <p align="center"><img src="images/ssl_checker.png" title="comprobando renovación certificado" alt="captura comprobación renovación certificado" /></p>
 
-<p id="ajustes"><h3>Ajustes adicionales</h3></p>
+<h2 id="ajustes">Ajustes adicionales</h2>
+
 <p>Para dejarlo completamente configurado de manera que, se indiquen o no las www al inicio de la dirección, la dirección mostrada sea siempre la completa, hay que hacer un último ajuste en el fichero raspberryasir.conf de Apache, añadiendo ciertas líneas a la redirección ya realizada por la ejecución de CERTBOT en la configuración del VirtualHost.</p>
+
 <p align="left"><img src="images/raspberryasir.conf1.png" title="editando raspberryasir.conf" alt="captura editando raspberryasir.conf" /></p>
 <p align="left"><img src="images/raspberryasir.conf2.png" title="editando raspberryasir.conf 2" alt="captura 2 editando raspberryasir.conf" /></p>
 

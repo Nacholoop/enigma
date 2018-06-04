@@ -19,8 +19,11 @@
 
 <body>
   <span class="ir-arriba icon-circle-up"></span>
-  <h1>Instalación y configuración S.O. Raspbian</h1>
+
+  <h1>ANEXO 2: Instalación y configuración S.O. Raspbian</h1>
+
   <hr />
+
   <p>Existen diferentes sistemas operativos soportados por Raspberry Pi, siendo algunos de ellos distribuciones de terceros (tales como Ubuntu, Windows, etc.). En este caso, se opta por la distribución oficial de la propia fundación, se trata de una distribución basada en Debian, denominada RASPBIAN. En concreto <em>RASPBIAN STRETCH LITE</em>, que es una versión sin interfaz de escritorio, lo cual la hace más ligera y más acorde a los objetivos de este proyecto, que es su utilización a modo de servidor y donde no será necesario hacer uso del escritorio. Los pasos detallados del proceso a seguir para la descarga, instalación y configuración de Raspbian para su uso como servidor, se muestran a continuación.</p>
 
   <ul class="indice">
@@ -43,16 +46,17 @@
     </li>
   </ul>
 
-  <p id="instal">
-    <h3>Instalación de Raspbian</h3>
-  </p>
-  <p>En primer lugar, antes de pasar a la instalación propiamente dicha del Sistema Operativo Raspbian, se debe preparar la tarjeta SD de la Raspberry Pi. En la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a>, en la sección descargas, se muestran las diferentes opciones de instalación que se pueden utilizar, y las diferentes imágenes para poder hacerlo, como se ha elegido la opción de Raspbian se descargará la imagen correspondiente en el disco duro. Una imagen es un conjunto de sistema operativo y aplicaciones que se graba o "flashea" en un único archivo en la tarjeta SD y así se consigue recuperar toda la información necesaria para que la Raspberry Pi arranque cuando se enciende y cargue los programas necesarios, por tanto, una imagen es un archivo con extensión .img normalmente, aunque también puede presentar otros formatos como .iso,.bin,.nrg etc. que grabada de una cierta forma en la tarjeta SD restituye el sistema operativo y las aplicaciones deseadas. Y no, no sirve con formatear la tarjeta SD y copiar allí el archivo .img, sino que hay que recuperar la información contenida en el archivo .img de forma ordenada para que pueda ser interpretada como un disco de arranque por la Raspberry Pi. Se puede utilizar el programa <a href="https://sourceforge.net/projects/win32diskimager/">Win32 Disk Imager</a> para windows o los programas para macOSX
-    <a href="https://www.tweaking4all.com/hardware/raspberry-pi/macosx-apple-pi-baker/">ApplePi-Baker</a> o <a href="https://etcher.io/">Etcher</a>, aplicación disponible en ambas plataformas.</p>
+  <h2 id="instal">Instalación de Raspbian</h2>
+
+  <p>En primer lugar, antes de pasar a la instalación propiamente dicha del Sistema Operativo Raspbian, se debe preparar la tarjeta SD de la Raspberry Pi. En la página oficial de la <a href="https://www.raspberrypi.org/downloads/">Raspberry Pi</a>, en la sección descargas, se muestran las diferentes opciones de instalación que se pueden utilizar, y las diferentes imágenes para poder hacerlo, como se ha elegido la opción de Raspbian se descargará la imagen correspondiente en el disco duro. Una imagen es un conjunto de sistema operativo y aplicaciones que se graba o "flashea" en un único archivo en la tarjeta SD y así se consigue recuperar toda la información necesaria para que la Raspberry Pi arranque cuando se enciende y cargue los programas necesarios, por tanto, una imagen es un archivo con extensión .img normalmente, aunque también puede presentar otros formatos como .iso,.bin,.nrg etc. que grabada de una cierta forma en la tarjeta SD restituye el sistema operativo y las aplicaciones deseadas. Y no, no sirve con formatear la tarjeta SD y copiar allí el archivo .img, sino que hay que recuperar la información contenida en el archivo .img de forma ordenada para que pueda ser interpretada como un disco de arranque por la Raspberry Pi. Se puede utilizar el programa <a href="https://sourceforge.net/projects/win32diskimager/">Win32 Disk Imager</a> para windows o los programas para macOSX
+    <a href="https://www.tweaking4all.com/hardware/Raspberry Pi/macosx-apple-pi-baker/">ApplePi-Baker</a> o <a href="https://etcher.io/">Etcher</a>, aplicación disponible en ambas plataformas.</p>
 
   <p>La aplicación <em>win32 Disk Imager</em> es gratuita y permite tanto grabar una imagen a la tarjeta SD como hacer una copia de seguridad de la misma a Windows. Es decir, se puede crear un archivo .img a partir de los contenidos de la tarjeta SD. Y así tener un sistema configurado en la Raspberry Pi, o bien haber instalado una serie de aplicaciones en la tarjeta SD. Si se vuelca de nuevo al ordenador en un archivo .img se obtiene una copia de seguridad de la misma, que se podrá clonar en sendas tarjetas SD tantas veces como sea necesario. La instalación es realmente sencilla, sólo hay que seguir los pasos, elegir donde se quiere instalar, y ejecutar al finalizar la instalación. </p>
 
   <p><img src="images/DiskManager1.png" title="Win32 Disk Manager" alt="Disk Manager captura 1" class="izquierda" /><img src="images/DiskManager2.png" title="Win32 Disk Manager" alt="Disk Manager captura 2" class="izquierda" /><img src="images/DiskManager3.png" title="Win32 Disk Manager" alt="Disk Manager captura 3" class="izquierda" /></p>
+
   <p style="clear:both"></p>
+
   <p>Win 32 Disk Imager es una aplicación realmente sencilla de usar, aunque se debe tener una única precaución. Hay que asegurarse de que la unidad en la que se quiere grabar la imagen corresponde realmente con la tarjeta SD. <strong>Mucha atención, porque se puede borrar una partición o un disco del ordenador si no se tiene cuidado.</strong>.Una vez comprobado que la SD es la unidad en la que se quiere grabar la imagen, se selecciona y se indica el nombre de la imagen a grabar en la tarjeta de memoria. Por último se pulsa el botón Write y en pocos minutos habrá finalizado la copia. También se puede hacer la operación contraria,y así se consigue una copia de seguridad del contenido de una tarjeta SD en el ordenador, dándole un nombre y pinchando en el botón Read, y se guardará en un archivo con el nombre dado en el ordenador una nueva imagen.</p>
 
   <p align="center"><img src="images/DiskManager4.png" title="Win32 Disk Manager" alt="Disk Manager captura 4" /></p>
@@ -61,9 +65,12 @@
 
   <p> <em>ApplePi-Baker</em> es una aplicación similar a Win32 Disk Imager pero para entornos macOSX:</p>
   <p><img src="images/applepi_baker.png" title="ApplePi-Baker" alt="Apple-Pi Baker captura 1" class="izquierda" />Como se muestra en la imagen, ApplePi-Baker tiene varias partes diferenciadas. En el apartado Pi-Crust se ven las SD detectadas en el ordenador. Cuando se introduce una en el lector de SD, dicha tarjeta aparece en el recuadro correspondiente. También se puede usar el botón de refresco para asegurar que el ordenador ha leído la tarjeta, o bien expulsarla.<br /><br /> A la derecha en Pi-Ingredients es donde se indica cuál es el archivo .IMG que se quiere grabar en la tarjeta SD. Al pulsar en el botón IMG to SD CARD todos los contenidos de la tarjeta SD desaparecerán, así que <strong> cuidado al introducir una SD con información que no se quiera perder.</strong><br /><br /> Justo debajo aparece el apartado Pi-in-the-freezer para hacer una copia de seguridad del contenido de la tarjeta SD al ordenador. Y a su izquierda se observa que también se puede instalar <em>NOOBS</em> en la tarjeta SD. <br /><br />NOOBS es el acrónimo de New Out Of Box Software, una distribución que permite la instalación de varios "sistemas operativos" en una misma tarjeta SD, pudiendo decidir cuando se arranca la Raspberry Pi qué se quiere ejecutar. Así, se puede decidir ejecutar Raspbian o Openelec, entre unas cuantas opciones desde la imagen NOOBS en el arranque de la Raspberry Pi.</p>
+
   <p style="clear:both"></p>
+
   <p>Por último se muestra la aplicación <em>Etcher</em>, que está disponible para ambas plataformas:</p>
   <p><img src="images/etcher.png" title="Etcher" alt="Etcher captura 1" class="izquierda" />Etcher es una aplicación gratuita y de código abierto desarrollada para facilitar en todo lo posible la grabación de imágenes ISO, IMG y otros formatos comprimidos directamente y de forma segura a memorias USB y tarjetas de memoria.Sus principales características son:<br /><br />
+
     <ul>
       <li>Ofrece una interfaz sencilla y agradable.</li><br />
       <li>Cuenta con sistemas de validación para evitar la creación de memorias corruptas.</li><br />
@@ -86,7 +93,7 @@
 
   <p style="clear:both"></p>
 
-  <p id="noobs">Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">raspberry-pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra <em>NOOBS</em>, que como se ha comentado anteriormente, es el acrónimo de New Out Of Box Software, es un lanzador de distribuciones para novatos de Raspberry Pi. NOOBS ofrece las ventajas del multi-boot en la Raspberry Pi, compatible con todas sus versiones. En NOOBS se encuentran todos los sistemas operativos oficiales para raspberry-pi en un solo paquete para que se pueda usar cualquiera desde una sola tarjeta de memoria SD y sin realizar cambios drásticos en ella. Todo de manera sencilla y eligiendo el SO que más se adapte a las necesidades de cada momento, es la que se recomienda para empezar, permite instalar, confirgurar y probar todas las distribuciones que ofrecen en la web. Se ofrecen dos versiones distintas de NOOBS, una que incluye Raspbian y es "offline" y además se pueden seleccionar otros sistemas operativos que se descargan de interntet para poder ser instalados, y la versión NOOBS Lite, que contiene los mismos sistemas operativos para poder descargar desde internet pero no está Raspbian precargado y es necesario estar conectado a la red. </p>
+  <p id="noobs">Ahora ya está lista la tarjeta SD para insertarse en la ranura SD de la Raspberry Pi y comenzar con la instalación de Raspbian. Desde la página oficial de la <a href="https://www.raspberrypi.org/downloads/">Raspberry pi</a> se pueden descargar diferentes opciones, entre ellas se encuentra <em>NOOBS</em>, que como se ha comentado anteriormente, es el acrónimo de New Out Of Box Software, es un lanzador de distribuciones para novatos de Raspberry Pi. NOOBS ofrece las ventajas del multi-boot en la Raspberry Pi, compatible con todas sus versiones. En NOOBS se encuentran todos los sistemas operativos oficiales para Raspberry Pi en un solo paquete para que se pueda usar cualquiera desde una sola tarjeta de memoria SD y sin realizar cambios drásticos en ella. Todo de manera sencilla y eligiendo el SO que más se adapte a las necesidades de cada momento, es la que se recomienda para empezar, permite instalar, confirgurar y probar todas las distribuciones que ofrecen en la web. Se ofrecen dos versiones distintas de NOOBS, una que incluye Raspbian y es "offline" y además se pueden seleccionar otros sistemas operativos que se descargan de interntet para poder ser instalados, y la versión NOOBS Lite, que contiene los mismos sistemas operativos para poder descargar desde internet pero no está Raspbian precargado y es necesario estar conectado a la red. </p>
 
   <p align="center"><img src="images/versiones_noobs.png" title="NOOBS.New Out Of Box Software" alt="NOOBS captura versiones" /></p><br />
 
@@ -117,30 +124,28 @@
   <p style="clear:both"></p>
 
 
-  <p id="conex">
-    <h3>Conexión a Raspberry Pi a través de SSH</h3>
-  </p>
+  <h2 id="conex">Conexión a Raspberry Pi a través de SSH</h2>
 
-  <p> Una vez está preparada la Tarjeta SD con la opción elegida, en este caso, <b>Raspbian Stretch Lite</b>, lo más interesante es poder acceder a la Raspberry por primera vez sin necesidad de conectarla a un teclado, ratón, y monitor hdmi (que sería lo más aconsejable para versiones con escritorio). Para el desarrollo de este proyecto, al usarse versiones servidor y trabajar con la linea de comandos, se va a usar la conexión a través de <b>ssh</b> y para poder hacerlo, lo primero que hay que hacer es habilitar ssh en raspbian ya que por defecto está desabilitada, en su <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/README.md">página web</a> explican como hacerlo, primero hay que añadir un archivo vacio sin extensión llamado ssh en el raiz de la tarjeta SD, se extrae la tarjeta con seguridad del sistema operativo que se esté utilizando (windows, macOSX, etc) y una vez arrancada la Raspberry-Pi con la tarjeta SD insertada, Raspbian habilita el acceso ssh y borra el archivo vacio.Si la tarjeta SD contiene dos particiones hay que copiar el archivo en la más pequeña, llamada boot.</p>
+  <p> Una vez está preparada la Tarjeta SD con la opción elegida, en este caso, <b>Raspbian Stretch Lite</b>, lo más interesante es poder acceder a la Raspberry por primera vez sin necesidad de conectarla a un teclado, ratón, y monitor hdmi (que sería lo más aconsejable para versiones con escritorio). Para el desarrollo de este proyecto, al usarse versiones servidor y trabajar con la linea de comandos, se va a usar la conexión a través de <b>ssh</b> y para poder hacerlo, lo primero que hay que hacer es habilitar ssh en raspbian ya que por defecto está desabilitada, en su <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/README.md">página web</a> explican como hacerlo, primero hay que añadir un archivo vacio sin extensión llamado ssh en el raiz de la tarjeta SD, se extrae la tarjeta con seguridad del sistema operativo que se esté utilizando (windows, macOSX, etc) y una vez arrancada la Raspberry Pi con la tarjeta SD insertada, Raspbian habilita el acceso ssh y borra el archivo vacio.Si la tarjeta SD contiene dos particiones hay que copiar el archivo en la más pequeña, llamada boot.</p>
 
   <p align="center"><img src="images/raiz_sd.png" title="Raiz Tarjeta SD" alt="raiz tarjeta SD con SO Raspbian" /></p><br />
 
-  <p>El siguiente paso es averiguar cual es la ip asignada a la Raspberry-Pi, para ello se conecta al router a través de un cable de red y el cable de alimentación para poder encenderla, y se accede al router para comprobar la ip que se le ha asignado a la Raspberry-Pi. Para acceder a la administración del router a través del navegador suele ser la ip 192.168.1.1 (aunque puede variar, cada alumno debe saber cual es la ip de acceso al router), se pide usuario y contraseña y se accede al router. </p>
+  <p>El siguiente paso es averiguar cual es la ip asignada a la Raspberry Pi, para ello se conecta al router a través de un cable de red y el cable de alimentación para poder encenderla, y se accede al router para comprobar la ip que se le ha asignado a la Raspberry Pi. Para acceder a la administración del router a través del navegador suele ser la ip 192.168.1.1 (aunque puede variar, cada alumno debe saber cual es la ip de acceso al router), se pide usuario y contraseña y se accede al router. </p>
 
-  <p align="center"><img src="images/ip_raspberry.png" title="Dirección ip de Raspberry-Pi" alt="captura administración router" /></p><br />
+  <p align="center"><img src="images/ip_raspberry.png" title="Dirección ip de Raspberry Pi" alt="captura administración router" /></p><br />
 
-  <p>Ahora ya se puede realizar la conexión a la Raspberry-Pi a través de SSH como se muestra a continuación, el usuario por defecto es <strong>pi</strong> y la contraseña <strong>raspberry</strong>.Más adelante se explica como cambiar la contraseña y también como eliminar este usuario y crear otro por motivos evidentes de seguridad.Se puede conectar por SSH usando del programa <a href="https://www.putty.org/">Putty</a> para windows, o a través de la terminal en macOSX o Linux:</p>
+  <p>Ahora ya se puede realizar la conexión a la Raspberry Pi a través de SSH como se muestra a continuación, el usuario por defecto es <strong>pi</strong> y la contraseña <strong>raspberry</strong>.Más adelante se explica como cambiar la contraseña y también como eliminar este usuario y crear otro por motivos evidentes de seguridad.Se puede conectar por SSH usando del programa <a href="https://www.putty.org/">Putty</a> para windows, o a través de la terminal en macOSX o Linux:</p>
   <p><img src="images/putty1.png" title="conexión ssh mediante putty" alt="captura 1 conexión ssh mediante putty" class="izquierda" /><img src="images/putty2.png" title="conexión ssh mediante putty 2" alt="captura 2 conexión ssh mediante putty" class="izquierda" /><img src="images/putty3.png" title="conexión ssh mediante putty 3" alt="captura 3 conexión ssh mediante putty" class="izquierda" /></p><br />
   <br />
+
   <p>Conexión ssh mediante terminal en macOSX:</p>
-  <p><img src="images/conexion_ssh.png" title="Primera conexión a Raspberry-Pi" alt="captura conexión raspberry-pi" class="izquierda" /></p><br />
+  <p><img src="images/conexion_ssh.png" title="Primera conexión a Raspberry Pi" alt="captura conexión Raspberry Pi" class="izquierda" /></p><br />
 
+  <p style="clear:both"></p>
 
+  <h2 id="basica">Configuración básica de Raspbian</h2>
 
-  <p id="basica">
-    <h3>Configuración básica de Raspbian</h3>
-  </p>
-  <p>Una vez se ha podido acceder a la Raspberry-Pi a través de SSH, hay que ejecutar la herramienta de configuración de Raspbian <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> para realizar los ajustes básicos necesarios para su correcto funcionamiento, al ejecutar <b>$sudo raspi-config</b>, se muestra el entorno de configuración de la herramienta, por otro lado también es aconsejable actualizar el sistema ejecutando <b>$sudo apt-get update</b> y <b>$sudo apt-get upgrade</b>.</p>
+  <p>Una vez se ha podido acceder a la Raspberry Pi a través de SSH, hay que ejecutar la herramienta de configuración de Raspbian <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> para realizar los ajustes básicos necesarios para su correcto funcionamiento, al ejecutar <b>$sudo raspi-config</b>, se muestra el entorno de configuración de la herramienta, por otro lado también es aconsejable actualizar el sistema ejecutando <b>$sudo apt-get update</b> y <b>$sudo apt-get upgrade</b>.</p>
 
   <p><img src="images/update_raspbian.png" title="update Raspbian" alt="sudo apt-get update" class="izquierda" /><img src="images/upgrade_raspbian.png" title="upgrade Raspbian" alt="sudo apt-get upgrade" class="izquierda" /><img src="images/raspi_config.png" title="Herramienta de configuración de Raspbian" alt="sudo raspi-config" class="izquierda" /></p>
 
@@ -149,13 +154,14 @@
   <p>Lo primero que hay que hacer es cambiar la contraseña del usuario <strong>pi</strong>, como se muestra en el menu en la opción 1:</p>
   <p align="center"><img src="images/cambio_passw.png" title="Cambio de contraseña usuario pi" alt="captura Cambio de contraseña usuario pi" /></p><br />
 
-  <p>El siguiente paso consiste en cambiarle el nombre de equipo a la Raspberry-Pi, que por defecto es raspberrypi, es la opción número 2 del menú, "Network options" y que muestra el siguiente submenú:</p>
+  <p>El siguiente paso consiste en cambiarle el nombre de equipo a la Raspberry Pi, que por defecto es raspberrypi, es la opción número 2 del menú, "Network options" y que muestra el siguiente submenú:</p>
   <p align="center"><img src="images/hostname2.png" title="Menú Network options" alt="captura cambio de hostname" /></p>
-  <p>La primera opción de este submenú permite cambiar el nombre de equipo a la Raspberry-Pi:</p>
+  <p>La primera opción de este submenú permite cambiar el nombre de equipo a la Raspberry Pi:</p>
   <p align="center"><img src="images/hostname.png" title="Cambio de Hostname" alt="captura Cambio de hostname" /></p>
   <p align="center"><img src="images/raspiserver.png" title="Cambio de Hostname" alt="captura 2 Cambio de hostname" /></p><br />
 
   <p>A continuación se configuran las opciones regionales que se adaptarán a las necesidades de cada alumno y que corresponde a la opción 4 del menú, "Localisation Options", mostrando el siguiente submenú, se adjuntan varias capturas mostrando el proceso, se modifica el idioma de interfaz del sistema, se configura la zona horaria adecuada a cada alumno, se cambia la configuración del teclado y se elige el país en el que se encuentra para el wi-fi:</p>
+
   <p><img src="images/change_locale.png" title="Menú Change Locale" alt="captura 1 cambio idioma interfaz del sistema" class="izquierda" />Submenú correspondiente a la opción 4 "Localisation Options" del menú principal.</p>
   <p><img src="images/change_locale2.png" title="opción 1 submenú localisation options" alt="captura 2 cambio idioma interfaz del sistema" class="izquierda" />Capturas correspondientes al cambio de idioma de la interfaz del sistema.</p>
   <p><img src="images/change_locale4.png" title="Selección cambio idioma interfaz sistema" alt="captura 3 cambio idioma interfaz del sistema" class="izquierda" />En este caso se selecciona la opción correspondente a España.</p>
@@ -163,46 +169,61 @@
   <p><img src="images/change_locale6.png" title="Resultado cambio zona horaria" alt="captura 4 cambio zona horaria" class="izquierda" />Resultado que muestra raspi-config con los cambios efectuados de idioma de interfaz y zona horaria.</p><br />
 
   <p>Por último, hay que asegurarse de que la totalidad de espacio de la tarjeta SD está habilitada para su uso, accediendo a la opción 7 del menú principal, "Advanced Options" y se selecciona la primera opción del submenú,"Expand Filesystem", una vez finalizado el proceso muestra un resumen de los pasos que ha dado fdisk, con un par de mensajes en rojo avisando de los cambios, hay que reiniciar el sistema con la orden <b>$sudo reboot</b>.</p>
+
   <p><img src="images/resize1.png" title="Menú Advanced Options" alt="captura 1 habilitando espacio tarjeta SD" class="izquierda" /><img src="images/resize2.png" title="Menú Advanced Options" alt="captura 2 habilitando espacio tarjeta SD" class="izquierda" /><img src="images/resize3.png" title="Menú Advanced Options" alt="captura 3 habilitando espacio tarjeta SD" class="izquierda" /></p>
 
-  <p>En la página oficial de Raspberry-Pi se explica la totalidad de las opciones de la herramienta de configuración <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> en el caso de que algún alumno decida hacer más modificaciones.</p>
+  <p>En la página oficial de Raspberry Pi se explica la totalidad de las opciones de la herramienta de configuración <a href="https://www.raspberrypi.org/documentation/configuration/raspi-config.md">raspi-config</a> en el caso de que algún alumno decida hacer más modificaciones.</p>
 
 
 
-  <p id="ipfija">
-    <h3>Asignación de IP fija para la Raspberry Pi</h3>
-  </p>
-  <p>El siguiente paso será asignar a la Raspberry-Pi una dirección ip fija, la opción más cómoda para poder trabajar con la raspi como servidor y sin pantalla ya que lo normal es que tanto con Raspbian como con los otros sistemas operativos, la IP sea dinámica, y se la asigne el router dentro de un rango determinado. Como se ha explicado en apartados anteriores, hay que conocer la ip del router, entrar en su configuración, ver que no haya ips reservadas para no crear conflictos, y ver que ip se asigna a la Raspberry-Pi y conectar a la misma a través de SSH.</p>
+  <h2 id="ipfija">Asignación de IP fija para la Raspberry Pi</h2>
+
+  <p>El siguiente paso será asignar a la Raspberry Pi una dirección ip fija, la opción más cómoda para poder trabajar con la raspi como servidor y sin pantalla ya que lo normal es que tanto con Raspbian como con los otros sistemas operativos, la IP sea dinámica, y se la asigne el router dentro de un rango determinado. Como se ha explicado en apartados anteriores, hay que conocer la ip del router, entrar en su configuración, ver que no haya ips reservadas para no crear conflictos, y ver que ip se asigna a la Raspberry Pi y conectar a la misma a través de SSH.</p>
+
   <p id="adapt">En el nuevo <em>Raspbian Stretch</em> se ha incorporado una función de Debian que no usa los nombres clásicos de los interfaces o tarjeta de red. De momento solo está activo con el eth0 que ha desaparecido, aunque sigue monstrando el wlan0. Así que al usar en una Terminal el comando <b>ifconfig</b> la salida es:</p>
+
   <p align="center"><img src="images/ifconfig0.png" title="Información de red con ifconfig" alt="captura info red con ifconfig" /></p>
 
   <p>Se ve que en vez del clásico eth0 se muestra un enxb827eb26a2c6 que se crea a partir de la dirección MAC de la tarjeta y que se muestra en la segunda linea, en este caso: ether b8:27:eb:26:a2:c6 y que para cada Raspberry Pi será distinto y único ya que la dirección MAC es siempre única.</p>
-  <p>Por el momento esto se puede deshacer para volver a la situación de siempre y evitar problemas con tutoriales, scripts y programas que esperan encontrar la conexión de red como eth0. Para ello habrá que entrar en el directorio /boot/ de la Raspberry-Pi y editar el archivo cmdline.txt (este archivo es visible y se puede cambiar incluso en un ordenador con Windows). De nuevo se aconseja hacer una copia del archivo antes de modificarlo (<b>$sudo cp /boot/cmdline.txt /boot/cmdline.txt.old</b>). Para editar el archivo, ejecutar el comando <b>$sudo nano /boot/cmdline.txt</b> y añadir al final de la linea <b>net.ifnames=0</b> para que el archivo quede así:</p>
-  <p align="center"><img src="images/cmdline.png" title="Información archivo cmdline.txt" alt="captura info cmdline.txt" /></p>
-  <p>Una vez editado, se guarda el archivo y se reinicia la Raspberry-Pi (<b>$sudo reboot</b>), ahora al ejecutar ifconfig de nuevo se mostrará la info como siempre:</p>
-  <p align="center"><img src="images/ifconfig.png" title="Información de red con ifconfig actualizado" alt="captura 2 info red con ifconfig" /></p>
-  <p>Hay que tener en cuenta, que la nueva forma de gestionar los interfaces de red es muy interesante. Por ejemplo, si se hace uso de un dongle Wi-Fi o un adaptador USB a Ethernet, al generarse los códigos de interfaz a partir de la dirección MAC será fácil identificar cada conexión sin tener dudas, a partir de ahí, montar una configuración que mezcle esos distintos accesos siempre será más claro.</p>
 
+  <p>Por el momento esto se puede deshacer para volver a la situación de siempre y evitar problemas con tutoriales, scripts y programas que esperan encontrar la conexión de red como eth0. Para ello habrá que entrar en el directorio /boot/ de la Raspberry Pi y editar el archivo cmdline.txt (este archivo es visible y se puede cambiar incluso en un ordenador con Windows). De nuevo se aconseja hacer una copia del archivo antes de modificarlo (<b>$sudo cp /boot/cmdline.txt /boot/cmdline.txt.old</b>). Para editar el archivo, ejecutar el comando <b>$sudo nano /boot/cmdline.txt</b> y añadir al final de la linea <b>net.ifnames=0</b> para que el archivo quede así:</p>
+
+  <p align="center"><img src="images/cmdline.png" title="Información archivo cmdline.txt" alt="captura info cmdline.txt" /></p>
+
+  <p>Una vez editado, se guarda el archivo y se reinicia la Raspberry Pi (<b>$sudo reboot</b>), ahora al ejecutar ifconfig de nuevo se mostrará la info como siempre:</p>
+
+  <p align="center"><img src="images/ifconfig.png" title="Información de red con ifconfig actualizado" alt="captura 2 info red con ifconfig" /></p>
+
+  <p>Hay que tener en cuenta, que la nueva forma de gestionar los interfaces de red es muy interesante. Por ejemplo, si se hace uso de un dongle Wi-Fi o un adaptador USB a Ethernet, al generarse los códigos de interfaz a partir de la dirección MAC será fácil identificar cada conexión sin tener dudas, a partir de ahí, montar una configuración que mezcle esos distintos accesos siempre será más claro.</p>
 
 
   <p id="dhcp">En las nuevas versiones de Raspbian, como <em>raspbian stretch lite</em>, las direcciones IP se gestionan con el archivo de configuración <em>dhcpcd.conf</em>, además de un cambio mínimo en el fichero /ect/network/interfaces. Se edita el archivo <b>/etc/dhcpcd.conf</b> con el siguiente comando desde una Terminal: <b>$sudo nano /etc/dhcpcd.conf</b>, este es el aspecto inicial del archivo.</p>
 
   <p align="center"><img src="images/dhcpcd1.png" title="Config inicial del archivo /etc/dhcpcd.conf" alt="captura edición archivo dhcpcd.conf" /></p>
+
   <p>Antes de realizar cualquier modificación en este fichero, hay que hacer una copia de seguridad para evitar posibles daños, desde terminal se ejecuta el comando: <b>$sudo cp /etc/dhcpcd.conf /etc/dhcpcd.conf.bak</b>, una vez hecho esto ya se puede editar el archivo y añadir al final las siguientes modificaciones: </p>
+
   <p align="center"><img src="images/dhcpcd2.png" title="Config final del archivo /etc/dhcpcd.conf" alt="captura 2 edición archivo dhcpcd.conf" /></p>
-  <p>En <b>static ip_address</b> se añade la dirección ip que se le quiera asignar a la Raspberry-Pi.</p>
+
+  <p>En <b>static ip_address</b> se añade la dirección ip que se le quiera asignar a la Raspberry Pi.</p>
   <p>En <b>static routers</b> se añade la dirección ip del router.</p>
   <p>En <b>static domain_name_servers</b> se añaden las direcciones ip de los servidores DNS.</p>
-  <p>Es conveniente usar los servidores DNS proporcionados por el proveedor de servicios de internet de cada alumno (se encuentran fácilmente en la configuración del router), una vez modificado se guarda el archivo, también se edita el archivo /etc/network/interfaces para añadir un par de lineas y se reinicia la Raspberry-Pi con el comando <b>$sudo reboot</b>, también se puede reiniciar la red usando el comando <b>$sudo /etc/init.d/networking restart</b>.</p>
+
+  <p>Es conveniente usar los servidores DNS proporcionados por el proveedor de servicios de internet de cada alumno (se encuentran fácilmente en la configuración del router), una vez modificado se guarda el archivo, también se edita el archivo /etc/network/interfaces para añadir un par de lineas y se reinicia la Raspberry Pi con el comando <b>$sudo reboot</b>, también se puede reiniciar la red usando el comando <b>$sudo /etc/init.d/networking restart</b>.</p>
+
   <p align="center"><img src="images/dhcpcd3.png" title="Config del archivo /etc/network/interfaces" alt="captura edición archivo /etc/network/interfaces" /></p>
 
   <p id="interface">En versiones anteriores de Raspbian sólo había que editar el archivo /etc/network/interfaces y añadir las modificaciones que se muestran en la siguiente captura, el resto de pasos son los mismos:</p>
+
   <p align="center"><img src="images/dhcpcd4.png" title="Config antigua del archivo /etc/network/interfaces" alt="captura 2 edición archivo /etc/network/interfaces" /></p>
 
-  <p id="router">Por último, para configurar la ip estática desde la configuración del router, se accederá al router mediante wi-fi o cable de red desde un navegador web conociendo la ip de acceso al router.La forma en que el router asigna una IP estática a un equipo es asociando la IP a la dirección MAC de la tarjeta de red del dispositivo, en este caso de la Raspberry-Pi. La dirección MAC es la dirección física del dispositivo, es similar en cierta manera a la IP, pero al contrario que ésta, la MAC no puede ser cambiada. Cada dispositivo o tarjeta de red de un equipo tiene la suya propia e intransferible. En el propio router se puede averiguar la dirección MAC de la Raspberry-Pi.</p>
+  <p id="router">Por último, para configurar la ip estática desde la configuración del router, se accederá al router mediante wi-fi o cable de red desde un navegador web conociendo la ip de acceso al router.La forma en que el router asigna una IP estática a un equipo es asociando la IP a la dirección MAC de la tarjeta de red del dispositivo, en este caso de la Raspberry Pi. La dirección MAC es la dirección física del dispositivo, es similar en cierta manera a la IP, pero al contrario que ésta, la MAC no puede ser cambiada. Cada dispositivo o tarjeta de red de un equipo tiene la suya propia e intransferible. En el propio router se puede averiguar la dirección MAC de la Raspberry Pi.</p>
+
   <p>Una vez dentro de la configuración se busca la sección del servidor DHCP que se puede encontrar dentro del menú Configuración - Lan, Configuración - Básico - DHCP o una ruta similar.Ya en la configuración de DHCP, lo primero que hay que observar es el rango de direcciones IP que asigna nuestro router. Lo ideal sería que a la hora de asignar una IP estática utilice una dirección fuera de este rango, aunque existen modelos de router que dan problemas con ello, y en los que se deberá usar direcciones dentro del rango. Esta información se obtiene de manera similar a la siguiente captura.</p>
+
   <p align="center"><img src="images/router.png" title="Config dhcp router" alt="captura config dhcp router" /></p>
-  <p>Finalmente, en la misma sección de configuración de DHCP, se muestra el apartado de Reserva de direcciones IP. Aquí se hace clic en Agregar, y tan sólo se tendrá que introducir la dirección IP que se desee y la dirección MAC de la Raspberry-Pi. Como se ve en la imagen, se pueden configurar múltiples asignaciones.</p>
+
+  <p>Finalmente, en la misma sección de configuración de DHCP, se muestra el apartado de Reserva de direcciones IP. Aquí se hace clic en Agregar, y tan sólo se tendrá que introducir la dirección IP que se desee y la dirección MAC de la Raspberry Pi. Como se ve en la imagen, se pueden configurar múltiples asignaciones.</p>
 
 
 

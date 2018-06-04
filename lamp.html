@@ -20,7 +20,7 @@
 <hr />
 
   <ul class="indice">
-    <li><a href="#acron">¿Que es LAMP?</a></li>
+    <li><a href="#acron">¿Qué es LAMP?</a></li>
     <li><a href="#apache">Instalación y configuración servidor web Apache</a></li>
     <ul><li><a href="#instalapache">Instalación de Apache</a></li>
         <li><a href="#configapache">Configuración y comprobación de su funcionamiento</a></li>
@@ -33,22 +33,27 @@
     <ul><li><a href="#seg1">Consideraciones de seguridad</a></li></ul>
   </ul>
 
-  <p id="acron"><h3>¿Que es LAMP?</h3></p>
+  <h2 id="acron">¿Qué es LAMP?</h2>
+
   <p><em>LAMP</em> el acrónimo usado para describir un sistema de infraestructura de internet que usa las siguientes herramientas:
       <ul><li><em>Linux</em>, el sistema operativo; En algunos casos también se refiere a LDAP.</li>
       <li><em>Apache</em>, el servidor web;</li>
       <li><em>MySQL/MariaDB</em>, el gestor de bases de datos;</li>
       <li><em>Perl</em>, <em>PHP</em>, o <em>Python</em>, los lenguajes de programación.</li></ul>
   </p>
-  <p>La combinación de estas tecnologías es usada principalmente para definir la infraestructura de un servidor web, utilizando un modelo de programación para el desarrollo. A pesar de que el origen de estos programas de código abierto no han sido específicamente diseñados para trabajar entre sí, la combinación se popularizó debido a su bajo coste de adquisición y ubicuidad de sus componentes (ya que vienen pre-instalados en la mayoría de las distribuciones linux). Cuando son combinados, representan un conjunto de soluciones que soportan servidores de aplicaciones.</p>
+  <p>La combinación de estas tecnologías es usada principalmente para definir la infraestructura de un servidor web, utilizando un modelo de programación para el desarrollo. A pesar de que en origen estos programas de código abierto no han sido específicamente diseñados para trabajar entre sí, la combinación se popularizó debido a su bajo coste de adquisición y ubicuidad de sus componentes (ya que vienen pre-instalados en la mayoría de las distribuciones linux). Cuando son combinados, representan un conjunto de soluciones que soportan servidores de aplicaciones.</p>
+
   <p align="center"><img src="images/lamp.jpeg" title="Esquema LAMP" alt="componentes acrónimo lamp" /></p>
 
-  <p id="apache"><h3>Instalación y configuración del servidor web Apache</h3></p>
-  <p>El servidor HTTP <em>Apache</em> es un servidor web libre y de código abierto, para plataformas Unix (BSD, GNU/Linux, etc.), Microsoft Windows, Macintosh y otras, que implementa el protocolo HTTP/1.12​ y la noción de sitio virtual, el más popular en cuanto a uso, sirviendo de facto como plataforma de referencia para el diseño y evaluación de otros servidores web. Por sí mismo, es capaz de servir ficheros HTML sobre HTTP y, con la instalación de ciertos módulos adicionales, puede servir también páginas dinámicas utilizando lenguajes de scripting tales como PHP. Entre sus ventajas destaca q es muy modular, de código abierto, multi-plataforma, extensible y muy popular (fácil conseguir ayuda/soporte).La arquitectura del servidor Apache consta de una sección core y diversos módulos que aportan mucha de la funcionalidad que podría considerarse básica para un servidor web. Algunos de estos módulos son: </p>
+  <h2 id="apache">Instalación y configuración del servidor web Apache</h2>
+
+  <p>El servidor HTTP <em>Apache</em> es un servidor web libre y de código abierto, para plataformas Unix (BSD, GNU/Linux, etc.), Microsoft Windows, Macintosh y otras, que implementa el protocolo HTTP/1.12​ y la noción de sitio virtual, el más popular en cuanto a uso, sirviendo de facto como plataforma de referencia para el diseño y evaluación de otros servidores web. Por sí mismo, es capaz de servir ficheros HTML sobre HTTP y, con la instalación de ciertos módulos adicionales, puede servir también páginas dinámicas utilizando lenguajes de scripting tales como PHP. Entre sus ventajas destaca que es muy modular, de código abierto, multi-plataforma, extensible y muy popular (fácil conseguir ayuda/soporte). La arquitectura del servidor Apache consta de una sección core y diversos módulos que aportan mucha de la funcionalidad que podría considerarse básica para un servidor web. Algunos de estos módulos son: </p>
+
   <ul><li>mod_ssl - Comunicaciones Seguras vía TLS.</li>
-    <li>mod_rewrite - reescritura de direcciones (generalmente utilizado para transformar páginas dinámicas como php en páginas estáticas html para así engañar a los navegantes o a los motores de búsqueda en cuanto a cómo fueron desarrolladas estas páginas).</li>
+    <li>mod_rewrite - reescritura de direcciones (generalmente utilizado para transformar páginas dinámicas como PHP en páginas estáticas html para así engañar a los navegantes o a los motores de búsqueda en cuanto a cómo fueron desarrolladas estas páginas).</li>
     <li>mod_auth_ldap - Permite autentificar usuarios contra un servidor LDAP.</li>
     <li>mod_proxy_ajp - Conector para enlazar con el servidor Jakarta Tomcat de páginas dinámicas en Java (servlets y JSP).</li></ul>
+
   <p>El servidor de base puede ser extendido con la inclusión de módulos externos entre los cuales se encuentran:</p>
 
     <ul><li>mod_cband - Control de tráfico y limitador de ancho de banda.</li>
@@ -61,25 +66,35 @@
 
   <p>El servidor Apache es desarrollado y mantenido por una comunidad de usuarios bajo la supervisión de la <a href="https://www.apache.org">Apache Software Foundation</a> dentro del proyecto <a href="http://httpd.apache.org/">HTTP Server (httpd)</a>.</p>
 
-<p id="instalapache"><h4><i>Instalación de Apache:</i></h4></p>
+<h3 id="instalapache"><i>Instalación de Apache:</i></h3>
+
 <p>Para la instalación del servidor Apache, sólo hay que ejecutar la siguiente orden: <b>$ sudo apt-get install apache2</b> (con la opción -y se contesta automáticamente yes=si, cuando pregunta si se desea instalar paquetes). Puede pasar que al ejecutar el comando anterior devuelva un mensaje de error que se subsana ejecutando <b>$sudo apt-get update</b> y <b>$sudo apt-get upgrade</b>:</p>
+
 <p align="center"><img src="images/instal_apache2_error.png" title="Instalación servidor Apache, pasos previos" alt="captura instalación Apache" /></p>
+
 <p>En la captura anterior se puede observar como después del mensaje de error y de la ejecución de las órdenes update y upgrade, se devuelve otro mensaje diciendo que hay varios paquetes que ya no son necesarios y que se ejecute el comando <b>$ sudo apt autoremove</b>. Una vez hecho esto, se comprueba que al volver a ejecutar update y upgrade ya está todo actualizado y se procede a la instalación de Apache</p>
+
 <p align="center"><img src="images/instal_apache2.png" title="Instalación servidor Apache" alt="captura 2 instalación Apache" /></p>
 <p>Una vez finalizado, es posible comprobar que el servidor se encuentra corriendo y escuchando peticiones en el puerto 80 (HTTP):</p>
 <p align="left"><img src="images/netstat_apache.png" title="comprobación con netstat servidor Apache" alt="captura 3 instalación Apache" /></p>
 
 
-<p id="configapache"><h4><i>Configuración de Apache:</i></h4></p>
+<h3 id="configapache"><i>Configuración de Apache:</i></h3>
 <p>Por defecto, Apache crea un fichero de prueba en formato HTML en la carpeta del servidor web. Esta página es servida cuando se navega al servidor apache mediante la dirección http://localhost (desde el propio servidor) o se accede desde otro equipo de la red a la IP del servidor (en este caso: http://192.168.1.21). Si usando un navegador web, se introduce la ip del servidor, se mostrará lo siguiente:</p>
+
 <p align="center"><img src="images/comprobando_apache2.png" title="comprobando funcionamiento servidor Apache" alt="captura inicio Apache" /></p>
-<p>Esto significa que Apache está funcionando correctamente. La página web que se muestra se encuentra en <b>/var/www/html/index.html</b>, para facilitar el trabajo es conveniente cambiar el propietario del directorio <b>html</b> así como sus permisos y añadir el usuario pi al grupo www-data (para que pueda operar sin problemas), usando las siguientes órdenes:</p>
+
+<p>Esto significa que Apache está funcionando correctamente. La página web que se muestra se encuentra en <b>/var/www/html/index.html</b>. Para facilitar el trabajo es conveniente cambiar el propietario del directorio <b>html</b> así como sus permisos y añadir el usuario pi al grupo www-data (para que pueda operar sin problemas), usando las siguientes órdenes:</p>
+
 <p align="center"><img src="images/prop_permisos_html.png" title="propietario y permisos /var/www/html" alt="cambio propietario y permisos /var/www/html" /></p>
 <p align="center"><img src="images/pi_www-data.png" title="Añadir usuario pi al grupo www-data" alt="captura usuario pi se añade al grupo www-data" /></p>
 
-<p>En los sistemas basados en Debian y derivados, toda la configuración de Apache se encuentra dentro del directorio <b>/etc/apache2/</b>.La configuración global del servidor se encuentra en el archivo <b>apache2.conf</b>. Generalmente, en los sistemas Debian no debe tocarse este archivo, ya que desde aquí se incluyen todos los archivos que poseen las configuraciones personalizadas.</p>
+<p>En los sistemas basados en Debian y derivados, toda la configuración de Apache se encuentra dentro del directorio <b>/etc/apache2/</b>. La configuración global del servidor se encuentra en el archivo <b>apache2.conf</b>. Generalmente, en los sistemas Debian no debe tocarse este archivo, ya que desde aquí se incluyen todos los archivos que poseen las configuraciones personalizadas.</p>
+
 <p>El archivo <b>envvars</b> posee la configuración de variables de entorno utilizadas por Apache, por ejemplo usuario y grupo con el que corre el servidor, directorios para guardar PIDs, locks, logs, etc., y configuración de idioma (Locale). En la mayoría de los casos, este archivo tampoco debe modificarse.</p>
+
 <p>El archivo <b>ports.conf</b> define las direcciones IP y puertos en los cuales Apache acepta peticiones. Este archivo es muy importante y debe modificarse adecuadamente, por ejemplo para permitir múltiples certificados SSL en una misma dirección IP.</p>
+
 <p>Luego existen dos pares de directorios muy interesantes, que ordenan de manera brillante las configuraciones personalizadas del servidor Apache:
 
   <ul><li><b>mods-available/</b> - Directorio que contiene las configuraciones de todos los módulos disponibles.</li>
@@ -95,23 +110,34 @@
   <li><b>a2dismod</b> para deshabilitar módulos.</li>
   <li><b>a2ensite</b> para habilitar sitios.</li>
   <li><b>a2dissite</b> para deshabilitar sitios.</li></ul></p>
+
 <p>Ejemplos:</p>
 <p align="left"><img src="images/a2ensite_apache.png" title="habilitando sitio ssl-default" alt="captura a2ensite" /></p>
 <p align="left"><img src="images/a2enmod_apache.png" title="habilitando modulo rewrite" alt="captura a2enmod" /></p>
+
 <p>Cuando se habilita/deshabilita un módulo es necesario reiniciar el servidor, mientras que cuando se habilita/deshabilita un sitio sólo es necesario recargar la configuración de Apache. Para el arranque y para del servicio se usan los siguientes comandos: <b>$ sudo service apache2 start | stop | status | restart | reload</b> (se puede usar systemctl).</p>
+
 <p>También dispone de un script de arranque y de parada en la carpeta <b>/etc/init.d/</b> y que se puede ejecutar con la orden <b>$ sudo /etc/init.d/apache2 restart | stop</b>.</p>
+
 <p align="left"><img src="images/apache2_status.png" title="estado del servidor Apache" alt="captura estado del servidor Apache" /></p>
 
 <p>Si se desea listar los módulos de Apache cargados se debe recurrir al comando <b>apache2ctl</b>. Los módulos de Apache se instalan en el directorio <b>/usr/lib/apache2/modules/</b>. El comando apache2ctl posee además funcionalidades para visualizar el estado del servidor, a través de los subcomandos <b>status</b> y <b>fullstatus</b>.</p>
+
 <p>Apache incluye la configuración de un sitio Web por defecto llamado "default". Su configuración se encuentra en el archivo <b>000-default.conf</b>:</p>
+
 <p align="left"><img src="images/000-default.conf2.png" title="editando sitio 000-default" alt="captura 000-default" /></p>
 <p align="left"><img src="images/000-default.conf.png" title="contenido archivo 000-default.conf" alt="captura 2 000-default" /></p>
 
 <p>En esta configuración simple se define un sitio genérico que resuelve en todas las direcciones IP en las que atienda el servidor Web, en el puerto 80. La raíz del sitio Web se encuentra en el directorio <b>/var/www/</b>, y los logs de accesos y errores se almacenan en los archivos <b>/var/log/apache2/access.log</b> y <b>/var/log/apache2/error.log</b> respectivamente.</p>
+
 <p><strong>Por seguridad, es recomendable deshabilitar el sitio Web por defecto y definir uno específico para cada sitio que se hospedará en el servidor.</strong></p>
+
 <p>Por lo general un servidor Web hospedará uno o varios dominios de Internet, por ejemplo <b>www.raspberryasir.com</b>. Para mantener el esquema ordenado y prolijo propuesto por Debian, se recomienda que cada sitio a hospedar en el servidor se configure en su propio archivo, dentro del directorio <b>/etc/apache2/sites-available/</b>. Por ejemplo, si se desea hospedar el sitio Web correspondiente al dominio "www.raspberryasir.com", se puede crear un archivo llamado <b>raspberryasir.conf</b> o similar:</p>
+
 <p>$ sudo nano /etc/apache2/sites-available/raspberryasir.conf</p>
+
 <p align="left"><img src="images/raspberryasir.conf.png" title="contenido archivo raspberryasir.conf" alt="captura raspberryasir" /></p>
+
 <p>La raíz del sitio se alojará en el directorio raspberryasir/, por ende es necesario crearlo:</p>
 <p><b>$ mkdir /var/www/raspberryasir</b></p>
 <p>Los logs de acceso y errores se separan del sitio por defecto, para poder identificar a qué sitio corresponde cada acceso. Una vez creado el sitio, solo basta habilitarlo y recargar la configuración de Apache:</p>
@@ -121,7 +147,7 @@
 
 <p>El comando a2ensite permite omitir la extensión .conf al indicar la configuración de un sitio.</p>
 
-<p id="scp"><h4><i><em>SCP (Secure Copy)</em> Copiar archivos a través de ssh:</i></h4></p>
+<h3 id="scp"><i><em>SCP (Secure Copy)</em> Copiar archivos a través de ssh:</i></h3>
 
 <p>Como administrador de un servidor Apache, hay momentos en los que hay que copiar a dicho servidor un archivo o archivos desde otras ubicaciones. Hay varias opciones para hacer esto. La primera es abrir un cliente FTP como puede ser Filezilla. La segunda es copiar los archivos por consola haciendo uso del comando <b>SCP (Secure Copy)</b> que está disponible tanto en Linux como en Mac, para los usuarios de Windows, mediante <a href="https://winscp.net/eng/docs/lang:es">WinSCP</a> se puede hacer lo mismo.</p>
 
@@ -153,56 +179,84 @@
 
 <p><b>$ scp -r /home/nacho/carpeta usuario@ip_servidor:/home/usuario</b></p>
 
-<p id="instalphp"><h3>Instalación y configuración PHP</h3></p>
+<h2 id="instalphp">Instalación y configuración PHP</h2>
 
 <p><em>PHP</em> es un preprocesador que se ejecuta en el servidor cuando éste recibe la petición de una página web. Se ejecuta y envía la página al servidor web para que éste la sirva. A diferencia del HTML que es estático, PHP puede mostrar contenido distinto en base a distintas circunstancias, con lo que es utilizado por las aplicaciones de tipo CMS (como puede ser Wordpress o Drupal). </p>
+
 <p>Para instalar PHP y los correspondientes paquetes para Apache, ejecutaremos el siguiente comando:</p>
+
 <p><b>$ sudo apt-get install php7.0</b></p>
 <p align="left"><img src="images/install_php7.png" title="Instalando php7.0" alt="captura comando instalación php7.0" /></p>
+
 <p>Se reinicia el servidor <b>$ sudo service apache2 restart</b> y para comprobar que PHP se ejecuta correctamente, se puede crear un archivo de prueba ejecutando <b>$ sudo nano /var/www/html/test.php</b> (o en el directorio donde esté definido el sitio web), se le añade el siguiente contenido, se guarda y se ejecuta en un navegador web:</p>
+
 <p align="center"><img src="images/content_test_php.png" title="contenido archivo test.php" alt="captura contenido archivo test.php" /></p>
 <p align="center"><img src="images/test_php.png" title="ejecutando test.php" alt="captura ejecución test.php" /></p>
+
 <p>Una vez se ha comprobado su funcionamiento, es conveniente eliminarlo ya que la información que contiene puede comprometer la seguridad del servidor, <b>$ sudo rm /var/www/html/test.php</b></p>
+
 <p align="center"><img src="images/not_found_php.png" title="comprobando eliminación archivo test.php" alt="captura eliminación archivo test.php" /></p>
-<p>Para cambiar las opciones de PHP, se puede editar el archivo php.ini que en debian Stretch, esta en el siguiente directorio:</p>
+
+<p>Para cambiar las opciones de PHP, se puede editar el archivo php.ini que en debian Stretch está en el siguiente directorio:</p>
 <p><b>$ sudo nano /etc/php/7.0/apache2/php.ini</b></p>
 
-<p id="instalmariadb"><h3>Instalación y configuración mariaDB</h3></p>
+<h2 id="instalmariadb">Instalación y configuración MariaDB</h2>
+
 <p><em>MariaDB</em> es un gestor de base de datos muy popular. Del mismo modo que sucede con PHP, su gran presencia en los servidores web ha aumentado su popularidad ya que muchas de las aplicaciones que se instalarán en el servidor requieren como soporte a una base de datos.</p>
-<p><strong>Importante:</strong> MariaDB es ahora la variante de MySQL por omisión en Debian, en su versión 10.1. hay que tener en cuenta que los formatos de fichero de datos binarios no son compatibles hacia atrás. Por ello, una vez se haya actualizado a MariaDB 10.1 no se podrá volver a una versión anterior de MariaDB o de MySQL salvo que se tenga un backup de la base de datos.</p>
+
 <p><strong>Nota:</strong>Por omisión, la instalación de MariaDB sólo acepta conexiones a partir del propio host (localhost). Esto no es problemático porque la base de datos sólo será utilizada por aplicaciones del propio host.</p>
+
 <p>Para instalar MariaDB ejecutaremos la siguiente línea de comando en el terminal:<b> $ sudo apt-get install mariadb-server php7.0-mysql</b></p>
+
 <p align="center"><img src="images/install_mariadb.png" title="Instalando MariaDB" alt="captura comando instalación mariaDB" /></p>
+
 <p>La instalación del paquete MariaDB no pide contraseña para el usuario root, una vez que las conexiones a la base de dados a partir del puesto local son consideradas como seguras. Terminada la instalación, se debe ejecutar el comando <b>$ sudo mysql_secure_installation</b>, que hace una serie de verificaciones y cambios en la configuración para garantizar la seguridad del servidor mysql.</p>
+
 <p align="center"><img src="images/config_mariadb.png" title="configurando MariaDB" alt="captura comando configuración mariaDB" /></p>
-<p>A partir de este momento ya es posible acceder al monitor de mysql/mariaDB ejecutando cualquiera de los dos comandos <b>$ sudo mysql</b> o <b>$ sudo mariadb</b></p>
+
+<p>A partir de este momento ya es posible acceder al monitor de MySQL/MariaDB ejecutando cualquiera de los dos comandos <b>$ sudo mysql</b> o <b>$ sudo mariadb</b></p>
 <p><img src="images/config_mariadb3.png" title="acceso a mariadb" alt="sudo mysql" class="izquierda" /><img src="images/config_mariadb4.png" title="acceso 2 mariadb" alt="sudo mariadb" class="izquierda" /></p>
 
-<p id="bdmariadb"><h4><i>Creación de una Base de Datos de ejemplo en mariaDB:</i></h4></p>
+<h3 id="bdmariadb"><i>Creación de una Base de Datos de ejemplo en mariaDB:</i></h3>
 
 <p>A modo de ejemplo y sin que sirva como datos de una configuración válida, se crea la base de datos “prueba” y el usuario “pruebausuario” con clave “123456” para trabajar. Se ejecutan las siguientes órdenes en la linea de comandos:</p>
+
 <p><b>$ sudo mariadb</b></p>
 <p><b>&gt; create database prueba;</b></p>
 <p><b>&gt; grant all privileges on prueba.* to 'pruebausuario'@'localhost' identified by '123456';</b></p>
 <p><b>&gt; show databases;</b></p>
 <p><b>&gt; exit</b></p>
+
 <p align="center"><img src="images/bd_mariadb.png" title="creando base de datos MariaDB" alt="captura ejemplo base de datos mariaDB" /></p>
 
-<p id="instalphpmy"><h3>Instalación phpMyAdmin:</h3></p>
+<h2 id="instalphpmy">Instalación phpMyAdmin:</h2>
+
 <p><em>phpMyAdmin</em> es una aplicación PHP que permite gestionar servidores de bases de datos MySQL o MariaDB desde cualquier navegador Web. Es una herramienta ideal para permitir a desarrolladores el acceso y creación de bases de datos para una aplicación Web, ya que provee una vista conveniente y práctica a un motor de bases de datos MySQL, especialmente a aquellos usuarios no familiarizados con el cliente de línea de comandos <b>mysql</b>. Es el complemento ideal para el servidor LAMP.</p>
+
 <p>Una de las grandes ventajas desde el punto de vista de la seguridad, es que <b>phpMyAdmin</b> evita tener que dar acceso a una shell en el servidor a los desarrolladores para que utilicen el cliente mysql de manera local, o tener que habilitar el acceso remoto al servidor MySQL para que los desarrolladores puedan conectarse utilizando un cliente desde el exterior. Siempre claro, que se proteja adecuadamente el acceso a phpMyAdmin, por ejemplo utilizando <b>autenticación Digest</b> como capa de seguridad adicional.</p>
-<p>Antes de instalar phpMyAdmin es necesario contar con un servidor LAMP (Linux+Apache+MySQL+PHP) instalado y funcionando. Para instalar phpmyadmin, simplemente ejecutar <b>$ sudo apt-get install phpmyadmin</b></p>
+
+<p>Antes de instalar phpMyAdmin es necesario contar con un servidor LAMP instalado y funcionando. Para instalar phpmyadmin, simplemente ejecutar <b>$ sudo apt-get install phpmyadmin</b></p>
+
 <p align="center"><img src="images/instal_phpmyadmin1.png" title="Instalando phpmyadmin" alt="captura 1 instalación phpmyadmin" /></p>
-<p>Durante la instalación, hay que seleccionar qué servidor web configurar, con la barra espaciadora se selecciona Apache2 y se pulsa Intro para confirmar y continuar:</p>
+
+<p>En la instalación, hay que seleccionar qué servidor web configurar, con la barra espaciadora se selecciona Apache2 y se pulsa Intro para confirmar y continuar:</p>
+
 <p align="center"><img src="images/instal_phpmyadmin2.png" title="Instalando phpmyadmin 2" alt="captura 2 instalación phpmyadmin" /></p>
-<p>En la siguiente pantalla, hay que seleccionar SÍ para configurar una base de datos para phpMyAdmin con <b>dbconfig-common</b>:</p>
+
+<p>En la siguiente pantalla, hay que seleccionar YES para configurar una base de datos para phpMyAdmin con <b>dbconfig-common</b>:</p>
+
 <p align="center"><img src="images/instal_phpmyadmin3.png" title="Instalando phpmyadmin 3" alt="captura 3 instalación phpmyadmin" /></p>
+
 <p>y finalmente se establece una contraseña para el usuario <b>‘phpmyadmin’</b> en MySQL:</p>
+
 <p align="center"><img src="images/instal_phpmyadmin4.png" title="Instalando phpmyadmin 4" alt="captura 4 instalación phpmyadmin" /></p>
+
 <p>Con este paso, se completa la instalación de phpMyAdmin. Ahora ya se puede acceder a ella en http://ip_servidor/phpmyadmin e iniciar sesión con el nombre de usuario 'phpmyadmin' y contraseña 'la que se haya puesto en la instalación' de MySQL.</p>
+
 <p align="center"><img src="images/instal_phpmyadmin5.png" title="Instalando phpmyadmin 5" alt="captura 5 instalación phpmyadmin" /></p>
 
-<p>Es altamente recomendable modificar el alias por defecto, para evadir intentos de acceso de robots. Para ello, editar la configuración de Apache que provee phpMyAdmin, ejecutando <b>$ sudo nano /etc/phpmyadmin/apache.conf</b> y donde pone:</p>
+<p>Es altamente recomendable modificar el alias por defecto, para evITAR intentos de acceso de robots. Para ello, editar la configuración de Apache que provee phpMyAdmin, ejecutando <b>$ sudo nano /etc/phpmyadmin/apache.conf</b> y donde pone:</p>
+
 <p># phpMyAdmin default Apache configuration<br/>
 Alias /phpmyadmin /usr/share/phpmyadmin</p>
 <p>Cambiar el alias "/phpmyadmin" por uno personalizado, por ejemplo: "/mama":</p>
@@ -213,11 +267,11 @@ Alias /mama /usr/share/phpmyadmin</p>
 <p>Comprobar el funcionamiento accediendo a la URL "/mama":</p>
 <p align="center"><img src="images/instal_phpmyadmin6.png" title="Instalando phpmyadmin 6" alt="captura 6 instalación phpmyadmin" /></p>
 
-<p id="seg1"><h4><i>Consideraciones de seguridad sobre phpMyAdmin:</i></h4></p>
+<h3 id="seg1"><i>Consideraciones de seguridad sobre phpMyAdmin:</i></h3>
 
 <p>Históricamente phpMyAdmin ha tenido diferentes vulnerabilidades que han sido parcheadas. Siendo una aplicación que da acceso a un componente tan crítico como es el motor de bases de datos, es indispensable proteger el acceso a la misma utilizando una capa extra de seguridad, por ejemplo autenticación Digest. Editar el archivo <b>/etc/phpmyadmin/apache.conf</b> y seguir los pasos sobre autenticación Digest que indica el artículo <a href="https://www.linuxito.com/gnu-linux/nivel-alto/414-configurar-autenticacion-digest-en-apache-y-mostrar-directorios-protegidos-en-indices">Configurar autenticación Digest en Apache y mostrar directorios protegidos en índices.</a></p>
 
-<p><h4><i>Consideraciones de seguridad sobre MySQL:</i></h4></p>
+<p><h3><i>Consideraciones de seguridad sobre MySQL:</i></h3></p>
 
 <p>Jamás usar el usuario "root" para que las aplicaciones y/o desarrolladores accedan a sus bases de datos. Para cada sitio Web, crear un usuario MySQL único que tenga los mínimos privilegios de acceso necesarios a su base de datos (por ejemplo SELECT, INSERT, UPDATE y DELETE). Luego para cada desarrollador, crear un usuario con los privilegios suficientes para crear y gestionar bases de datos de los sitios sobre los que trabaja (por ejemplo SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP, etc.).</p>
 

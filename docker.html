@@ -25,7 +25,8 @@
   <li><a href="#pasos">Primeros pasos</a></li>
   <li><a href="#doclamp">Instalación de Apache en Docker</a></li>
 </ul>
-<p id="docker"><h3>¿Qué es Docker?</h3></p>
+
+<h2 id="docker">¿Qué es Docker?</h2>
 
 <p align="center"><img src="images/logo_docker.png" title="logo docker" alt="captura logo docker" /></p>
 
@@ -56,7 +57,7 @@
 
 <p>No es necesario realizar todas estas fases para crear un contenedor, pues en Internet se pueden encontrar imágenes ya preparadas por los creadores de las aplicaciones o por terceros (como <a href="https://bitnami.com/stacks" target="_blank">Bitnami</a>).</p>
 
-<p id="docrasp"><h3>Instalación de Docker en Raspbian</h3></p>
+<h2 id="docrasp">Instalación de Docker en Raspbian</h2>
 
 <p>Para comenzar con <a href="https://docs.docker.com/install/linux/docker-ce/debian/" target="_blank">Docker CE</a> en Debian o Raspbian, hay que asegurarse de cumplir con los requisitos previos y luego instalar Docker.</p>
 
@@ -67,15 +68,17 @@
     <li>Jessie 8 (LTS) / Raspbian Jessie</li>
     <li>Wheezy 7.7 (LTS)</li></ul>
 
-<p><h4><b>1.</b> Desinstalar versiones antiguas:</h4></p>
+<ol>
+  <li>Desinstalar versiones antiguas:
 
 <p>Las versiones anteriores de Docker se llamaban docker o docker-engine. Si estas versiones están instaladas hay que desinstalarlas:</p>
 
 <p><b>$ sudo apt-get remove docker docker-engine docker.io</b></p>
 
 <p>Si es la primera vez que se instala Docker, apt-get informa que ninguno de estos paquetes está instalado. Si hubiera alguno instalado, los contenidos de <b>/var/lib/docker/</b>, incluyendo imágenes, contenedores, volúmenes y redes, se conservan. El paquete Docker CE ahora se llama docker-ce.</p>
+  </li>
 
-<p><h4>2. Instalar Docker CE:</h4></p>
+<li>Instalar Docker CE:
 
 <p>Puede instalar Docker CE de diferentes formas, según las necesidades:</p>
 
@@ -83,7 +86,9 @@
 <li>Algunos usuarios descargan el paquete DEB, lo instalan manualmente y administran las actualizaciones de forma completamente manual.</li>
 <li>En entornos de prueba y desarrollo, algunos usuarios optan por utilizar scripts automatizados para instalar Docker. <b>Esta es actualmente la única opción para Raspbian</b>.</li></ul>
 
-<p><h4>3. Instalar Docker CE mediante script para Raspbian.</h4></p>
+</li>
+
+<li>Instalar Docker CE mediante script para Raspbian.
 
 <p>Docker proporciona scripts de conveniencia en <a href="https://get.docker.com/" target="_blank">get.docker.com</a> y <a href="https://test.docker.com/" target="_blank">test.docker.com</a> para la instalación de versiones edge y testing de Docker CE en entornos de desarrollo de forma rápida y no interactiva. El código fuente para los scripts se encuentra en el repositorio de <a href="https://github.com/docker/docker-install" target="_blank">docker-install</a>.</p>
 <p><strong>¡¡¡ No se recomienda el uso de estos scripts para entornos de producción, y se debe comprender los riesgos potenciales antes de usarlos !!!</strong></p>
@@ -93,32 +98,39 @@
   <li>Los scripts instalan todas las dependencias y recomendaciones del administrador de paquetes sin pedir confirmación. Esto puede instalar una gran cantidad de paquetes, dependiendo de la configuración actual de la máquina host.</li>
   <li>La secuencia de comandos no proporciona opciones para especificar qué versión de Docker instalar, e instala la última versión que se lanza en el canal "edge".</li></ul>
 
-<p>Una vez dicho todo esto, se puede ejecutar el siguiente comando para la instalación de docker en Raspbian: <b>$ sudo curl -sSL https://get.docker.com | sh</b></p>
+<p>Una vez dicho todo esto, se puede ejecutar el siguiente comando para la instalación de docker en Raspbian:
+<b>$ sudo curl -sSL https://get.docker.com | sh</b></p>
 <p align="center"><img src="images/docker_update.png" title="Actualizar sistema para instalar docker" alt="captura actualizando sistema" /></p>
 <p align="center"><img src="images/docker_install.png" title="Instalando docker mediante script" alt="captura instalando docker" /></p>
 
 <p>Al finalizar la instalación, el propio script dice que se puede añadir al grupo docker el usuario pi, para evitar el uso de sudo con los comandos de docker, ejecutando la siguiente orden:<b>$ sudo usermod -aG docker pi</b> y se reinicia el sistema:</p>
+
 <p align="left"><img src="images/docker_user.png" title="Añadir usuario pi al grupo docker" alt="captura añadiendo usuario a docker" /></p>
 <p>Con la opción <b>$ docker -v</b>, muestra la versión de docker:</p>
 <p align="left"><img src="images/docker_vers.png" title="comprobando versión de docker" alt="captura versión docker" /></p>
+</li>
 
-<p><h4>4. Instalar Docker Compose para Raspbian.</h4></p>
+<li>Instalar Docker Compose para Raspbian.
 
 <p>Se puede instalar Docker Compose usando pip, ejecutando <b>$ sudo pip install docker-compose</b></p>
 <p align="center"><img src="images/docker_compose.png" title="instalando docker-compose" alt="captura instalación docker-compose" /></p>
 
 <p><a href="https://hypriot.com/" target="_blank">Hypriot</a> proporciona un binario de Docker-Compose para Raspbian. Puede que no siempre esté actualizado, pero si el espacio es escaso, puede resultar útil. Para usarlo, primero hay que seguir las <a href="https://blog.hypriot.com/post/your-number-one-source-for-docker-on-arm/" target="_blank">instrucciones</a> de Hypriot para configurar el repositorio y luego ejecutar el siguiente comando:<b>sudo apt-get install docker-compose</b></p>
+</li>
 
-<p><h4>5. Probando Docker.</h4></p>
+<li>Probando Docker.
 
 <p>Para probar docker se ejecuta el siguiente comando:<b>$ docker run hello-world</b>, y docker contesta diciendo que no ha podido encontrar la imagen "hello-world:latest" en la máquina local, la busca en hub.docker.com, la descarga y la ejecuta mostrando el siguiente mensaje:</p>
-<p align="center"><img src="images/docker_run.png" title="probando docker" alt="captura probando docker" /></p>
 
-<p id="pasos"><h3>Docker: Primeros pasos</h3></p>
+<p align="center"><img src="images/docker_run.png" title="probando docker" alt="captura probando docker" /></p>
+</li>
+</ol>
+
+<h2 id="pasos">Docker: Primeros pasos</h2>
 
 <p><strong>Nota:</strong> Este apartado ha sido copiado íntegramente de la Web <a href="http://mclibre.org" target="_blank">mclibre</a>, aunque en nuestro caso no va a ser necesario usar sudo porque se ha añadido el usurario pi al grupo docker.</p>
 
-    <h4>ALGUNOS COMANDOS DE DOCKER</h4>
+    <h3>ALGUNOS COMANDOS DE DOCKER</h3>
 
     <ul>
       <li><a href="https://github.com/wsargent/docker-cheat-sheet">Docker Cheat Sheet</a> aquí se puede encontrar todo lo necesario para empezar a trabajar con docker.</li>
@@ -158,7 +170,7 @@
       </li>
     </ul>
 
-      <h4>IMÁGENES</h4>
+      <h3>IMÁGENES</h3>
 
       <p>En los comandos siguientes REPOSITORIO es el nombre del repositorio en el que se encuentra la imagen (por ejemplo bitnami/phpmyadmin) e IMAGEN es el nombre de la imagen descargada. Realmente, las imágenes descargadas se llaman igual que los repositorios de donde se han descargado, pero he distinguido los nombres para dejar claro cuándo nos estamos haciendo referencia a la imagen del repositiorio y cuándo a la imagen local.</p>
 
@@ -188,7 +200,7 @@
         </li>
       </ul>
 
-    <h4>CONTENEDORES</h4>
+    <h3>CONTENEDORES</h3>
 
     <p>En los comandos siguientes CONTENEDOR es el nombre del contenedor, que podemos elegir al crearlo, y RED es el nombre de una red ya existente.</p>
     <ul>
@@ -280,7 +292,7 @@
       </li>
     </ul>
 
-<p id="doclamp"><h3>Instalación de Apache en Docker</h3></p>
+<h2 id="doclamp">Instalación de Apache en Docker</h2>
 
 <p>Una vez instalado Docker, se puede continuar eligiendo una de las siguientes posibilidades:</p>
 

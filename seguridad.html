@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Seguridad en la Raspberry-Pi</title>
+  <title>Seguridad en la Raspberry Pi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="estilo.css" />
   <link rel="stylesheet" type="text/css" href="fonts.css" />
@@ -16,84 +16,95 @@
 </head>
 <body>
     <span class="ir-arriba icon-circle-up"></span>
-<h1>Monitorización y Seguridad en la Raspberry-Pi</h1>
+
+<h1>Monitorización y Seguridad en la Raspberry Pi</h1>
+
 <hr />
+
 <ul class="indice">
   <li><a href="#consejos">Consejos generales</a></li>
   <li><a href="#ssh">Mejorar la seguridad SSH</a></li>
   <li><a href="#proxy">Proxy Internet: cache web - SQUID</a></li>
-  <li><a href="#monitor">Monitorización en la Raspberry-Pi</a></li>
+  <li><a href="#monitor">Monitorización en la Raspberry Pi</a></li>
   <ul><li><a href="#logwatch">Archivos Log: Logwatch</a></li>
       <li><a href="#munin">Monitorización del sistema: Munin</a></li>
   </ul>
-  <li><a href="#seguridad">Seguridad en la Raspberry-Pi</a></li>
+  <li><a href="#seguridad">Seguridad en la Raspberry Pi</a></li>
   <ul><li><a href="#fail2ban">Ataque por fuerza bruta: Fail2ban</a></li>
     <li><a href="#rootkit">Detección de rootkits: Rootkit Hunter</a></li>
     <li><a href="#audit">Auditoría de seguridad: Debsecan</a></li>
     <li><a href="#firewall">Cortafuegos: UFW</a></li>
-</ul>
+  </ul>
 </ul>
 
-<p id="consejos"><h3>Consejos Generales:</h3></p>
+<h2 id="consejos">Consejos Generales:</h2>
 
 <p>La seguridad de la Raspberry Pi es importante. Las brechas en la seguridad pueden dejar la Raspberry Pi abierta a los piratas informáticos que luego pueden usarla con fines maliciosos. El nivel de seguridad que se necesita depende de cómo se vaya a usar la Raspberry Pi. Por ejemplo, si simplemente se está utilizando la Raspberry Pi en la red doméstica, detrás de un router que actua como un firewall, entonces, en principio ya es bastante seguro por defecto.</p>
 
 <p>Sin embargo, si la Raspberry Pi va a estar directamente conectada a Internet, ya sea con una conexión directa (poco probable) o al permitir ciertos protocolos a través del firewall del router (por ejemplo, SSH), entonces se deben realizar algunos cambios de seguridad básicos. Incluso si se está protegido detrás de un firewall, es sensato tomarse la seguridad en serio. Los siguientes consejos describen algunas formas de mejorar la seguridad de la Raspberry Pi.</p>
 
-<h4>1. Cambiar la contraseña predeterminada:</h4>
+<ol>
+<li>Cambiar la contraseña predeterminada:
 
 <p>Tal y como se explica en el <a href="anexo2.html#basica">anexo-2</a>, en el sistema operativo Raspbian viene el nombre de usuario <b>pi</b> y la contraseña <b>raspberry</b> predeterminados, por lo tanto, si se obtiene acceso a una Raspberry Pi, y estas configuraciones no se han cambiado, se tiene acceso de root a esa Raspberry Pi. Así que lo primero que se debe hacer es cambiar la contraseña. Esto puede hacerse a través de la aplicación raspi-config o desde la línea de comando, ejecutando <b>$ sudo raspi-config</b>, se  selecciona la opción 1 y se cambia la contraseña (de hecho, todo lo que raspi-config hace es ejecutar el comando <b>passwd</b> en la línea de comandos, que se puede hacer directamente desde la línea de comando, simplemente se escribe la nueva contraseña y se confirma).</p>
 <p>Consejos para crear una contraseña robusta <a href="http://eduteka.icesi.edu.co/articulos/ContrasenhasRobustas" target="_blank">aquí</a>.</p>
+</li>
 
-
-<h4>2. Cambiar el nombre de usuario:</h4>
+<li>Cambiar el nombre de usuario:
 
 <p>Se puede hacer que la Raspberry Pi sea un poco más segura cambiando también el nombre de usuario. Todas las Raspberry vienen con el nombre de usuario predeterminado <b>pi</b>, por tanto si se cambia, se consigue un poco más de seguridad. Para agregar un nuevo usuario se ejecuta: <b>$ sudo adduser nacho</b>, se pedirá una nueva contraseña y el nuevo usuario tendrá el directorio de inicio en <b>/home/nacho</b>.</p>
 
 <p>Para agregar el nuevo usuario al grupo sudo para otorgarles permisos de sudo: <b>$ sudo adduser nacho sudo</b>.</p>
 
-<p>Una vez que se ha confirmado que la nueva cuenta está funcionando, se puede eliminar el usuario <b>pi</b>. Sin embargo, hay que tener en cuenta que con la distribución actual de Raspbian, hay algunos aspectos que requieren que el usuario <b>pi</b> esté presente. Si no se está seguro de si esto va a afectar, es mejor no eliminar al usuario <b>pi</b>. Desde la web oficial de la Raspberry-Pi informan que se está trabajando para reducir la dependencia del usuario <b>pi</b>. Para eliminar el usuario <b>pi</b>, se ejecuta: <b>$ sudo deluser pi</b>.</p>
+<p>Una vez que se ha confirmado que la nueva cuenta está funcionando, se puede eliminar el usuario <b>pi</b>. Sin embargo, hay que tener en cuenta que con la distribución actual de Raspbian, hay algunos aspectos que requieren que el usuario <b>pi</b> esté presente. Si no se está seguro de si esto va a afectar, es mejor no eliminar al usuario <b>pi</b>. Desde la web oficial de la Raspberry Pi informan que se está trabajando para reducir la dependencia del usuario <b>pi</b>. Para eliminar el usuario <b>pi</b>, se ejecuta: <b>$ sudo deluser pi</b>.</p>
 
 <p>Este comando eliminará al usuario pi, pero no la carpeta <b>/home/pi</b>. Si es necesario, se puede usar el siguiente comando para eliminar la carpeta de inicio del usuario <b>pi</b> al mismo tiempo,<b>$ sudo deluser -remove-home pi</b>, pero hay que tener en cuenta que los datos de esta carpeta se borrarán de forma permanente, por lo tanto, hay que asegurarse de que los datos necesarios estén almacenados en otro lugar.</p>
+</li>
 
-<h4>3. Hacer que sudo pida contraseña:</h4>
+<li>Hacer que sudo pida contraseña:
 
-<p>Al colocar <b>sudo</b> delante de un comando, se ejecuta como superusuario y, de forma predeterminada, no necesita una contraseña. En general, esto no es un problema. Sin embargo, si la Raspberry-Pi está expuesta a Internet y de alguna manera se consigue acceder a ella (tal vez mediante un exploit de página web, por ejemplo), el atacante podrá cambiar cosas que requieren credenciales de superusuario, a menos que se haya configurado <b>sudo</b> para requerir una contraseña. Para forzar que sudo requiera contraseña, hay que ejecutar la siguiente orden: <b>$ sudo nano /etc/sudoers.d/010_pi-nopasswd</b>, se edita el archivo y se cambia la entrada pi (o los nombres de usuario que tengan derechos de superusuario) a:</p>
+<p>Al colocar <b>sudo</b> delante de un comando, se ejecuta como superusuario y, de forma predeterminada, no necesita una contraseña. En general, esto no es un problema. Sin embargo, si la Raspberry Pi está expuesta a Internet y de alguna manera se consigue acceder a ella (tal vez mediante un exploit de página web, por ejemplo), el atacante podrá cambiar cosas que requieren credenciales de superusuario, a menos que se haya configurado <b>sudo</b> para requerir una contraseña. Para forzar que sudo requiera contraseña, hay que ejecutar la siguiente orden: <b>$ sudo nano /etc/sudoers.d/010_pi-nopasswd</b>, se edita el archivo y se cambia la entrada pi (o los nombres de usuario que tengan derechos de superusuario) a:</p>
+
 <p> <b>pi ALL=(ALL) PASSWD: ALL</b></p>
 <p align="left"><img src="images/sudo_pass1.png" title="hacer que sudo pida contraseña" alt="captura sudo pide contraseña" /></p>
 <p align="left"><img src="images/sudo_pass2.png" title="hacer que sudo pida contraseña 2" alt="captura 2 sudo pide contraseña" /></p>
 <p align="left"><img src="images/sudo_pass3.png" title="hacer que sudo pida contraseña 3" alt="captura 3 sudo pide contraseña" /></p>
+</li>
 
-<h4>4. Tener las últimas actualizaciones de seguridad:</h4>
+<li>Tener las últimas actualizaciones de seguridad:
 
 <p>Esto puede ser tan simple como asegurarse de que la versión de Raspbian esté actualizada, ya que una distribución actualizada contiene las últimas actualizaciones de seguridad. Las instrucciones completas se pueden encontrar <a href="https://github.com/raspberrypi/documentation/blob/master/raspbian/updating.md" target="_blank">aquí</a>.</p>
 
 <p>Si se está utilizando SSH para conectarse a la Raspberry Pi, puede valer la pena agregar una tarea periódica con <b>cron</b> que actualice específicamente el servidor ssh. Esta tarea garantizará que tenga las últimas actualizaciones de seguridad SSH, independientemente de su proceso normal de actualización. Se puede encontrar más información sobre la configuración de cron <a href="https://github.com/raspberrypi/documentation/blob/master/linux/usage/cron.md" target="_blank">aquí</a></p>
+</li>
+</ol>
 
-<p id="ssh"><h3>Mejorar la seguridad SSH:</h3></p>
+<h2 id="ssh">Mejorar la seguridad SSH:</h2>
 
 <p>En principio, no se debe acceder físicamente a un servidor salvo por razones excepcionales (como la actualización o la reparación de hardware, por ejemplo). La mejor manera de gestionar un servidor es remotamente. Sin embargo, este acceso deber hacerse de manera segura, para garantizar que la comunicación no sea interceptada por terceros. El protocolo SSH es la solución para garantizar conexiones remotas seguras. SSH es un protocolo de comunicación que encripta los datos que se intercambian, y es virtualmente imposible romper la privacidad de la comunicación. El acrónimo ssh viene del inglés: Secure SHell. El protocolo ssh es muy versátil, tiene un software cliente que posibilita el acceso a la línea de comandos, permite la transferencia de archivos y la creación de túneles seguros con soporte de comunicación para otros protocolos.</p>
 
 <p>SSH es una forma común de acceder a la Raspberry Pi de forma remota. De forma predeterminada, iniciar sesión con SSH requiere de nombre de usuario y contraseña, y hay formas de hacerlo más seguro, como por ejemplo usar autenticación basada en claves, mejorando la seguridad de nombre de usuario y contraseña. Lo más importante es asegurarse de tener una contraseña muy sólida, esto ayudará a evitar ataques de diccionario o similares.</p>
 
-<h4><i>Editar y configurar sshd_config:</i></h4>
+<h3>Editar y configurar sshd_config:</h3>
 
 <p>Para editar la configuración del servidor SSH hay que editar el archivo sshd_config: <b>$ sudo nano /etc/ssh/sshd_config</b></p>
 
 <p>Otro directorio que hay que tener muy en cuenta es el de hosts conocidos, ya que ahí es donde se configuran las claves criptográficas RSA/DSA. El directorio donde se encuentran los hosts conocidos y las claves públicas es el siguiente: <b>/home/usuario/.ssh/</b>. Este directorio por defecto está oculto (.ssh) y hay un directorio por cada usuario que haya en el sistema operativo y que se conecte a un servidor remoto.</p>
 
-<p><b>1.</b> Cambiar el puerto por defecto del servidor SSH:</p>
+<ol>
+<li> Cambiar el puerto por defecto del servidor SSH:
 
 <p>Por defecto los servidores SSH utilizan el puerto 22 para las conexiones. Es recomendable cambiar este número de puerto, para evitar que bots o cibercriminales puedan intentar iniciar sesión, aunque por sí solo esto no proporciona seguridad, sí se puede pasar desapercibido a los escaneos masivos desde Internet. Si por ejemplo se quiere usar el puerto 22445 se debe poner en el fichero de configuración lo siguiente: <b>Port 22445</b></p>
+</li>
 
-<p><b>2.</b> Bloquear el acceso root en las conexiones remotas:</p>
+<li>Bloquear el acceso root en las conexiones remotas:
 
 <p>Por defecto, cualquier usuario en el sistema operativo que tenga permisos de Shell, podrá iniciar sesión en el servidor. Además, se debe tener en cuenta que si se tiene activado el usuario root, también podrá conectarse al servidor de forma local o remota, evitando al atacante tener que “adivinar” el nombre de usuario. Por defecto, los bots siempre intentan atacar el puerto 22 y al usuario “root”. Desactivando al propio usuario root, y usando “sudo” para elevar a permisos de superusuario, se evita esto. Además, OpenSSH también permitirá deshabilitar el login del usuario root para dotar al sistema de mayor seguridad: <b>PermitRootLogin no</b></p>
 
 <p>De esta manera las conexiones root quedarán bloqueadas evitando que usuarios no autorizados puedan realizar ataques de fuerza bruta contra el servidor SSH para adivinar los credenciales del usuario Root. También hay otras opciones en este apartado del archivo sshd_config, como por ejemplo “PermitRootLogin without-password” donde se permite autenticación pero no con usuario y contraseña, sino con claves criptográficas RSA.</p>
-Configuraciones de seguridad adicionales
+</li>
 
-<p><b>3.</b> Existen otras configuraciones recomendadas para evitar las conexiones no deseadas al servidor SSH:</p>
+<li> Existen otras configuraciones recomendadas para evitar las conexiones no deseadas al servidor SSH:
 
   <ul><li><b>LoginGraceTime:</b> Establece el tiempo necesario para introducir la contraseña, evitando que el atacante tenga que “pensar mucho”.</li>
       <li><b>MaxAuthTries:</b> Número de intentos permitidos al introducir la contraseña antes de ser desconectados.</li>
@@ -114,13 +125,17 @@ Configuraciones de seguridad adicionales
   <li>AllowUsers nacho pi</li>
   <li>DenyUsers nacho2</li></ul>
 </code></pre></div>
-<p>Después de los cambios, se deberá reiniciar el servicio sshd utilizando <b>$ sudo systemctl restart ssh</b> o reiniciar para que los cambios surtan efecto.</p>
 
-<h4><i>Autenticación en SSH:</i> usuario/contraseña y claves criptográficas.</h4>
+<p>Después de los cambios, se deberá reiniciar el servicio sshd utilizando <b>$ sudo systemctl restart ssh</b> o reiniciar para que los cambios surtan efecto.</p>
+</li>
+</ol>
+
+<h3>Autenticación en SSH: usuario/contraseña y claves criptográficas.</h3>
 
 <p>En este apartado se muestran los diferentes métodos de autenticación que hay disponibles en el servidor. Principalmente hay dos: <b>usuario y contraseña</b> (algo que sabemos), y también con <b>claves criptográficas</b> (algo que tenemos). No obstante, se puede dotar al sistema de una seguridad adicional, combinando estas autenticaciones con por ejemplo un <b>One Time Password</b> generado por una aplicación como <b>Google Authenticator</b> o <b>Latch OTP</b>. Además, también se puede dotar al sistema de <b>Latch</b>, para evitar que cualquier usuario inicie sesión si no está el “pestillo” abierto.</p>
 
-<h4>1. Usuario y contraseña:</h4>
+<ol>
+<li>Usuario y contraseña:
 
 <p>Si se quiere habilitar el login en el servicio a través del usuario y contraseña del sistema, el archivo de configuración deberá tener esta sentencia: <b>PasswordAuthentication yes</b></p>
 
@@ -129,8 +144,9 @@ Configuraciones de seguridad adicionales
 <p>Esta sentencia afecta a todos los usuarios del sistema. Para no quedarse sin acceso al servidor, hay que asegurarse de que la sentencia <b>PubkeyAuthentication</b> esté configurada a “yes”, para permitir el inicio de sesión con claves criptográficas.</p>
 
 <p>Hay otra sentencia relacionada con esto llamada <b>ChallengeResponseAuthentication</b>, si se pone la configuración a “no”, no permitirá las conexiones donde se interactúe con el teclado, por lo que si por ejemplo hay configurado un One Time Password, no se podrá iniciar sesión en el sistema. Si únicamente se va a usar claves criptográficas, se puede poner a “no” sin problemas.</p>
+</li>
 
-<h4>2. Clave pública SSH:</h4>
+<li>Clave pública SSH:
 
 <p>Los pares de claves son dos claves criptográficamente seguras. Una es privada y la otra es pública. Se pueden usar para autenticar un cliente en un servidor SSH (en este caso, el Raspberry Pi). El cliente genera dos claves, que están criptográficamente vinculadas entre sí. La clave privada nunca se debe compartir, pero la clave pública se puede compartir libremente. El servidor SSH usa una copia de la clave pública y, cuando se solicita un enlace, utiliza esta clave para enviar al cliente un mensaje de desafío, que el cliente cifrará con la clave privada. Si el servidor puede usar la clave pública para descifrar este mensaje de vuelta al mensaje de desafío original, entonces la identidad del cliente puede ser confirmada.</p>
 
@@ -149,22 +165,24 @@ Configuraciones de seguridad adicionales
 <p>Hay que tener en cuenta que el archivo authorized_keys necesita los permisos para que el sistema lo lea correctamente, ejecutando: <b>$ sudo chmod 644 ~/.ssh/authorized_keys</b></p>
 
 <p>En la siguiente conexión, el usuario deberá confirmar que quiere añadir la identidad e introducir las credenciales de login para la cuenta que se quiere utilizar en ese servicio. Por este motivo es importante que en el servidor aún se mantenga la posibilidad de autenticar con usuario/contraseña. Una vez completado este proceso, ya tendría que ser posible hacer inicio de sesión en el equipo sin introducir la contraseña. Hay que acordarse de poner la directiva “PasswordAuthentication no” para no permitir accesos vía usuario y contraseña.</p>
+</li>
+</ol>
 
-<p id="proxy"><h3>Proxy Internet: cache web - SQUID</h3></p>
+<h2 id="proxy">Proxy Internet: cache web - SQUID</h2>
 
-<h4>¿Qué es un proxy?</h4>
+<h3>¿Qué es un proxy?</h3>
 
 <p>Servidor cuyo objetivo es la centralización del tráfico entre Internet y una red local, y, de esa forma, cada uno de los ordenadores de la red local no tiene necesidad de disponer de una conexión directa a Internet. El servidor proxy también se utiliza para controlar los accesos no permitidos desde Internet hacia la red local. El proxy hace una transformación de las direcciones de entrada y salida. Cuando un ordenador de la red local hace una solicitud o petición web, el proxy la intercepta y la procesa. De esa forma oculta la dirección IP del ordenador real que hace la solicitud y en la petición aparece la IP del proxy.</p>
 
 <p>Lo usual es que el ordenador que hace de servidor proxy tenga al menos dos interfaces de red: una conectada a la red local y la otra conectada a Internet a través de un dispositivo de electrónica de red adecuado. Todos los paquetes con origen en la red local llegan al servidor a través de la interfaz que atiende a la red local y son analizados antes de ser reenviados al exterior a través de la otra interfaz de red.</p>
 
-<h4>¿Qué es un proxy-caché?</h4>
+<h3>¿Qué es un proxy-caché?</h3>
 
 <p>Servidor situado entre la máquina del usuario y otra red, que normalmente sera Internet, que actúa como barrera de protección para separar las dos redes y como zona caché para acelerar el acceso a páginas web o poder restringir el acceso a contenidos. Almacena las páginas web de los servidores remotos en memorias intermedias para poder servirlas a los clientes bajo demanda.</p>
 
 <p>El uso de un proxy web no introduce retardos en la obtención de la información, ya que si la página solicitada no está en la caché del proxy, se iniciará la búsqueda normal rápidamente, y si la página se encuentra en la memoria caché, la página se sirve con la velocidad de conexión de la red local, que siempre es superior a la de Internet.</p>
 
-<h4>Funciones:</h4>
+<h3>Funciones:</h3>
 
 <p>En general un proxy puede realizar  las siguientes funciones:</p>
 
@@ -190,7 +208,7 @@ Configuraciones de seguridad adicionales
         <li>Creación de ficheros log: permiten la creación y gestión de los logs generados por la herramienta utilizada como proxy.</li>
     </ul>
 
-<h4><i>Instalación de un servidor proxy-cache:</i> <i>SQUID</i></h4>
+<h3>Instalación de un servidor proxy-cache: SQUID</h3>
 
 <p>El servidor proxy de libre distribución más usado es <a href="http://www.squid-cache.org/" target="_blank">Squid</a>, basado en software libre GNU/Linux, aunque está disponible en varias plataformas, se puede encontrar una versión para windows <a href="http://wiki.squid-cache.org/SquidFaq/BinaryPackages" target="_blank">aquí</a>.</p>
 
@@ -215,7 +233,7 @@ Configuraciones de seguridad adicionales
     <li><b>http_port</b> Establece el puerto de escucha para Squid. Por defecto Squid atiende las peticiones de los clientes por el puerto 3128. Pero también se podría utilizar, por ejemplo, el puerto 8080. Se puede cambiar el puerto pero es importante tener en cuenta que éste no debe ser utilizado por ningún otro servicio. Es posible asociar el servicio Squid a una determinada IP, que sería la que conecta con la red local. En ese caso la sintaxis es: http_port 192.168.112.1:3128 (siendo 192.168.1.1 la IP de la tj de red por donde escucha el servidor proxy.)</li>
     <li><b>cache_mem</b> Establece la cantidad de memoria RAM dedicada al almacenamiento de los bloques de la caché más solicitados. En la medida que se aumenta la cantidad de memoria física de la máquina, aumentará el rendimiento de Squid. La cantidad de RAM también depende de la cantidad de espacio en disco dedicado a la caché.</li>
     <li><b>cache_dir</b> Establece la localización y el tamaño de la caché en disco duro. Por defecto son 100MB. Se puede especificar el nº de subdirectorios y el nº de niveles posibles dentro de cada subdirectorio. Por ejemplo: <b>cache_dir ufs /var/spool/squid/ 500 16 256</b>, indica una caché en disco de 500MB, con 16 subdirectorios, cada uno de ellos con 256 niveles. UFS (Unix File System) es un sistema de archivos utilizado por muchos sistemas operativos Unix y es el formato original de Squid.</li>
-    <li><b>visible_hostname</b> Establece el nombre del servidor. Se puede saber cuál es mediante el comando <b>hostname</b>. Si no se especifica el hostname de nuestra Raspberry-Pi puede que Squid no sea capaz de determinarlo automáticamente, causando así que el programa falle.</li>
+    <li><b>visible_hostname</b> Establece el nombre del servidor. Se puede saber cuál es mediante el comando <b>hostname</b>. Si no se especifica el hostname de nuestra Raspberry Pi puede que Squid no sea capaz de determinarlo automáticamente, causando así que el programa falle.</li>
 </ul>
 
 <p><b>acl</b>. Lista de control del acceso, el parámetro ACL permite:</p>
@@ -251,6 +269,7 @@ Configuraciones de seguridad adicionales
 <li><b>cache.log:</b> almacena información general de funcionamiento de la caché, errores, etc.</li></ul>
 
 <p>Un ejemplo básico del archivo de configuración puede ser el siguiente:</p>
+
 <div class="codigo"><pre><code class="language-shell">
     <ul><li>cache_effective_user proxy</li>
     <li>cache_effective_group proxy</li>
@@ -274,6 +293,7 @@ Configuraciones de seguridad adicionales
 <p>Se puede comprobar que squid se esta ejecutando y escuchando peticiones en el puerto 3128 con la orden:<b> $ sudo netstat -atunp | grep squid</b></p>
 
 <p><b>Resumen capturas pasos de instalación y puesta en marcha de SQUID</b></p>
+
 <p align="left"><img src="images/squid_install.png" title="instalación squid" alt="captura instalación squid" /></p>
 <p align="left"><img src="images/squid_bak.png" title="backup del archivo de configuración de squid" alt="captura backup archivo configuración squid" /></p>
 <p align="left"><img src="images/squid_status.png" title="estado squid" alt="captura estado squid" /></p>
@@ -282,14 +302,15 @@ Configuraciones de seguridad adicionales
 <p align="left"><img src="images/squid_zparse.png" title="creación cache squid" alt="captura creación cache squid" /></p>
 
 
-<p id="monitor"><h3>Monitorización en la Raspberry-Pi</h3></p>
+<h2 id="monitor">Monitorización en la Raspberry Pi</h2>
 
 <p><cite>No basta con que el servidor esté correctamente instalado y configurado. También es imperativo que pueda ser controlado y supervisado.</cite></p>
 
-<p id="logwatch"><h4><i>Archivos log:</i></h4> Todos los procesos que se ejecutan en el servidor generan un registro de ocurrencias detallado. Estos registros deben ser objeto de un análisis cuidadoso, para verificar el funcionamiento correcto del sistema o detectar errores puntuales.</p>
+<p><h3 id="logwatch">Archivos log:</h3> Todos los procesos que se ejecutan en el servidor generan un registro de ocurrencias detallado. Estos registros deben ser objeto de un análisis cuidadoso, para verificar el funcionamiento correcto del sistema o detectar errores puntuales.</p>
+
 <p>Una tarea fundamental cuando se administran servidores, es la monitorización de logs. Esta tarea puede resultar especialmente engorrosa cuando hay que administrar muchos servidores, o simplemente porque no se dispone suficiente tiempo para ello. Para hacer esta tarea un poco menos pesada se pueden utilizar herramientas como <em>logwatch</em>, con la que se obtiene una visión global de lo que ha estado pasando en el sistema durante un periodo de tiempo determinado.</p>
 
-<p><h4>Instalación y configuración de Logwatch:</h4> El primer paso será instalar el paquete y ejecutarlo con permisos de sudo.</p>
+<p><h3>Instalación y configuración de Logwatch:</h3> El primer paso será instalar el paquete y ejecutarlo con permisos de sudo.</p>
 
 <p align="left"><img src="images/logwatch_install.png" title="Instalación Logwatch" alt="captura instalación Logwatch" /></p>
 <p align="left"><img src="images/logwatch_ejec.png" title="ejecución Logwatch" alt="captura ejecución Logwatch" /></p>
@@ -310,9 +331,9 @@ Configuraciones de seguridad adicionales
     <li><b>Service:</b> La opción service corresponde a una serie de scripts en perl que trae la aplicación incorporada. Se pueden listar todos consultando el contenido de la carpeta /usr/share/logwatch/scripts/services/, y si se tienen conocimientos de perl y se quiere modificar alguno de los scripts, se puede hacer sin problemas.</li>
     </ul>
 
-<p id="munin"><h4><i>Monitorización del sistema:</i></h4> Algunas veces, es importante tener un pánel de informaciones donde, de forma rápida, sea posible verificar los parámetros del servidor, desde el uso de memoria, la carga del procesador, pasando por el estado de varios servicios, el espacio disponible en el disco, etc. La aplicación de monitorización <em>munin</em> ofrece esta perspectiva global de inmediato.</p>
+<p><h3 id="munin">Monitorización del sistema:</h3> Algunas veces, es importante tener un pánel de informaciones donde, de forma rápida, sea posible verificar los parámetros del servidor, desde el uso de memoria, la carga del procesador, pasando por el estado de varios servicios, el espacio disponible en el disco, etc. La aplicación de monitorización <em>munin</em> ofrece esta perspectiva global de inmediato.</p>
 
-<h4>Instalación y configuración de <a href="http://munin-monitoring.org/" target="_blank">Munin</a>:</h4>
+<h3>Instalación y configuración de <a href="http://munin-monitoring.org/" target="_blank">Munin</a>:</h3>
 
 <p>La herramienta <em>Munin</em> permite monitorizar diversos parámetros de uno o varios sistemas, por ejemplo, el estado y carga de los servicios, temperaturas, espacio en disco, etc. munin funciona según una arquitectura cliente-servidor, en que un sistema servidor recoge y organiza datos recibidos de varios sistemas clientes. Para monitorizar sólo un servidor, debe instalarse y configurarse los paquetes cliente y servidor en el mismo sistema. Las siguientes órdenes instalan ambos paquetes. </p>
 
@@ -339,12 +360,12 @@ Configuraciones de seguridad adicionales
 <p align="left"><img src="images/munin_install.png" title="Instalación Munin" alt="captura instalación Munin" /></p>
 <p align="left"><img src="images/munin_node_conf.png" title="archivo configuración Munin cliente" alt="captura munin-node.conf" /></p>
 
-<p id="seguridad"><h3>Seguridad en la Raspberry-Pi</h3></p>
+<h2 id="seguridad">Seguridad en la Raspberry Pi</h2>
 
 <p><b>Seguridad informática:</b> Según la Real Academia Española, la Seguridad es Calidad de seguro, donde Seguro es Libre y exento de Peligro, por lo que se podría concluir que Seguridad Informática es “la cualidad de un sistema informático exento de peligro”. Sin embargo, esta a pesar de que puede ser una definición válida, no es una definición aceptable para nosotros. Una definición más acertada sería la siguiente: <b>Un conjunto de métodos y herramientas destinados a proteger la información y por ende, los sistemas informáticos ante cualquier amenaza</b>. Otra definición sería, resguardar y mantener estable una red de datos y red de computadoras ante cualquier amenaza de entidades externas.</p>
 <p>Si la seguridad es la condición de estar seguros, entonces la mejor estrategia es conocer los riesgos y planear su prevención.</p>
 
-<p id="fail2ban"><h4><i>Ataque de fuerza bruta:</i> <i>Fail2ban</i></h4></p>
+<h3 id="fail2ban">Ataque de fuerza bruta: Fail2ban</h3>
 
 <p>Un <b>Ataque de Fuerza Bruta</b> se caracteriza por una intento continuado de obtener acceso a un servicio del sistema (ssh, smtp, http, etc.), intentando diversas combinaciones de nombre del usuario y su contraseña. Para llevar a cabo este ataque, el intruso puede usar un software que gestiona diversas combinaciones de caracteres o basarse en una lista de palabras (diccionario). En ambos casos, un ataque de este género consume muchos recursos y es potencialmente peligroso, especialmente si los usuarios del sistema no tienen un mínimo de cuidado al elegir sus contraseñas.</p>
 
@@ -382,7 +403,7 @@ enabled  = true<br/>
 <p>Para comprobar si Fail2Ban está funcionando correctamente, podemos introducir el siguiente comando: <b>cat /var/log/fail2ban.log</b></p>
 <p align="left"><img src="images/fail2ban_cat.png" title="comprobación Fail2ban" alt="captura comprobación Fail2ban" /></p>
 
-<p id="rootkit"><h4><i>Detección de rootkits:</i> <i>Rootkit Hunter</i></h4></p>
+<h3 id="rootkit">Detección de rootkits: Rootkit Hunter</h3>
 
 <p>Un rootkit es una sección de código malicioso que intenta alterar componentes del sistema y camuflar su existencia o la existencia de archivos asociados. Por ejemplo, un rootkit que altere los mandos <b>ls</b> o <b>ps</b>, de modo que sus archivos y procesos en ejecución no sean listados, su detección es muy difícil y puede abrir una puerta de entrada para el sistema, comprometiendo seriamente la seguridad. Por tanto es muy importante que sea verificado periódicamente la posible existencia de rootkits en el sistema para eliminarlos tan pronto como sea posible.</p>
 
@@ -401,7 +422,7 @@ enabled  = true<br/>
 
 <p>La base de datos del rkhunter se actualiza cada semana de forma automática. Pero, es posible proceder a su actualización siempre que sea necesario: <b>$ sudo rkhunter --update</b></p>
 
-<p id="audit"><h4><i>Auditoría de seguridad:</i> <i>Debsecan</i></h4></p>
+<h3 id="audit">Auditoría de seguridad: Debsecan</h3>
 
 <p>Los miles de paquetes de software que componen cualquier distribución Linux se actualizan constantemente, para corregir bugs. Por supuesto, algunos de estos bugs pueden tener un impacto, más o menos grave en la seguridad del sistema. Por tanto, es conveniente estar atentos a las posibles vulnerabilidades que contenga el software instalado en el sistema. Debian mantiene una extensa Lista de vulnerabilidades, sin embargo, es más práctico estar informado sólo de las vulnerabilidades que puedan afectar a nuestro sistema.</p>
 
@@ -414,7 +435,7 @@ enabled  = true<br/>
 <p>Debsecan puede configurarse para ser ejecutado diariamente a través de una tarea programada (cron). Sus resultados se envían por e-mail al administrador del sistema (root): <b>$ sudo debsecan-create-cron</b></p>
 <p>La tarea programada durante la configuración enviará un e-mail al administrador con el resultado del análisis de seguridad. De forma opcional, debsecan también puede ejecutarse en la línea de comandos: <b>$ sudo debsecan</b></p>
 
-<p id="firewall"><h4><i>Cortafuegos:</i> <i>UFW</i></h4></p>
+<h3 id="firewall">Cortafuegos: UFW</h3>
 
 <p>Un cortafuegos (firewall en inglés) es una parte de un sistema o una red que está diseñada para bloquear el acceso no autorizado, permitiendo al mismo tiempo comunicaciones autorizadas. Se trata de un dispositivo o conjunto de dispositivos configurados para permitir, limitar, cifrar, descifrar, el tráfico entre los diferentes ámbitos sobre la base de un conjunto de normas y otros criterios. Los cortafuegos pueden ser implementados en hardware o software, o una combinación de ambos.</p>
 
