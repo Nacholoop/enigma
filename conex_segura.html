@@ -22,7 +22,9 @@
 <ul class="indice">
   <li><a href="#puerto443">Acceso al puerto 443</a></li>
   <li><a href="#encrypt">¿Qué es Let's Encrypt?</a></li>
-  <li><a href="#certif">Obtención de certificado: Uso de certbot</a></li>
+  <li><a href="#certif">Obtención de certificado: Uso de certbot</a>
+    <ul><li><a href="#pasos">Pasos para la instalación y configuración de Certbot</a></li></ul>
+  </li>
   <li><a href="#ajustes">Ajustes adicionales</a></li>
 </ul>
 
@@ -50,7 +52,7 @@
 
 <p align="center"><img src="images/certbot.png" title="Herramienta Certbot" alt="captura certbot" /></p>
 
-<h3><i>Pasos para la instalación y configuración de Certbot:</i></h3>
+<h3 id="pasos">Pasos para la instalación y configuración de Certbot</h3>
 <ol>
 <li> Actualización del sistema: Al usar  Raspbian Stretch el paquete que se utiliza para configurar SSL en la Raspberry Pi está disponible en el repositorio Raspbian Stretch, y como se usa con el servidor Apache, se ejecuta la orden <b>$ sudo apt-get install python-certbot-apache</b>, como se muestra en la captura.
 

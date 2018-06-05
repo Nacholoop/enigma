@@ -19,19 +19,24 @@
 <h1>Instalación de un servidor web con LAMP </h1>
 <hr />
 
-  <ul class="indice">
-    <li><a href="#acron">¿Qué es LAMP?</a></li>
-    <li><a href="#apache">Instalación y configuración servidor web Apache</a></li>
+<ul class="indice">
+  <li><a href="#acron">¿Qué es LAMP?</a></li>
+  <li><a href="#apache">Instalación y configuración servidor web Apache</a>
     <ul><li><a href="#instalapache">Instalación de Apache</a></li>
         <li><a href="#configapache">Configuración y comprobación de su funcionamiento</a></li>
         <li><a href="#scp">SCP (Secure Copy): Copiar archivos a través de ssh</a></li>
     </ul>
-    <li><a href="#instalphp">Instalación y configuración PHP</a></li>
-    <li><a href="#instalmariadb">Instalación y configuración MariaDB</a></li>
-    <ul><li><a href="#bdmariadb">Creación base de datos en MariaDB</a></li></ul>
-    <li><a href="#instalphpmy">Instalación de phpMyAdmin</a></li>
-    <ul><li><a href="#seg1">Consideraciones de seguridad</a></li></ul>
-  </ul>
+  </li>
+  <li><a href="#instalphp">Instalación y configuración PHP</a></li>
+  <li><a href="#instalmariadb">Instalación y configuración MariaDB</a>
+    <ul><li><a href="#bdmariadb">Creación base de datos en MariaDB</a></li>
+    </ul>
+  </li>
+  <li><a href="#instalphpmy">Instalación de phpMyAdmin</a>
+    <ul><li><a href="#seg1">Consideraciones de seguridad</a></li>
+    </ul>
+  </li>
+</ul>
 
   <h2 id="acron">¿Qué es LAMP?</h2>
 
@@ -66,7 +71,7 @@
 
   <p>El servidor Apache es desarrollado y mantenido por una comunidad de usuarios bajo la supervisión de la <a href="https://www.apache.org">Apache Software Foundation</a> dentro del proyecto <a href="http://httpd.apache.org/">HTTP Server (httpd)</a>.</p>
 
-<h3 id="instalapache"><i>Instalación de Apache:</i></h3>
+<h3 id="instalapache">Instalación de Apache</h3>
 
 <p>Para la instalación del servidor Apache, sólo hay que ejecutar la siguiente orden: <b>$ sudo apt-get install apache2</b> (con la opción -y se contesta automáticamente yes=si, cuando pregunta si se desea instalar paquetes). Puede pasar que al ejecutar el comando anterior devuelva un mensaje de error que se subsana ejecutando <b>$sudo apt-get update</b> y <b>$sudo apt-get upgrade</b>:</p>
 
@@ -79,7 +84,8 @@
 <p align="left"><img src="images/netstat_apache.png" title="comprobación con netstat servidor Apache" alt="captura 3 instalación Apache" /></p>
 
 
-<h3 id="configapache"><i>Configuración de Apache:</i></h3>
+<h3 id="configapache">Configuración de Apache</h3>
+
 <p>Por defecto, Apache crea un fichero de prueba en formato HTML en la carpeta del servidor web. Esta página es servida cuando se navega al servidor apache mediante la dirección http://localhost (desde el propio servidor) o se accede desde otro equipo de la red a la IP del servidor (en este caso: http://192.168.1.21). Si usando un navegador web, se introduce la ip del servidor, se mostrará lo siguiente:</p>
 
 <p align="center"><img src="images/comprobando_apache2.png" title="comprobando funcionamiento servidor Apache" alt="captura inicio Apache" /></p>
@@ -147,9 +153,9 @@
 
 <p>El comando a2ensite permite omitir la extensión .conf al indicar la configuración de un sitio.</p>
 
-<h3 id="scp"><i><em>SCP (Secure Copy)</em> Copiar archivos a través de ssh:</i></h3>
+<h3 id="scp">SCP (Secure Copy): Copiar archivos a través de ssh</h3>
 
-<p>Como administrador de un servidor Apache, hay momentos en los que hay que copiar a dicho servidor un archivo o archivos desde otras ubicaciones. Hay varias opciones para hacer esto. La primera es abrir un cliente FTP como puede ser Filezilla. La segunda es copiar los archivos por consola haciendo uso del comando <b>SCP (Secure Copy)</b> que está disponible tanto en Linux como en Mac, para los usuarios de Windows, mediante <a href="https://winscp.net/eng/docs/lang:es">WinSCP</a> se puede hacer lo mismo.</p>
+<p>Como administrador de un servidor Apache, hay momentos en los que hay que copiar a dicho servidor un archivo o archivos desde otras ubicaciones. Hay varias opciones para hacer esto. La primera es abrir un cliente FTP como puede ser Filezilla. La segunda es copiar los archivos por consola haciendo uso del comando <b><em>SCP</em> (Secure Copy)</b> que está disponible tanto en Linux como en Mac, para los usuarios de Windows, mediante <a href="https://winscp.net/eng/docs/lang:es">WinSCP</a> se puede hacer lo mismo.</p>
 
 <p><em>SCP</em> hace uso de SSH (Secure Shell) para hacer copias seguras y encriptadas a través de la consola. Por ejemplo, para subir una carpeta al servidor, con un comando es suficiente y no es necesito abrir Filezilla.</p>
 
@@ -217,7 +223,9 @@
 <p>A partir de este momento ya es posible acceder al monitor de MySQL/MariaDB ejecutando cualquiera de los dos comandos <b>$ sudo mysql</b> o <b>$ sudo mariadb</b></p>
 <p><img src="images/config_mariadb3.png" title="acceso a mariadb" alt="sudo mysql" class="izquierda" /><img src="images/config_mariadb4.png" title="acceso 2 mariadb" alt="sudo mariadb" class="izquierda" /></p>
 
-<h3 id="bdmariadb"><i>Creación de una Base de Datos de ejemplo en mariaDB:</i></h3>
+<p style="clear:both"></p>
+
+<h3 id="bdmariadb">Creación de una Base de Datos de ejemplo en mariaDB</h3>
 
 <p>A modo de ejemplo y sin que sirva como datos de una configuración válida, se crea la base de datos “prueba” y el usuario “pruebausuario” con clave “123456” para trabajar. Se ejecutan las siguientes órdenes en la linea de comandos:</p>
 
@@ -229,7 +237,7 @@
 
 <p align="center"><img src="images/bd_mariadb.png" title="creando base de datos MariaDB" alt="captura ejemplo base de datos mariaDB" /></p>
 
-<h2 id="instalphpmy">Instalación phpMyAdmin:</h2>
+<h2 id="instalphpmy">Instalación phpMyAdmin</h2>
 
 <p><em>phpMyAdmin</em> es una aplicación PHP que permite gestionar servidores de bases de datos MySQL o MariaDB desde cualquier navegador Web. Es una herramienta ideal para permitir a desarrolladores el acceso y creación de bases de datos para una aplicación Web, ya que provee una vista conveniente y práctica a un motor de bases de datos MySQL, especialmente a aquellos usuarios no familiarizados con el cliente de línea de comandos <b>mysql</b>. Es el complemento ideal para el servidor LAMP.</p>
 
@@ -267,11 +275,11 @@ Alias /mama /usr/share/phpmyadmin</p>
 <p>Comprobar el funcionamiento accediendo a la URL "/mama":</p>
 <p align="center"><img src="images/instal_phpmyadmin6.png" title="Instalando phpmyadmin 6" alt="captura 6 instalación phpmyadmin" /></p>
 
-<h3 id="seg1"><i>Consideraciones de seguridad sobre phpMyAdmin:</i></h3>
+<h3 id="seg1">Consideraciones de seguridad sobre phpMyAdmin</h3>
 
 <p>Históricamente phpMyAdmin ha tenido diferentes vulnerabilidades que han sido parcheadas. Siendo una aplicación que da acceso a un componente tan crítico como es el motor de bases de datos, es indispensable proteger el acceso a la misma utilizando una capa extra de seguridad, por ejemplo autenticación Digest. Editar el archivo <b>/etc/phpmyadmin/apache.conf</b> y seguir los pasos sobre autenticación Digest que indica el artículo <a href="https://www.linuxito.com/gnu-linux/nivel-alto/414-configurar-autenticacion-digest-en-apache-y-mostrar-directorios-protegidos-en-indices">Configurar autenticación Digest en Apache y mostrar directorios protegidos en índices.</a></p>
 
-<p><h3><i>Consideraciones de seguridad sobre MySQL:</i></h3></p>
+<h3>Consideraciones de seguridad sobre MySQL</h3>
 
 <p>Jamás usar el usuario "root" para que las aplicaciones y/o desarrolladores accedan a sus bases de datos. Para cada sitio Web, crear un usuario MySQL único que tenga los mínimos privilegios de acceso necesarios a su base de datos (por ejemplo SELECT, INSERT, UPDATE y DELETE). Luego para cada desarrollador, crear un usuario con los privilegios suficientes para crear y gestionar bases de datos de los sitios sobre los que trabaja (por ejemplo SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP, etc.).</p>
 

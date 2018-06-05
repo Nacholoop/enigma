@@ -23,21 +23,31 @@
 
 <ul class="indice">
   <li><a href="#consejos">Consejos generales</a></li>
-  <li><a href="#ssh">Mejorar la seguridad SSH</a></li>
+  <li><a href="#ssh">Mejorar la seguridad SSH</a>
+    <ul><li><a href="#sshd">Editar y configurar sshd_config</a></li>
+        <li><a href="#auten">Autenticación en SSH</a>
+            <ul><li><a href="#pass">Usuario y contraseña</a></li>
+                <li><a href="#clave">Clave pública SSH</a></li>
+            </ul>
+        </li>
+    </ul>
+  </li>
   <li><a href="#proxy">Proxy Internet: cache web - SQUID</a></li>
-  <li><a href="#monitor">Monitorización en la Raspberry Pi</a></li>
+  <li><a href="#monitor">Monitorización en la Raspberry Pi</a>
   <ul><li><a href="#logwatch">Archivos Log: Logwatch</a></li>
       <li><a href="#munin">Monitorización del sistema: Munin</a></li>
   </ul>
-  <li><a href="#seguridad">Seguridad en la Raspberry Pi</a></li>
+  </li>
+  <li><a href="#seguridad">Seguridad en la Raspberry Pi</a>
   <ul><li><a href="#fail2ban">Ataque por fuerza bruta: Fail2ban</a></li>
     <li><a href="#rootkit">Detección de rootkits: Rootkit Hunter</a></li>
     <li><a href="#audit">Auditoría de seguridad: Debsecan</a></li>
     <li><a href="#firewall">Cortafuegos: UFW</a></li>
   </ul>
+  </li>
 </ul>
 
-<h2 id="consejos">Consejos Generales:</h2>
+<h2 id="consejos">Consejos Generales</h2>
 
 <p>La seguridad de la Raspberry Pi es importante. Las brechas en la seguridad pueden dejar la Raspberry Pi abierta a los piratas informáticos que luego pueden usarla con fines maliciosos. El nivel de seguridad que se necesita depende de cómo se vaya a usar la Raspberry Pi. Por ejemplo, si simplemente se está utilizando la Raspberry Pi en la red doméstica, detrás de un router que actua como un firewall, entonces, en principio ya es bastante seguro por defecto.</p>
 
@@ -79,13 +89,13 @@
 </li>
 </ol>
 
-<h2 id="ssh">Mejorar la seguridad SSH:</h2>
+<h2 id="ssh">Mejorar la seguridad SSH</h2>
 
 <p>En principio, no se debe acceder físicamente a un servidor salvo por razones excepcionales (como la actualización o la reparación de hardware, por ejemplo). La mejor manera de gestionar un servidor es remotamente. Sin embargo, este acceso deber hacerse de manera segura, para garantizar que la comunicación no sea interceptada por terceros. El protocolo SSH es la solución para garantizar conexiones remotas seguras. SSH es un protocolo de comunicación que encripta los datos que se intercambian, y es virtualmente imposible romper la privacidad de la comunicación. El acrónimo ssh viene del inglés: Secure SHell. El protocolo ssh es muy versátil, tiene un software cliente que posibilita el acceso a la línea de comandos, permite la transferencia de archivos y la creación de túneles seguros con soporte de comunicación para otros protocolos.</p>
 
 <p>SSH es una forma común de acceder a la Raspberry Pi de forma remota. De forma predeterminada, iniciar sesión con SSH requiere de nombre de usuario y contraseña, y hay formas de hacerlo más seguro, como por ejemplo usar autenticación basada en claves, mejorando la seguridad de nombre de usuario y contraseña. Lo más importante es asegurarse de tener una contraseña muy sólida, esto ayudará a evitar ataques de diccionario o similares.</p>
 
-<h3>Editar y configurar sshd_config:</h3>
+<h3 id="sshd">Editar y configurar sshd_config</h3>
 
 <p>Para editar la configuración del servidor SSH hay que editar el archivo sshd_config: <b>$ sudo nano /etc/ssh/sshd_config</b></p>
 
@@ -130,12 +140,12 @@
 </li>
 </ol>
 
-<h3>Autenticación en SSH: usuario/contraseña y claves criptográficas.</h3>
+<h3 id="auten">Autenticación en SSH</h3>
 
 <p>En este apartado se muestran los diferentes métodos de autenticación que hay disponibles en el servidor. Principalmente hay dos: <b>usuario y contraseña</b> (algo que sabemos), y también con <b>claves criptográficas</b> (algo que tenemos). No obstante, se puede dotar al sistema de una seguridad adicional, combinando estas autenticaciones con por ejemplo un <b>One Time Password</b> generado por una aplicación como <b>Google Authenticator</b> o <b>Latch OTP</b>. Además, también se puede dotar al sistema de <b>Latch</b>, para evitar que cualquier usuario inicie sesión si no está el “pestillo” abierto.</p>
 
 <ol>
-<li>Usuario y contraseña:
+<li id="pass">Usuario y contraseña:
 
 <p>Si se quiere habilitar el login en el servicio a través del usuario y contraseña del sistema, el archivo de configuración deberá tener esta sentencia: <b>PasswordAuthentication yes</b></p>
 
@@ -146,7 +156,7 @@
 <p>Hay otra sentencia relacionada con esto llamada <b>ChallengeResponseAuthentication</b>, si se pone la configuración a “no”, no permitirá las conexiones donde se interactúe con el teclado, por lo que si por ejemplo hay configurado un One Time Password, no se podrá iniciar sesión en el sistema. Si únicamente se va a usar claves criptográficas, se puede poner a “no” sin problemas.</p>
 </li>
 
-<li>Clave pública SSH:
+<li id="clave">Clave pública SSH:
 
 <p>Los pares de claves son dos claves criptográficamente seguras. Una es privada y la otra es pública. Se pueden usar para autenticar un cliente en un servidor SSH (en este caso, el Raspberry Pi). El cliente genera dos claves, que están criptográficamente vinculadas entre sí. La clave privada nunca se debe compartir, pero la clave pública se puede compartir libremente. El servidor SSH usa una copia de la clave pública y, cuando se solicita un enlace, utiliza esta clave para enviar al cliente un mensaje de desafío, que el cliente cifrará con la clave privada. Si el servidor puede usar la clave pública para descifrar este mensaje de vuelta al mensaje de desafío original, entonces la identidad del cliente puede ser confirmada.</p>
 
@@ -182,7 +192,7 @@
 
 <p>El uso de un proxy web no introduce retardos en la obtención de la información, ya que si la página solicitada no está en la caché del proxy, se iniciará la búsqueda normal rápidamente, y si la página se encuentra en la memoria caché, la página se sirve con la velocidad de conexión de la red local, que siempre es superior a la de Internet.</p>
 
-<h3>Funciones:</h3>
+<h3>Funciones</h3>
 
 <p>En general un proxy puede realizar  las siguientes funciones:</p>
 
@@ -306,11 +316,15 @@
 
 <p><cite>No basta con que el servidor esté correctamente instalado y configurado. También es imperativo que pueda ser controlado y supervisado.</cite></p>
 
-<p><h3 id="logwatch">Archivos log:</h3> Todos los procesos que se ejecutan en el servidor generan un registro de ocurrencias detallado. Estos registros deben ser objeto de un análisis cuidadoso, para verificar el funcionamiento correcto del sistema o detectar errores puntuales.</p>
+<h3 id="logwatch">Archivos log</h3>
+
+<p>Todos los procesos que se ejecutan en el servidor generan un registro de ocurrencias detallado. Estos registros deben ser objeto de un análisis cuidadoso, para verificar el funcionamiento correcto del sistema o detectar errores puntuales.</p>
 
 <p>Una tarea fundamental cuando se administran servidores, es la monitorización de logs. Esta tarea puede resultar especialmente engorrosa cuando hay que administrar muchos servidores, o simplemente porque no se dispone suficiente tiempo para ello. Para hacer esta tarea un poco menos pesada se pueden utilizar herramientas como <em>logwatch</em>, con la que se obtiene una visión global de lo que ha estado pasando en el sistema durante un periodo de tiempo determinado.</p>
 
-<p><h3>Instalación y configuración de Logwatch:</h3> El primer paso será instalar el paquete y ejecutarlo con permisos de sudo.</p>
+<h3>Instalación y configuración de Logwatch</h3>
+
+<p>El primer paso será instalar el paquete y ejecutarlo con permisos de sudo.</p>
 
 <p align="left"><img src="images/logwatch_install.png" title="Instalación Logwatch" alt="captura instalación Logwatch" /></p>
 <p align="left"><img src="images/logwatch_ejec.png" title="ejecución Logwatch" alt="captura ejecución Logwatch" /></p>
@@ -331,9 +345,11 @@
     <li><b>Service:</b> La opción service corresponde a una serie de scripts en perl que trae la aplicación incorporada. Se pueden listar todos consultando el contenido de la carpeta /usr/share/logwatch/scripts/services/, y si se tienen conocimientos de perl y se quiere modificar alguno de los scripts, se puede hacer sin problemas.</li>
     </ul>
 
-<p><h3 id="munin">Monitorización del sistema:</h3> Algunas veces, es importante tener un pánel de informaciones donde, de forma rápida, sea posible verificar los parámetros del servidor, desde el uso de memoria, la carga del procesador, pasando por el estado de varios servicios, el espacio disponible en el disco, etc. La aplicación de monitorización <em>munin</em> ofrece esta perspectiva global de inmediato.</p>
+<h3 id="munin">Monitorización del sistema</h3>
 
-<h3>Instalación y configuración de <a href="http://munin-monitoring.org/" target="_blank">Munin</a>:</h3>
+<p>Algunas veces, es importante tener un pánel de informaciones donde, de forma rápida, sea posible verificar los parámetros del servidor, desde el uso de memoria, la carga del procesador, pasando por el estado de varios servicios, el espacio disponible en el disco, etc. La aplicación de monitorización <em>munin</em> ofrece esta perspectiva global de inmediato.</p>
+
+<h3>Instalación y configuración de <a href="http://munin-monitoring.org/" target="_blank">Munin</a></h3>
 
 <p>La herramienta <em>Munin</em> permite monitorizar diversos parámetros de uno o varios sistemas, por ejemplo, el estado y carga de los servicios, temperaturas, espacio en disco, etc. munin funciona según una arquitectura cliente-servidor, en que un sistema servidor recoge y organiza datos recibidos de varios sistemas clientes. Para monitorizar sólo un servidor, debe instalarse y configurarse los paquetes cliente y servidor en el mismo sistema. Las siguientes órdenes instalan ambos paquetes. </p>
 
@@ -373,7 +389,7 @@
 
 <p>Afortunadamente, esos ataques pueden ser detectados a tiempo, posibilitando una acción preventiva, como por ejemplo, ignorar o bloquear la dirección IP de origen del ataque.</p>
 
-<h4>Instalación y configuración de <a href="https://www.fail2ban.org/wiki/index.php/Main_Page" target="_blank">Fail2ban</a>:</h4>
+<h4>Instalación y configuración de <a href="https://www.fail2ban.org/wiki/index.php/Main_Page" target="_blank">Fail2ban</a></h4>
 
 <p><em>Fail2Ban</em> es una aplicación que analiza continuamente los ficheros log y bloquea las direcciones ip de donde se hayan originado varios intentos fallidos de acceso con contraseña inválida, es extremadamente eficaz en la prevención de ataques de fuerza bruta y ataques de negación de servicio (DoS).</p>
 
@@ -407,7 +423,7 @@ enabled  = true<br/>
 
 <p>Un rootkit es una sección de código malicioso que intenta alterar componentes del sistema y camuflar su existencia o la existencia de archivos asociados. Por ejemplo, un rootkit que altere los mandos <b>ls</b> o <b>ps</b>, de modo que sus archivos y procesos en ejecución no sean listados, su detección es muy difícil y puede abrir una puerta de entrada para el sistema, comprometiendo seriamente la seguridad. Por tanto es muy importante que sea verificado periódicamente la posible existencia de rootkits en el sistema para eliminarlos tan pronto como sea posible.</p>
 
-<h4>Instalación y configuración de <a href="http://rkhunter.sourceforge.net/" target="_blank">RootKit Hunter</a>:</h4>
+<h4>Instalación y configuración de <a href="http://rkhunter.sourceforge.net/" target="_blank">RootKit Hunter</a></h4>
 
 <p><em>RootKit Hunter</em>, es un sistema de detección de rootkits que alerta por e-mail al administrador del sistema, en caso de que detecte alteraciones en el sistema que indiquen la presencia de un rootkit. Para instalarlo hay que ejecutar el siguiente comando: <b>$ sudo apt-get install rkhunter</b></p>
 
@@ -426,7 +442,7 @@ enabled  = true<br/>
 
 <p>Los miles de paquetes de software que componen cualquier distribución Linux se actualizan constantemente, para corregir bugs. Por supuesto, algunos de estos bugs pueden tener un impacto, más o menos grave en la seguridad del sistema. Por tanto, es conveniente estar atentos a las posibles vulnerabilidades que contenga el software instalado en el sistema. Debian mantiene una extensa Lista de vulnerabilidades, sin embargo, es más práctico estar informado sólo de las vulnerabilidades que puedan afectar a nuestro sistema.</p>
 
-<h4>Instalación y configuración de <a href="https://wiki.debian.org/DebianSecurity/debsecan" target="_blank">Debsecan</a>:</h4>
+<h4>Instalación y configuración de <a href="https://wiki.debian.org/DebianSecurity/debsecan" target="_blank">Debsecan</a></h4>
 
 <p><em>Debsecan</em> (Debian Security Analyzer) efectúa una evaluación de la seguridad del sistema y muestra las vulnerabilidades conocidas y asociadas a los paquetes instalados en el sistema, notificando al administrador (root) los resultados. </p>
 <p align="left"><img src="images/debsecan_install.png" title="Instalación Debsecan" alt="captura instalación Debsecan" /></p>
@@ -441,7 +457,7 @@ enabled  = true<br/>
 
 <p>En el arsenal de armas de defensa un firewall o cortafuegos es probablemente una de las más poderosas</p>
 
-<h4>Instalación y configuración de <a href="https://help.ubuntu.com/community/UFW" target="_blank">UFW</a>:</h4>
+<h4>Instalación y configuración de <a href="https://help.ubuntu.com/community/UFW" target="_blank">UFW</a></h4>
 
 <p>La instalación de <em>UFW</em> (abreviatura de “Uncomplicated Firewall” o “cortafuegos sin complicaciones”) permite definir políticas de seguridad de la red, la creación de limitaciones o permisos para acceder a diferentes servicios o aplicaciones, es una interfaz de línea de comando que consiste en un pequeño número de órdenes simples que nos permite configurar las iptables del firewall. También dispone de una versión GUI conocida como Gufw, GUI for Uncomplicated Firewall, que facilita todavía más la tarea, y que está disponible para casi todas las distribuciones Linux.</p>
 
